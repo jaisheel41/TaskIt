@@ -1,0 +1,335 @@
+.login.login-2 .login-signin,
+.login.login-2 .login-signup,
+.login.login-2 .login-forgot {
+  display: none;
+}
+.login.login-2.login-signin-on .login-signup {
+  display: none;
+}
+.login.login-2.login-signin-on .login-signin {
+  display: block;
+}
+.login.login-2.login-signin-on .login-forgot {
+  display: none;
+}
+.login.login-2.login-signup-on .login-signup {
+  display: block;
+}
+.login.login-2.login-signup-on .login-signin {
+  display: none;
+}
+.login.login-2.login-signup-on .login-forgot {
+  display: none;
+}
+.login.login-2.login-forgot-on .login-signup {
+  display: none;
+}
+.login.login-2.login-forgot-on .login-signin {
+  display: none;
+}
+.login.login-2.login-forgot-on .login-forgot {
+  display: block;
+}
+.login.login-2 .content .content-img {
+  min-height: 450px;
+}
+
+.separator-or {
+  font-size: 16px;
+  padding: 8px 20px;
+  border-radius: 30px; /* Makes it rounded */
+  display: inline-block;
+  background-color: #f3f6f9; /* Light grey background, you can change this */
+  color: #7E8299; /* Dark grey text, this too can be changed */
+  font-weight: bold;
+  margin: 2em 0; /* Adds space above and below the separator */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Optional: adds a subtle shadow */
+  border: 1px solid #e5eaee; /* Optional: adds a slight border */
+}
+
+
+/* General form styling for a cleaner, more modern look */
+.login-form {
+  background-color: #ffffff; /* or any other color you prefer */
+  padding: 3em; /* increase padding for a roomier feel */
+  border-radius: 8px; /* rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* subtle shadow for depth */
+  transition: box-shadow 0.3s ease-in-out; /* smooth transition for shadow */
+}
+
+.login-form:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* larger shadow on hover for a "lifted" effect */
+}
+
+/* Enhance input fields for a more interactive feel */
+.form-control {
+  border: 1px solid #ccc; /* lighter border color */
+  border-radius: 4px; /* slightly rounded borders */
+  padding: 0.75em 1em; /* comfortable padding */
+  transition: border-color 0.3s ease-in-out; /* smooth transition for border color */
+}
+
+.form-control:focus {
+  border-color: #80cbc4; /* highlight color when the input is focused */
+  box-shadow: 0 0 0 3px rgba(128, 203, 196, 0.3); /* glow effect for focus */
+}
+
+/* Style buttons to be more interactive */
+.btn {
+  padding: 0.5em 1.5em; /* larger padding for a bigger button */
+  border-radius: 4px; /* rounded corners */
+  transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out; /* smooth transitions for color and transform */
+}
+
+.btn:hover {
+  transform: translateY(-2px); /* subtle "rise" effect on hover */
+}
+
+/* Specific styles for the primary action - the login button */
+#kt_login_signin_submit {
+  background-color: #4caf50; /* vibrant color for primary action */
+  color: white; /* text color */
+  border: none; /* no border */
+  font-weight: bold; /* bold text */
+}
+
+#kt_login_signin_submit:hover {
+  background-color: #66bb6a; /* a lighter shade when hovered */
+}
+
+/* Secondary action styles - create an account button */
+#kt_login_signup {
+  background-color: #ffffff; /* different background color to distinguish from primary action */
+  color: #4caf50; /* use the primary action color for text */
+  border: 1px solid #4caf50; /* border color same as text */
+}
+
+#kt_login_signup:hover {
+  background-color: #e8f5e9; /* light green background on hover */
+  color: #388e3c; /* darker green text on hover */
+}
+
+/* Adjust the separator for a balanced appearance */
+.separator-or {
+  margin-top: 1em; /* tweak as needed */
+  margin-bottom: 1em; /* tweak as needed */
+  color: #bbb; /* subtle color change */
+}
+
+/* Add a transition effect to all interactive elements */
+a:hover, .btn:hover, .form-control:focus {
+  transition: all 0.3s ease-in-out;
+}
+
+/* General button styling for interactivity */
+.btn {
+  border: none;
+  border-radius: 4px;
+  padding: 0.6em 1.2em;
+  text-transform: uppercase;
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+/* Styling for the submit button */
+#kt_login_signup_submit {
+  background-color: #4caf50; /* Green background */
+  color: white; /* White text */
+}
+
+#kt_login_signup_submit:hover {
+  background-color: #66bb6a; /* Lighter green on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+  transform: translateY(-2px); /* Move up slightly on hover */
+}
+
+/* Styling for the cancel button */
+#kt_login_signup_cancel {
+  background-color: #f5f5f5; /* Light grey background */
+  color: #333; /* Dark text */
+}
+
+#kt_login_signup_cancel:hover {
+  background-color: #e0e0e0; /* Darker grey on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+  transform: translateY(-2px); /* Move up slightly on hover */
+}
+
+/* Ensure there is not too much space around buttons */
+.login-form .form-group.d-flex {
+  gap: 0.5em; /* Introduces space between buttons if they are next to each other */
+}
+
+/* Optional: Adjust the form-group holding the buttons if needed */
+.login-form .form-group {
+  margin-bottom: 1em; /* Reduce space at the bottom of form-groups */
+}
+
+/* Apply same styles for 'Submit' button */
+#kt_login_forgot_submit {
+  background-color: #4caf50; /* Green background */
+  color: white; /* White text */
+  border-radius: 4px; /* Rounded corners */
+  padding: 0.6em 1.2em; /* Padding for size */
+  border: none; /* No border */
+  font-weight: bold; /* Bold font */
+  transition: all 0.3s ease-in-out; /* Smooth transition for hover effects */
+  cursor: pointer; /* Pointer on hover */
+}
+
+#kt_login_forgot_submit:hover {
+  background-color: #66bb6a; /* Lighter green on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+  transform: translateY(-2px); /* Move up slightly on hover */
+}
+
+/* Apply same styles for 'Cancel' button */
+#kt_login_forgot_cancel {
+  background-color: #f5f5f5; /* Light grey background */
+  color: #333; /* Dark text */
+  border-radius: 4px; /* Rounded corners */
+  padding: 0.6em 1.2em; /* Padding for size */
+  border: none; /* No border */
+  font-weight: bold; /* Bold font */
+  transition: all 0.3s ease-in-out; /* Smooth transition for hover effects */
+  cursor: pointer; /* Pointer on hover */
+}
+
+#kt_login_forgot_cancel:hover {
+  background-color: #e0e0e0; /* Darker grey on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+  transform: translateY(-2px); /* Move up slightly on hover */
+}
+
+a#kt_login_forgot:hover {
+  color: #66bb6a !important; /* Lighter green on hover, also with !important */
+}
+
+/* Further decrease space around the OR separator */
+.separator-or {
+  margin-top: 0em; /* Further reduce top margin around OR */
+  margin-bottom: 0em; /* Further reduce bottom margin around OR */
+}
+
+/* Further decrease bottom margin of the Login button */
+#kt_login_signin_submit {
+  margin-bottom: 0.25em; /* Reduce the bottom margin of the login button even more */
+}.login-form .text-center
+
+/* Further decrease top margin of the Create Account button */
+#kt_login_signup {
+  margin-top: 0.25em; /* Reduce the top margin of the create account button even more */
+}
+
+/* Increase padding above the 'Welcome Back!' */
+
+
+
+
+@media (min-width: 992px) {
+  .login.login-2 .login-aside {
+    flex: 0 0 60%; /* Adjusted to 60% */
+    max-width: 60%; /* Adjusted to 60% */
+    background-size: cover;
+  }
+  .login.login-2 .content {
+    flex: 0 0 40%; /* This will cover the remaining 40% of the screen */
+  }
+  .login.login-2 .login-form {
+    width: 100%;
+    max-width: 450px;
+  }
+}
+
+/* Adjustments for smaller screens can also be made if necessary */
+@media (max-width: 991.98px) {
+  .login.login-2 .login-aside,
+  .login.login-2 .content {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  .login.login-2 .login-form {
+    width: 100%;
+    max-width: 400px;
+  }
+}
+
+/* Gradient division between illustration and form */
+.login-aside {
+  position: relative;
+}
+
+.login-aside::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+  z-index: 1;
+}
+
+/* Ensuring the form is above the gradient for clarity */
+.content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Set a light green background for the form area */
+.login.login-2 .content {
+  background-color: #e8f5e9; /* Light green background */
+}
+
+/* Ensure the form itself maintains a white background if needed */
+.login.login-2 .login-form {
+  background-color: #ffffff; /* White background for the form */
+  border-radius: 8px; /* Optional: adds rounded corners to the form */
+  padding: 2rem; /* Optional: adds some space inside the form */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: adds a subtle shadow to the form */
+}
+
+
+
+
+/* 
+@media (min-width: 992px) {
+  .login.login-2 .login-aside {
+    width: 100%;
+    max-width: 600px;
+  }
+  .login.login-2 .content .content-img {
+    min-height: 600px !important;
+  }
+  .login.login-2 .login-form {
+    width: 100%;
+    max-width: 450px;
+  }
+}
+@media (min-width: 992px) and (max-width: 1399.98px) {
+  .login.login-2 .login-aside {
+    width: 100%;
+    max-width: 600px;
+  }
+}
+@media (max-width: 991.98px) {
+  .login.login-2 .content .content-img {
+    min-height: 470px !important;
+    background-size: 700px;
+  }
+  .login.login-2 .login-form {
+    width: 100%;
+    max-width: 400px;
+  }
+}
+@media (max-width: 575.98px) {
+  .login.login-2 .content .content-img {
+    min-height: 280px !important;
+    background-size: 400px;
+  }
+  .login.login-2 .login-form {
+    width: 100%;
+    max-width: 100%;
+  }
+} */
