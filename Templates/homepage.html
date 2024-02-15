@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+<link href="{% static '/css/pages/homepage.css' %}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
+{% block title %}TaskIT Homepage{% endblock %}
+
+{% block js %}
+<script src="{% static '/js/pages/homepage.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div>HOMEPAGE</div>
+{% endblock %}
