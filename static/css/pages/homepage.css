@@ -1,0 +1,13 @@
+.btn-primary {
+    background-color: #4CAF50; /* Light green color */
+    border-color: #4CAF50; /* Ensure the border is the same color as the button */
+    transition: background-color 0.3s ease; /* Transition for the background color */
+}
+
+/* Override any other styles with !important */
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: #367c39 !important; /* A darker shade of green for the hover state */
+    border-color: #367c39 !important; /* Ensure the border color changes on hover as well */
+    color: #fff !important; /* White text for better contrast */
+}

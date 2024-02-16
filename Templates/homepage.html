@@ -2,13 +2,13 @@
 {% load static %}
 
 {% block css %}
-<link href="{% static '/css/pages/homepage.css' %}" rel="stylesheet" type="text/css"/>
+<link href="{% static 'css/pages/homepage.css' %}" rel="stylesheet" type="text/css"/>
 {% endblock %}
 
 {% block title %}TaskIT Homepage{% endblock %}
 
 {% block js %}
-<script src="{% static '/js/pages/homepage.js' %}"></script>
+<script src="{% static 'js/pages/homepage.js' %}"></script>
 {% endblock %}
 
 {% block content-task %}
@@ -19,8 +19,8 @@
         <h1 class="display-1">Hello, {{ username }}</h1>
         <!--begin::Menu-->
         <div class="p-10 pt-20 d-flex justify-content-around">
-            <a class="btn btn-primary btn-lg m-1" href="">Personal Task Management</a>
-            <a class="btn btn-primary btn-lg m-1" href="">Project Task Management</a>
+            <a class="btn btn-primary btn-lg m-1" href="#" role="button">Personal Task Management</a>
+            <a class="btn btn-primary btn-lg m-1" href="#" role="button">Project Task Management</a>
         </div>
         <!--end::Menu-->
     </div>

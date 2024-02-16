@@ -139,7 +139,7 @@ var KTLogin = function () {
                                 message: 'Email address is required'
                             },
                             emailAddress: {
-                                message: 'The value is not a valid email address'
+                                message: 'This is not a valid email address'
                             }
                         }
                     },
@@ -235,7 +235,7 @@ var KTLogin = function () {
         // Handle cancel button
         $('#kt_login_signup_cancel').on('click', function (e) {
             e.preventDefault();
-
+            
             _showForm('signin');
         });
     }

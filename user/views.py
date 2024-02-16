@@ -6,11 +6,12 @@ from django.http import JsonResponse
 from django.contrib.auth.models import User
 from .models import Profile
 import random
+from django.http import HttpResponse
 
 
 def index(request):
     if request.user.is_authenticated:
-        return redirect('Home')
+        return redirect('task:homepage') 
     else:
         return redirect('signIn')
 
@@ -18,7 +19,8 @@ def index(request):
 class Sign_In(View):
     def get(self, request):
         if request.user.is_authenticated:
-            return redirect('Home')
+            # return redirect('homepage.html')
+            return redirect('task:homepage') 
         else:
             return render(request, 'login.html')
 
@@ -28,7 +30,7 @@ class Sign_In(View):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('Home')
+            return redirect('task:homepage') 
 
         else:
             response = JsonResponse({"error": "Invalid Credentials"})
@@ -39,7 +41,7 @@ class Sign_In(View):
 class Sign_Up(View):
     def get(self, request):
         if request.user.is_authenticated:
-            return redirect('Home')
+            return redirect('task:homepage') 
         else:
             return redirect('signIn')
 
@@ -59,7 +61,7 @@ class Sign_Up(View):
             pf = Profile(user=user, profile_photo=pf_url)
             pf.save()
 
-            return redirect('Home')
+            return redirect('task:homepage') 
 
         except:
             response = JsonResponse({"error": "Duplicate User or Server error"})
@@ -71,3 +73,15 @@ class Sign_Out(View):
     def get(self, request):
         logout(request)
         return redirect('signIn')
+
+# def home(request):
+#     return render(request, 'homepage.html')
+    
+
+class CustomLogoutView(View):
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        return redirect('login')
+
+def login_view(request):
+    return render(request, 'login.html')

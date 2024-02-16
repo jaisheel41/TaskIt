@@ -4,6 +4,8 @@ venv
 .env
 env
 
+.vscode
+launch.json
 # django
 *.log
 *.pyc

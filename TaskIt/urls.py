@@ -16,9 +16,21 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from Task import views
+from django.contrib.auth.views import LogoutView
+from django.urls import reverse_lazy
+
+from django.http import HttpResponse
+def test(request):
+    return HttpResponse("URL Configuration is Working")
+
 
 urlpatterns = [
+    # path('', views.index, name='index'),
+    path('test/', test),
+    path('logout/', LogoutView.as_view(next_page='login'), name='logout'),
     path('', include('user.urls')),
     path('task/', include('Task.urls')),
-    path('admin/', admin.site.urls)
+    path('admin/', admin.site.urls),
+    path('homepage/', views.homepage, name='homepage'),
 ]

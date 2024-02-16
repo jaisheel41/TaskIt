@@ -27,9 +27,18 @@
                     <div class="col-5">
                         <img class="rounded-circle img-fluid" src="{% static 'media/images/placeholder.png' %}" alt="user picture">
                     </div>
-                    <div class="col align-self-end">
+                    <!-- <div class="col align-self-end">
+                        <a href="{% url 'logout' %}" class="btn btn-outline-secondary btn-sm" style="text-decoration: none; color: inherit;">Logout</a>
+                    </div> -->
+                    <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-secondary btn-sm">Logout</button>
+                    </form>
+                    
+                    
+                    <!-- <div class="col align-self-end">
                         <button type="button" class="btn btn-outline-secondary btn-sm">Logout</button>
-                    </div>
+                    </div> -->
                 </div>
                 <!--end::UserInfo-->
             </li>
