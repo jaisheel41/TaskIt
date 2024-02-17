@@ -10,6 +10,6 @@ def homepage(request):
         username = request.user.username.capitalize()
         context_dict = {'username': username}
     else:
-        return redirect('task:homepage') 
+        return redirect('signIn') 
 
     return render(request, 'homepage.html', context=context_dict)
