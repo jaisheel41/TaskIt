@@ -13,3 +13,10 @@ def homepage(request):
         return redirect('signIn') 
 
     return render(request, 'homepage.html', context=context_dict)
+
+
+def user_profile(request):
+    user = request.user
+    # 获取当前登录用户的信息
+    context = {'user': user}
+    return render(request, 'user_profile.html', context)

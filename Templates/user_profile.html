@@ -1,0 +1,40 @@
+{% extends 'base-task.html' %}
+{% load static %}
+
+{% block css %}
+<link href="{% static '/css/pages/user_profile.css' %}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
+{% block title %}User Profile{% endblock %}
+
+{% block js %}
+<script src="{% static '/js/pages/user_profile.js' %}"></script>
+{% endblock %}
+
+{% block content-task %}
+<!--begin::Content-->
+<div class="container-fluid">
+     <div class="p-10 pt-20 d-flex justify-content-around display-1 text-center mb-4">
+                <a class="btn btn-primary btn-lg m-1" href="{% url 'task:homepage' %}" role="button" style="position: absolute; top: 75px; left: 75px;">Back to Homepage</a>
+         <h1 class="display-1 text-center mb-4">User Profile</h1>
+            </div>
+
+    <div class="row justify-content-center align-items-center mt-4" style="height: 80vh;">
+        <div class="col-md-6">
+            <div class="user-info-box text-center">
+                <div class="border rounded p-4">
+                    <h2 class="mb-4">User Information</h2>
+                    <div class="text-left">
+                        <p><strong>Username:</strong> {{ user.username }}</p>
+                        <p><strong>Email:</strong> {{ user.email }}</p>
+                        <p><strong>Date Joined:</strong> {{ user.date_joined }}</p>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--end::Content-->
+{% endblock %}
