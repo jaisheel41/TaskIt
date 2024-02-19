@@ -30,7 +30,15 @@ class Sign_In(View):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('task:homepage') 
+            # remember_me = request.POST.get('remember_me', False)
+            # if remember_me:
+            #     # Set session to expire after 2 weeks
+            #     request.session.set_expiry(1209600)  # 2 weeks in seconds
+            # else:
+            #     # Set session to expire at browser close
+            #     request.session.set_expiry(0)
+            
+            return redirect('task:homepage')
 
         else:
             response = JsonResponse({"error": "Invalid Credentials"})
@@ -81,7 +89,7 @@ class Sign_Out(View):
 class CustomLogoutView(View):
     def get(self, request, *args, **kwargs):
         logout(request)
-        return redirect('login')
+        return redirect('signIn')
 
 def login_view(request):
     return render(request, 'login.html')

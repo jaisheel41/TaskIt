@@ -1,49 +1,42 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block css %}
-{% endblock %}
-
 {% block title %}{% endblock %}
 
-{% block js %}
-{% endblock %}
 
 {% block content %}
 <!--begin::Main-->
 <div class="d-flex flex-row h-100">
+    <!-- Toggle Button -->
+    <button id="navToggle" class="btnmenu">Menu</button>
+
     <!--begin::Content-->
     <div class="p-2 col-10 flex-grow-1">
         {% block content-task %}
         {% endblock %}
     </div>
     <!--end::Content-->
+
     <!--begin::Nav-->
-    <div class="p-2 col-2 float-right bg-white">
-        <ul class="nav flex-column">
+    <div class="p-2 col-2 bg-white nav-menu">
+        <!-- The margin-top property is added to push the content down so it doesn't overlap with the Menu button -->
+        <ul class="nav flex-column mt-5"> 
             <li class="nav-item p-5 pb-10">
-                <!--begin::UserInfo-->
                 <div class="row">
                     <div class="col-5">
                         <img class="rounded-circle img-fluid" src="{% static 'media/images/placeholder.png' %}" alt="user picture">
                     </div>
-                    <!-- <div class="col align-self-end">
-                        <a href="{% url 'logout' %}" class="btn btn-outline-secondary btn-sm" style="text-decoration: none; color: inherit;">Logout</a>
-                    </div> -->
                     <form action="{% url 'logout' %}" method="post" style="display: inline;">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-outline-secondary btn-sm">Logout</button>
+                        <button type="submit" class="btn-logout">Logout</button>
                     </form>
-                    
-                    
-                    <!-- <div class="col align-self-end">
-                        <button type="button" class="btn btn-outline-secondary btn-sm">Logout</button>
-                    </div> -->
                 </div>
-                <!--end::UserInfo-->
             </li>
             <li class="nav-item">
                 <a href="" class="nav-link">Profile</a>
+            </li>
+            <li class="nav-item">
+                <a href="" class="nav-link">Change Password</a>
             </li>
             <li class="nav-item">
                 <a href="" class="nav-link">Calendar</a>
