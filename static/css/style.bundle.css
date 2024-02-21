@@ -1317,7 +1317,7 @@ pre code {
 
   .col-md-6 {
     -webkit-box-flex: 0;
-    -ms-flex: 0 0 50%;
+    -ms-flex: 0 0 0%;
     flex: 0 0 50%;
     max-width: 50%;
   }
@@ -10550,6 +10550,7 @@ button.bg-white:focus {
 
 .p-4 {
   padding: 1rem !important;
+
 }
 
 .pt-4,

@@ -32,5 +32,8 @@ urlpatterns = [
     path('', include('user.urls')),
     path('task/', include('Task.urls')),
     path('admin/', admin.site.urls),
+    path('task/user/profile/', views.user_profile, name='user_profile'),
+    path('task/user/profilesv/', views.profilesv, name='profilesv'),
+    path('homepage/', views.homepage, name='homepage'),
     path('homepage/', views.homepage, name='homepage'),
 ]

@@ -57,7 +57,7 @@ class Sign_Up(View):
             login(request, user)
 
             n = random.randint(16, 45)
-            pf_url = f'/media/users/{n}.jpg'
+            pf_url = f'/media/users/{username}.jpg'
             pf = Profile(user=user, profile_photo=pf_url)
             pf.save()
 
