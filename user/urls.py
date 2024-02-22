@@ -3,6 +3,9 @@ from .views import Sign_In, Sign_Up, index, Sign_Out
 # from .views import home
 from .views import CustomLogoutView
 from .views import login_view
+from . import views
+
+
 
 urlpatterns = [
     path('signIn/', login_view, name='login'),
@@ -12,4 +15,5 @@ urlpatterns = [
     path('signIn', Sign_In.as_view(), name="signIn"),
     path('signUp', Sign_Up.as_view(), name='signUp'),
     path('signOut', Sign_Out.as_view()),
+    path('change-password/', views.change_password, name='change_password')
 ]

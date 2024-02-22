@@ -1,8 +1,7 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} 
 {% load static %}
 
 {% block title %}{% endblock %}
-
 
 {% block content %}
 <!--begin::Main-->
@@ -13,14 +12,15 @@
     <!--begin::Content-->
     <div class="p-2 col-10 flex-grow-1">
         {% block content-task %}
+        <!-- Content Task Here -->
         {% endblock %}
     </div>
     <!--end::Content-->
 
     <!--begin::Nav-->
     <div class="p-2 col-2 bg-white nav-menu">
-        <!-- The margin-top property is added to push the content down so it doesn't overlap with the Menu button -->
         <ul class="nav flex-column mt-5"> 
+            <!-- User Info and Logout -->
             <li class="nav-item p-5 pb-10">
                 <div class="row">
                     <div class="col-5">
@@ -32,21 +32,28 @@
                     </form>
                 </div>
             </li>
+            <!-- Profile Link -->
             <li class="nav-item">
                 <a href="" class="nav-link">Profile</a>
             </li>
+            <!-- Change Password Link -->
             <li class="nav-item">
-                <a href="" class="nav-link">Change Password</a>
+                <a href="{% url 'change_password' %}" class="nav-link">Change Password</a>
             </li>
+            <!-- Calendar Link -->
             <li class="nav-item">
                 <a href="" class="nav-link">Calendar</a>
             </li>
+            <!-- Group Link -->
             <li class="nav-item">
                 <a href="" class="nav-link">Group</a>
             </li>
         </ul>
     </div>
     <!--end::Nav-->
+
+
+
 </div>
 <!--end::Main-->
 {% endblock %}
