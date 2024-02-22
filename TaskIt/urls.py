@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from Task import views
 from django.contrib.auth.views import LogoutView
+from django.contrib.auth import views as auth_views
 from django.urls import reverse_lazy
 
 from django.http import HttpResponse
@@ -32,9 +33,6 @@ urlpatterns = [
     path('', include('user.urls')),
     path('task/', include('Task.urls')),
     path('admin/', admin.site.urls),
-    path('task/user/profile/', views.user_profile, name='user_profile'),
-    path('task/user/profilesv/', views.profilesv, name='profilesv'),
-    path('homepage/', views.homepage, name='homepage'),
     path('homepage/', views.homepage, name='homepage'),
     path('accounts/reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('accounts/reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),

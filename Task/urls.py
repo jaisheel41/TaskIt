@@ -1,6 +1,5 @@
 from django.urls import path
 from Task import views
-# from .views import user_profile
 
 app_name = 'task'
 urlpatterns = [
