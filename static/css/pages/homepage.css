@@ -34,13 +34,20 @@
 }
 
 .nav-menu {
-    display: none; /* Ensure it's hidden by default */
-    transition: transform 0.3s;
-    z-index: 1000; /* Ensure the nav menu is below the Menu button */
+    position: fixed; /* Use fixed to position relative to the viewport */
+    top: 0; /* Align to the top */
+    right: -250px; /* Start off-screen to the right */
+    width: 250px; /* Width of the menu */
+    height: 100%; /* Full height */
+    background: #FFF; /* Background color */
+    transition: right 0.3s; /* Animate the right property */
+    z-index: 1000; /* Ensure the nav menu is below the Menu button but above other content */
 }
 
 .nav-menu-open {
-    display: block;
+    right: 0;
+    /* transform: translateX(0); */
+    /* display: block; */
 }
 
 .nav-link {
@@ -122,3 +129,68 @@ body, html {
     display: inline-block; /* Inline element for the animation */
     animation: flyInFromRight 2s ease forwards; /* Slower animation */
 }
+
+.hamburger {
+    display: inline-block;
+    padding: 15px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    position: absolute; /* Position it absolutely */
+    top: 10px; /* Distance from the top */
+    right: 10px; /* Distance from the right */
+    z-index: 1001; /* Ensure it's above other elements */
+  }
+  
+  .hamburger-box {
+    width: 35px;
+    height: 24px;
+    display: inline-block;
+    position: relative;
+  }
+  
+/* Base style for the hamburger lines */
+.hamburger .hamburger-inner,
+.hamburger .hamburger-inner::before,
+.hamburger .hamburger-inner::after {
+  width: 35px; /* Width of the lines */
+  height: 4px;  /* Height of the lines */
+  background-color: #000; /* Color of the lines */
+  border-radius: 4px; /* Rounded corners of the lines */
+  position: absolute;
+  transition: all 0.3s ease-in-out;
+}
+
+.hamburger .hamburger-inner {
+    display: block;
+    top: 50%;
+    margin-top: -2px; /* This should be half the height of the line to center it */
+  }
+  
+  .hamburger .hamburger-inner::before {
+    content: "";
+    top: -10px; /* Position above the middle line */
+  }
+  
+  .hamburger .hamburger-inner::after {
+    content: "";
+    bottom: -10px; /* Position below the middle line */
+  }
+  
+  /* Active state - transitioning to 'X' */
+  .hamburger.is-active .hamburger-inner {
+    background-color: transparent; /* Hide the middle line */
+  }
+  
+  .hamburger.is-active .hamburger-inner::before {
+    transform: translateY(10px) rotate(45deg); /* Move top line to middle and rotate */
+  }
+  
+  .hamburger.is-active .hamburger-inner::after {
+    transform: translateY(-10px) rotate(-45deg); /* Move bottom line to middle and rotate */
+  }
+  
+  /* Center the transform origin for rotation */
+  .hamburger-inner, .hamburger-inner::before, .hamburger-inner::after {
+    transform-origin: center;
+  }

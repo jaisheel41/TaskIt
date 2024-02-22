@@ -13,3 +13,5 @@ launch.json
 *.sqlite3
 
 middleware.py
+ChatTask
+chat.html
