@@ -3,7 +3,6 @@
 
 {% block css %}
 <link href="{% static '/css/pages/loginpage.css' %}" rel="stylesheet" type="text/css"/>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
 {% endblock %}
 
 {% block title %}TaskIT Login{% endblock %}
@@ -82,24 +81,17 @@
                             <input class="form-control form-control-solid h-auto py-5 px-6" type="password" placeholder="Password" name="password" autocomplete="off"/>
                             <a href="javascript:;" class="text-primary font-size-h6 font-weight-bolder text-hover-primary pt-5" id="kt_login_forgot">Forgot Password?</a>
                         </div> -->
-                        
-
-                        <div class="form-group position-relative">
+                        <div class="form-group">
                             <label class="font-size-h6 font-weight-bolder text-dark pt-5">Password</label>
-                            <div style="display: flex; align-items: center;">
-                                <input id="in-password"
-                                       class="form-control form-control-solid h-auto py-7 px-6 rounded-lg"
-                                       type="password" name="password" autocomplete="off" style="flex-grow: 1;"/>
-                                <i id="toggle-password" class="fa fa-eye" onclick="togglePasswordVisibility()" style="cursor: pointer; margin-left: -30px;"></i>
-                            </div>
-                            <div class="text-right pt-2">
+                            <input id="in-password"
+                                   class="form-control form-control-solid h-auto py-7 px-6 rounded-lg"
+                                   type="password" name="password" autocomplete="off"/>
+                            <div class="text-right pt-2"> <!-- Add some padding-top for spacing if needed -->
                                 <a href="javascript:;"
                                    class="text-primary font-size-h6 font-weight-bolder text-hover-primary"
                                    id="kt_login_forgot">Forgot Password?</a>
                             </div>
                         </div>
-                        
-                        
                         
                         <!--end::Form group-->
                         <!--begin::Action-->
@@ -223,3 +215,4 @@
 <script src="{% static '/js/pages/loginpage.js' %}"></script>
 {% endblock %}
 ```
+

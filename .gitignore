@@ -3,6 +3,7 @@ __pycache__/
 venv
 .env
 env
+.idea/
 
 .vscode
 launch.json
@@ -11,5 +12,3 @@ launch.json
 *.pyc
 
 *.sqlite3
-
-middleware.py
