@@ -7,7 +7,7 @@ class PersonalTask(models.Model):
     description = models.TextField(max_length=200)
     start_time = models.DateField()
     end_time = models.DateField()
-    status = models.CharField(max_length=1)
+    status = models.IntegerField(default=0)
 
     def __str__(self):
         return self.taskname

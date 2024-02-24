@@ -1,33 +1,32 @@
 .container {
-    margin-top: 700px; /* Adjust this value to ensure it starts below the fixed button */
+    position: relative; /* Needed to position the button absolutely within */
+    padding-left: 80px; /* Adjust based on the size of your logo */
 }
-
 .row {
     display: flex;
-    flex-wrap: wrap; /* This will ensure the tasks wrap and don't overflow */
-    gap: 15px; /* Adjust the gap as needed for spacing between task cards */
+    flex-wrap: wrap;
+    gap: 15px;
 }
 
 .task-card {
-    flex: 0 0 calc(33.333% - 15px); /* Adjust the percentage for the number of items you want per row, subtract the gap */
-    margin-bottom: 15px; /* Adjust as needed for spacing at the bottom of each task card */
-    background-color: #fff;
+    flex: 0 0 calc(33.333% - 15px);
+    margin-bottom: 8px;
     border: none;
-    border-radius: 4px;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.05);
+    border-radius: 8px; /* Rounded borders for a modern look */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     transition: box-shadow 0.3s ease;
+    border-left: 5px solid #007bff; 
 }
 
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f4f4f9;
-    margin: 0;
     padding: 20px;
     color: #333;
 }
 
 .task-card:hover {
-    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 10px 15px rgba(0,0,0,0.2);
 }
 
 .card-title {
@@ -35,162 +34,163 @@ body {
 }
 
 .card-text {
+    display: -webkit-box;
     margin-bottom: 1rem;
-}
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
 
 .btn-icon {
     background: none;
     border: none;
     padding: 0;
-    margin-right: 0.5rem;
+    cursor: pointer;
 }
 
-.btn-edit i,
-.btn-delete i {
-    color: #6c757d;
-}
-
-.btn-edit:hover i {
-    color: #007bff;
-}
-
-.btn-delete:hover i {
-    color: #dc3545;
+.btn-edit i, .btn-delete i {
+    color: #007bff; /* Blue icons for a consistent look */
 }
 
 #create-task-btn {
     position: fixed; /* Fixed position relative to the viewport */
-    right: 300px; /* Distance from the right, adjust as necessary */
-    bottom: 668px; /* Distance from the bottom, adjust as necessary */
-    z-index: 10; /* Ensures the button is above other elements */
-}
-
-
-/* #create-task-btn {
-    position: fixed;
-    right: 1rem;
-    bottom: 1rem;
+    right: 280px; /* Distance from the right */
+    top: 20px; /* Distance from the top */
+    z-index: 1000; /* Ensures the button is above other elements */
     font-size: 1rem;
-    padding: 0.75rem 1.5rem;
-    border-radius: 0.375rem;
-} */
-
-/* Style adjustments for the task list to prevent overlap with the fixed button */
-#task-list {
-    padding-bottom: 80px; /* Add padding to bottom to prevent overlap with the button */
+    border: none;
+    background-color: #28a745; /* Green background */
+    color: white; /* White text */
+    border-radius: 20px; /* Rounded corners */
+    padding: 10px 20px; /* Padding for size */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* Shadow for depth */
 }
 
+@media (max-width: 768px) {
+    .task-card {
+        flex: 0 0 calc(50% - 15px); /* Two cards per row on smaller screens */
+    }
+}
 
-.task {
-    background-color: #fff;
-    padding: 20px;
-    margin-bottom: 10px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    border-radius: 4px;
+@media (max-width: 576px) {
+    .task-card {
+        flex: 0 0 calc(100% - 15px); /* One card per row on extra small screens */
+    }
+}
+
+.tasks-overview {
+    clear: both; /* If the logo is floated */
+    padding-top: 60px; /* Adjust as needed */
+    margin-left: 80px;
+}
+
+.tasks-overview h2 {
+    font-size: 24px; /* Adjust the size to match your design */
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #333; /* Adjust the color to match your design */
+}
+
+.tasks-overview h3 {
+    font-size: 18px;
+    font-weight: normal;
+    margin-bottom: 0.5rem;
+    color: #555; /* Slightly lighter than the title for contrast */
+}
+
+.tasks-overview p {
+    font-size: 16px;
+    color: #666; /* A lighter shade for the descriptive text */
+}
+
+@media (max-width: 768px) {
+    #create-task-btn {
+        position: relative; /* Or fixed, depending on your design */
+        top: auto;
+        right: auto;
+        margin: 10px auto; /* Center the button on smaller screens */
+        display: block;
+    }
+    
+    .container {
+        padding-left: 15px; /* Reset padding for small screens */
+    }
+}
+
+@media (max-width: 768px) { /* Adjust for tablet */
+    .container, .tasks-overview {
+      padding-left: 80px; /* Adjust the value so it does not overlap the logo */
+    }
+  }
+  
+  @media (max-width: 576px) { /* Adjust for mobile */
+    .container, .tasks-overview {
+      padding-left: 50px; /* Adjust the value for smaller devices */
+    }
+  }
+
+
+  .progress {
+    background-color: #f5f5f5;
+    border-radius: 3px;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+    margin-bottom: 20px; /* Add some space at the bottom */
 }
 
 .progress-bar {
-    background-color: #e1e1e1;
-    border-radius: 4px;
-    overflow: hidden;
+    background-color: #5cb85c; /* Choose your color */
+    transition: width 0.6s ease;
 }
 
-.progress {
-    height: 10px;
-    background-color: #4b79a1;
-}
-
-button {
-    background-color: #4b79a1;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    margin-top: 10px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-/* button:hover {
-    background-color: #39596a;
-} */
-
-#create-task-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0,0,0,0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-#create-task-form {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 4px;
-}
-
-input[type="text"],
-input[type="date"],
-textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 4px;
-    border: 1px solid #ddd;
-}
-
-input[type="submit"] {
-    width: 100%;
-    padding: 10px;
-    border-radius: 4px;
-    border: 1px solid #ddd;
-    background-color: #5cb85c;
+.progress-label {
     color: white;
-    cursor: pointer;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
-input[type="submit"]:hover {
-    background-color: #4cae4c;
+.modal-header {
+    background-color: #6c757d; /* A pleasant grey, you can choose any color you like */
+    color: white;
 }
 
-/* Additional CSS for Personal Task Management page */
-.personal-task-heading {
-    font-size: 24px; /* Adjust size as needed */
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 20px;
-    text-align: center;
+.modal-content {
+    background-color: #f8f9fa; /* A light grey background for the modal content */
 }
 
-/* For Bootstrap 5 */
-.modal-header .btn-close {
-    color: #000; /* Change this to the color you need */
-    background: none;
-    opacity: 1; /* Set opacity to 1 if it's less */
+.form-control {
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
 }
 
-/* For Bootstrap 4 */
-.modal-header .close {
-    color: #000; /* Change this to the color you need */
-    opacity: 1; /* Set opacity to 1 if it's less */
+.form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
-.modal-open {
-    overflow: hidden; /* Prevent background scrolling when modal is open */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
 }
 
-.modal {
-    overflow-y: auto; /* Allows scrolling within the modal if content overflows */
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
 }
 
-.modal-body {
-    overflow-x: hidden;  /* Hide horizontal scrollbar */
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
 }
 
-.close {
-    color: #000; /* or any color you prefer */
-    opacity: 1; /* make sure it's fully opaque */
+.btn-secondary:hover {
+    background-color: #545b62;
+    border-color: #545b62;
+}
+
+.modal-footer {
+    border-top: 1px solid #e9ecef;
 }

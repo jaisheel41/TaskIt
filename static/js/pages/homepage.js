@@ -45,13 +45,54 @@
 //     });
 // });
 
-document.addEventListener('DOMContentLoaded', function () {
-    var navToggle = document.getElementById('navToggle');
-    var navMenu = document.querySelector('.nav-menu');
+// document.getElementById('toggleNav').addEventListener('click', function() {
+//     document.getElementById('navMenu').classList.add('active');
+// });
+// document.getElementById('closeNav').addEventListener('click', function() {
+//     document.getElementById('navMenu').classList.remove('active');
+// });
 
-    navToggle.addEventListener('click', function () {
-        this.classList.toggle('is-active');
-        navMenu.classList.toggle('nav-menu-open'); // Use a class to control the state
-    });
+// const toggleNav = document.getElementById('toggleNav');
+// const navMenu = document.getElementById('navMenu');
+
+// toggleNav.addEventListener('click', function() {
+//     navMenu.classList.toggle('active');
+//     // Toggle button icon between hamburger and 'X'
+//     toggleNav.children[0].innerHTML = navMenu.classList.contains('active') ? '&times;' : '&#x2630;';
+// });
+
+// function toggleNav() {
+//     const navMenu = document.getElementById('navMenu');
+//     const toggleNavIcon = document.querySelector('.nav-toggle-icon');
+
+//     // Check if the menu is currently active
+//     const isMenuActive = navMenu.classList.contains('active');
+
+//     // Toggle the active class on the nav menu
+//     navMenu.classList.toggle('active');
+
+//     // Change the toggle icon from hamburger to 'X' and vice versa
+//     toggleNavIcon.textContent = isMenuActive ? '\u2630' : '\u00D7'; // Hamburger or 'X'
+// }
+
+// // Event listener for the toggle button
+// document.getElementById('toggleNav').addEventListener('click', toggleNav);
+
+// // Optional: Event listener for closing the menu by clicking the 'X'
+// document.getElementById('closeNav').addEventListener('click', toggleNav);
+
+document.addEventListener('DOMContentLoaded', function() {
+    var toggleNav = document.getElementById('toggleNav');
+    if (toggleNav) {
+        toggleNav.addEventListener('click', function() {
+            // Your toggle code here
+            var navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('active');
+            // Change the content of the toggle button appropriately
+            this.textContent = navMenu.classList.contains('active') ? '×' : '☰';
+        });
+    } else {
+        console.error('Element with ID "toggleNav" was not found.');
+    }
 });
 

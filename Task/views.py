@@ -5,6 +5,8 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from .models import PersonalTask
 from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_http_methods
+
 from .forms import PersonalTaskForm
 from django.shortcuts import get_object_or_404
 from django.forms.models import model_to_dict
@@ -47,6 +49,8 @@ def update_task(request, task_id):
     if request.method == 'POST':
         form = PersonalTaskForm(request.POST, instance=task)
         if form.is_valid():
+            updated_task = form.save(commit=False)  # Don't commit yet
+            updated_task.status = request.POST.get('status', 0)  # Default to 0 if not provided
             updated_task = form.save()
             task_data = model_to_dict(updated_task)
             task_data['end_time'] = updated_task.end_time.strftime('%b %d, %Y')
@@ -61,3 +65,13 @@ def delete_task(request, task_id):
     task = get_object_or_404(PersonalTask, id=task_id, user=request.user)
     task.delete()
     return JsonResponse({'status': 'success'})
+
+@require_http_methods(["GET"])
+def get_task_status(request, task_id):
+    # Replace 'Task' with your actual Task model
+    task = get_object_or_404(PersonalTask, pk=task_id)
+    # Assuming the Task model has a field called 'status' that holds the progress
+    task_status = task.status
+    
+    # Return the status as JSON
+    return JsonResponse({'taskStatus': task_status})
