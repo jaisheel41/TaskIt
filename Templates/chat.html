@@ -1,0 +1,33 @@
+{% extends 'base-task.html' %}
+{% load static %}
+
+{% block css %}
+<link href="{% static 'css/pages/chat.css' %}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
+{% block title %}Group Chat{% endblock %}
+
+{% block content %}
+<!--begin::Content-->
+<div class="container-fluid p-0">
+    <div class="col p-0">
+        <div id="chat-message-area" class="px-20 pt-10 pb-3"></div>
+        <div class="input-message-area fixed-bottom p-20">
+            <div id="typing-status-area"></div>
+            <div class="input-group">
+                <input id="chat-message-input" class="form-control" type="text" size="50">
+                <div class="input-group-append">
+                    <input id="chat-message-submit" class="btn btn-outline-secondary" type="button" value="Send">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{ room_name|json_script:"room-name"}}
+{{ username|json_script:"username"}}
+<!--end::Content-->
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/pages/chat.js' %}"></script>
+{% endblock %}
