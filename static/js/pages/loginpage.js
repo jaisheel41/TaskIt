@@ -149,8 +149,8 @@ var KTLogin = function () {
                                 message: 'The password is required'
                             },
                             regexp: {
-                                regexp: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-                                message: 'Password must be at least 8 characters long and include at least one number and one special character'
+                                regexp: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+                                message: 'Password must be at least 8 characters long and include at least one number, one upper-case letter and one special character'
                             }
                         }
                     },

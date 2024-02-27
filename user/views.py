@@ -7,6 +7,9 @@ from django.contrib.auth.models import User
 from .models import Profile
 import random
 from django.http import HttpResponse
+from django.contrib.auth import update_session_auth_hash
+from django.contrib import messages
+from .forms import CustomPasswordChangeForm
 
 
 def index(request):
@@ -93,3 +96,18 @@ class CustomLogoutView(View):
 
 def login_view(request):
     return render(request, 'login.html')
+
+def change_password(request):
+    if request.method == 'POST':
+        form = CustomPasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            return JsonResponse({'success': True})
+        else:
+            # Collect the errors into a list (or any other structure you see fit)
+            errors = list(form.errors.values())
+            return JsonResponse({'success': False, 'error': errors}, status=400)
+    else:
+        form = CustomPasswordChangeForm(request.user)
+    return render(request, 'change_password.html', {'form': form})

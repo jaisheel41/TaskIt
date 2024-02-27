@@ -4,6 +4,7 @@
 {% block css %}
 {{ block.super }}
 <link href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" rel="stylesheet">
+<link href="{% static 'css/pages/homepage.css' %}" rel="stylesheet" type="text/css"/>
 <link href="{% static 'css/pages/base-task.css' %}" rel="stylesheet" type="text/css"/>
 {% endblock %}
 
@@ -23,7 +24,7 @@
     <div class="nav-header">
         <!-- User Profile -->
         <div class="user-profile">
-            <img src="{% static 'media/images/placeholder.png' %}" alt="User">
+            <img class="rounded-circle img-fluid" src="/static/media/images/{{user.id}}.jpg" alt="user picture">
         </div>
         
         <!-- Logout Button -->
@@ -37,8 +38,8 @@
     <!-- Menu Items -->
     <nav class="container-fluid">
         <ul>
-            <li><a href="#">Profile</a></li>
-            <li><a href="#">Change Password</a></li>
+            <li><a href="{% url 'task:user_profile' %}">Profile</a></li>
+            <li><a href="{% url 'change_password' %}">Change Password</a></li>
             <li><a href="#">Calendar</a></li>
             <li><a href="#">Group</a></li>
         </ul>
