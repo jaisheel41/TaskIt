@@ -4,10 +4,13 @@
 
 const roomName = JSON.parse(document.getElementById('room-name').textContent);
 const thisUsername = JSON.parse(document.getElementById('username').textContent);
+const chatLog = JSON.parse(document.getElementById('chat-log').textContent);
 let messageGroupNum = 0;
 let lastUserWhoSendsMessage = null;
 let typingStatusUsers = new Map();
 let isTyping = false;
+
+console.log("chat log is: " + chatLog);
 
 const chatSocket = new WebSocket(
     'ws://'
@@ -188,3 +191,11 @@ function displayTypingStatus() {
     };
     area.textContent = text;
 }
+
+function showChatHistory(log) {
+    for (const data in log) {
+        showMessage(log[data]);
+    };
+}
+
+showChatHistory(chatLog);
