@@ -47,7 +47,6 @@
   border: 1px solid #e5eaee; /* Optional: adds a slight border */
 }
 
-
 /* General form styling for a cleaner, more modern look */
 .login-form {
   background-color: #ffffff; /* or any other color you prefer */
@@ -267,7 +266,6 @@ a#kt_login_forgot:hover {
   right: 0;
   bottom: 0;
   left: 0;
-  background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
   z-index: 1;
 }
 
@@ -279,7 +277,7 @@ a#kt_login_forgot:hover {
 
 /* Set a light green background for the form area */
 .login.login-2 .content {
-  background-color: #e8f5e9; /* Light green background */
+  background-color: #d1ebeb; /* Light green background */
 }
 
 /* Ensure the form itself maintains a white background if needed */

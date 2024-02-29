@@ -12,4 +12,5 @@ urlpatterns = [
     path('get-task-status/<int:task_id>/', get_task_status, name='get_task_status'),
     path('user/profile/', views.user_profile, name='user_profile'),
     path('user/profilesv/', views.profilesv, name='profilesv'),
+    path('calendar/', views.calendar_view, name='calendar'),
 ]

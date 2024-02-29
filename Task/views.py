@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from .models import PersonalTask
 from django.views.decorators.http import require_POST
 from django.views.decorators.http import require_http_methods
-
+import json
 from .forms import PersonalTaskForm
 from django.shortcuts import get_object_or_404
 from django.forms.models import model_to_dict
@@ -124,3 +124,24 @@ def upload_avatar(request):
     else:
         form = AvatarUploadForm(instance=request.user)
     return render(request, 'upload_avatar.html', {'form': form})
+
+@login_required
+def calendar_view(request):
+    tasks = PersonalTask.objects.filter(user=request.user).values(
+        'id', 'taskname', 'end_time', 'status', 'description'  # Assuming 'status' is the progress percentage
+    )
+
+    tasks_for_calendar = [
+        {
+            'title': task['taskname'],
+            'start': task['end_time'].isoformat(),
+            'allDay': True,
+            'extendedProps': {
+                'description': task['description'],
+                'status': task['status']  # Progress percentage
+            }
+        } for task in tasks
+    ]
+
+    tasks_json = json.dumps(tasks_for_calendar)
+    return render(request, 'calendar.html', {'tasks_json': tasks_json})
