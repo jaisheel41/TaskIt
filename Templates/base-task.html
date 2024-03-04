@@ -1,52 +1,52 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}{% endblock %}
-
+{% block css %}
+{{ block.super }}
+<link href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" rel="stylesheet">
+<link href="{% static 'css/pages/homepage.css' %}" rel="stylesheet" type="text/css"/>
+<link href="{% static 'css/pages/base-task.css' %}" rel="stylesheet" type="text/css"/>
+{% endblock %}
 
 {% block content %}
-<!--begin::Main-->
-<div class="d-flex flex-row h-100">
-    <!-- Toggle Button -->
-    <button id="navToggle" class="btnmenu">Menu</button>
 
-    <!--begin::Content-->
-    <div class="p-2 col-10 flex-grow-1">
-        {% block content-task %}
-        {% endblock %}
-    </div>
-    <!--end::Content-->
-
-    <!--begin::Nav-->
-    <div class="p-2 col-2 bg-white nav-menu">
-        <!-- The margin-top property is added to push the content down so it doesn't overlap with the Menu button -->
-        <ul class="nav flex-column mt-5"> 
-            <li class="nav-item p-5 pb-10">
-                <div class="row">
-                    <div class="col-5">
-                        <img class="rounded-circle img-fluid" src="{% static 'media/images/placeholder.png' %}" alt="user picture">
-                    </div>
-                    <form action="{% url 'logout' %}" method="post" style="display: inline;">
-                        {% csrf_token %}
-                        <button type="submit" class="btn-logout">Logout</button>
-                    </form>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a href="" class="nav-link">Profile</a>
-            </li>
-            <li class="nav-item">
-                <a href="" class="nav-link">Change Password</a>
-            </li>
-            <li class="nav-item">
-                <a href="" class="nav-link">Calendar</a>
-            </li>
-            <li class="nav-item">
-                <a href="" class="nav-link">Group</a>
-            </li>
-        </ul>
-    </div>
-    <!--end::Nav-->
+<div class="logo">
+    <a href="{% url 'homepage' %}" title="Home">
+        <img src="{% static 'media/images/Logo.png' %}" alt="Logo" style="height: 50px;">
+    </a>
 </div>
-<!--end::Main-->
+
+<div class="nav-toggle" id="toggleNav">
+    <span class="nav-toggle-icon">&#9776;</span> <!-- Hamburger icon -->
+</div>
+
+<div class="nav-menu" id="navMenu">
+    <div class="nav-header">
+        <!-- User Profile -->
+        <div class="user-profile">
+            <img class="rounded-circle img-fluid" src="/static/media/images/{{user.id}}.jpg" alt="user picture">
+        </div>
+        
+        <!-- Logout Button -->
+        <div class="logout-area">
+            <a href="{% url 'signOut' %}" class="logout-button">
+                <span class="logout-icon">Logout</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Menu Items -->
+    <nav class="container-fluid">
+        <ul>
+            <li><a href="{% url 'task:user_profile' %}">Profile</a></li>
+            <li><a href="{% url 'change_password' %}">Change Password</a></li>
+            <li><a href="{% url 'task:calendar' %}">Calendar</a></li>
+            <li><a href="#">Group</a></li>
+        </ul>
+    </nav>
+</div>
+
+{% block content-task %}
+<!-- Child templates content here -->
+{% endblock %}
 {% endblock %}

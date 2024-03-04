@@ -1,0 +1,33 @@
+#calendar {
+    width: 80%; /* Calendar width as a percentage of its container */
+    margin: 0 auto; /* Centers the calendar */
+    padding: 100px 0; /* Optional: adds some space around the calendar */
+}
+
+@media (max-width: 768px) {
+    #calendar {
+        width: 95%;
+        padding: 50px 0; /* Reduced padding */
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .fc .fc-toolbar-title {
+        font-size: 16px; /* Adjusted font size for readability */
+    }
+    .fc .fc-button {
+        font-size: 14px; /* Increased font size for touch targets */
+        padding: 8px 12px;
+    }
+    #calendar {
+        width: 100%; /* Full width for better use of space */
+        padding: 100px 0; /* Reduced padding */
+    }
+    .fc .fc-toolbar-chunk {
+        display: block; /* Stack toolbar items vertically */
+        margin-bottom: 10px;
+    }
+    .fc .fc-scrollgrid {
+        font-size: 14px; /* Increase font size for event titles */
+    }
+}

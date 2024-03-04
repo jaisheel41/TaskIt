@@ -1,24 +1,57 @@
-
-
 .btn-primary {
     background-color: #4CAF50; /* Light green color */
-    border-color: #4CAF50; /* Ensure the border is the same color as the button */
-    transition: background-color 0.3s ease; /* Transition for the background color */
+    border-color: #4CAF50; /* Same color as the button */
+    transition: background-color 0.3s ease; /* Smooth color transition */
+    color: white; /* Ensuring text is white */
+    padding: 15px 30px; /* Larger padding for buttons */
+    text-decoration: none; /* Remove underline from link */
+    display: inline-block; /* Align buttons properly */
+    margin: 20px; /* Space out buttons */
+    font-size: 1.5rem; /* Larger font size for button text */
 }
 
-/* Override any other styles with !important */
+
 .btn-primary:hover,
 .btn-primary:focus {
-    background-color: #367c39 !important; /* A darker shade of green for the hover state */
-    border-color: #367c39 !important; /* Ensure the border color changes on hover as well */
-    color: #fff !important; /* White text for better contrast */
+    background-color: #367c39 !important; /* Darker green on hover/focus */
+    border-color: #367c39 !important; /* Border color matches background on hover/focus */
 }
 
+.centered-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.greeting-text {
+    font-size: 3rem; /* Large font size for the greeting */
+    font-weight: bold; /* Make the greeting text bold */
+    margin-bottom: 30px; /* Space below greeting text */
+    animation: flyInFromLeft 2s ease forwards; /* Apply the animation */
+}
+
+/* Button specific styles for larger buttons */
+.btn-large {
+    font-size: 2rem; /* Larger font size for button text */
+    padding: 20px 40px; /* Larger padding for buttons */
+}
+
+/* Greeting container */
+.greeting-container h1 {
+    color: #333; /* Color for greeting text */
+    margin-bottom: 30px; /* Space below greeting text */
+    font-size: 4vw; /* Responsive font size based on screen width */
+    font-weight: bold; /* Make the greeting text bold */
+}
+
+/* Button in the top-right corner */
 .btnmenu {
     position: absolute;
     top: 10px;
     right: 10px;
-    z-index: 1001; /* Higher z-index to ensure it's above other elements */
+    z-index: 1001; /* Above other elements */
     background-color: #4CAF50;
     color: white;
     padding: 14px 20px;
@@ -30,95 +63,139 @@
 }
 
 .btnmenu:hover {
-    background-color: #45a049;
+    background-color: #45a049; /* Slightly different green on hover */
 }
 
-.nav-menu {
-    display: none; /* Ensure it's hidden by default */
-    transition: transform 0.3s;
-    z-index: 1000; /* Ensure the nav menu is below the Menu button */
-}
-
-.nav-menu-open {
-    display: block;
-}
-
-.nav-link {
-    display: block;
-    padding: 10px 15px;
-    margin: 5px 0;
-    background-color: #f8f9fa;
-    color: #007bff;
-    text-decoration: none;
-    border-radius: 4px;
-    transition: background-color 0.3s;
-}
-
-.nav-link:hover {
-    background-color: #e2e6ea;
-}
-
-.btn-logout {
-    background-color: transparent;
-    color: #6c757d;
-    border: 1px solid #6c757d;
-    border-radius: 4px;
-    padding: 0.375rem 0.75rem;
-    font-size: 0.875rem;
-    transition: color 0.3s, border-color 0.3s, background-color 0.3s;
-}
-
-.btn-logout:hover {
-    color: #5a6268;
-    border-color: #545b62;
-    background-color: #f8f9fa;
-}
-
-/* Adjust margin-top for the .nav flex-column to ensure it doesn't overlap with the Menu button */
-.nav.flex-column {
-    margin-top: 60px; /* Adjust this value as needed to prevent overlapping */
-}
-
+/* Prevent horizontal scrolling */
 body, html {
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden; /* Prevent horizontal scrollbar */
+    overflow-x: hidden;
 }
 
-.greeting-container {
-    white-space: nowrap; /* Prevent the greeting from wrapping */
-}
-
-/* Keyframes for Hello coming from left */
+/* Animations for greetings */
 @keyframes flyInFromLeft {
-    0% {
-        transform: translateX(-50vw); /* Start off-screen to the left */
+    from {
+        transform: translateX(-100%);
         opacity: 0;
     }
-    100% {
-        transform: translateX(0); /* End at its final position */
+    to {
+        transform: translateX(0);
         opacity: 1;
     }
 }
 
-/* Keyframes for username coming from right */
 @keyframes flyInFromRight {
-    0% {
-        transform: translateX(50vw); /* Start off-screen to the right */
+    from {
+        transform: translateX(100%);
         opacity: 0;
     }
-    100% {
-        transform: translateX(0); /* End at its final position */
+    to {
+        transform: translateX(0);
         opacity: 1;
     }
 }
 
 .hello-animation {
-    display: inline-block; /* Inline element for the animation */
-    animation: flyInFromLeft 2s ease forwards; /* Slower animation */
+    display: inline-block;
+    animation: flyInFromLeft 2s ease forwards;
+    margin-right: 20px;
+}
+
+.hello-animation:after {
+    content: ''; /* This is necessary for the pseudo-element to work */
+    display: inline-block;
 }
 
 .username-animation {
-    display: inline-block; /* Inline element for the animation */
-    animation: flyInFromRight 2s ease forwards; /* Slower animation */
+    display: inline-block;
+    animation: flyInFromRight 2s ease forwards;
+}
+
+/* Responsive styles */
+@media (max-width: 767px) {
+    /* Adjust font size and remove nowrap for mobile to prevent overflow */
+    .greeting-container {
+        font-size: 6vw;
+        padding: 1rem;
+        white-space: normal; /* Allow wrapping on small screens */
+        text-align: center; /* Center the text on small screens */
+    }
+
+    /* Adjust button font size and padding for mobile */
+    .btn-primary {
+        font-size: 3.5vw;
+        padding: 10px 15px;
+    }
+
+    /* Resize menu button for smaller screens */
+    .btnmenu {
+        font-size: 4vw;
+        padding: 10px;
+    }
+}
+
+/* Container styles for different screen sizes */
+.container {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+@media (min-width: 768px) {
+    .container {
+        max-width: 720px;
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        max-width: 960px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1140px;
+    }
+}
+
+/* Set a minimum font size for extremely small viewport widths */
+@media (max-width: 300px) {
+    .greeting-container h1 {
+        font-size: 24px; /* Minimum font size */
+    }
+}
+
+/* Set a maximum font size for extremely large viewport widths */
+@media (min-width: 1200px) {
+    .greeting-container h1 {
+        font-size: 70px; /* Maximum font size */
+    }
+}
+
+@media (max-width: 768px) {
+    .greeting-container h1 {
+        font-size: 6vw; /* Adjust this value as needed for medium screens */
+    }
+}
+
+/* When the screen width is less than or equal to 767px */
+@media (max-width: 767px) {
+    .greeting-container h1 {
+        font-size: 7vw; /* Adjust this value as needed for small tablets and large phones */
+    }
+}
+
+/* When the screen width is less than or equal to 576px */
+@media (max-width: 576px) {
+    .greeting-container h1 {
+        font-size: 8vw; /* Adjust this value as needed for small phones */
+    }
+}
+.greeting-container {
+    display: flex; /* Use flexbox to layout the children */
+    justify-content: center; /* Center the children horizontally */
+    align-items: center; /* Center the children vertically */
+    gap: 20px; /* Add space between the children */
 }

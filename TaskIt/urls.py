@@ -36,5 +36,7 @@ urlpatterns = [
     path('homepage/', views.homepage, name='homepage'),
     path('accounts/reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('accounts/reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+    path('task/user/profile/', views.user_profile, name='user_profile'),
+    path('task/user/profilesv/', views.profilesv, name='profilesv'),
     path('chat/', include('chat.urls')),
 ]

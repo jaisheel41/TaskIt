@@ -1,0 +1,156 @@
+{% extends 'base-task.html' %}
+{% load static %}
+
+{% block css %}
+<link href="{% static '/css/pages/user_profile.css' %}" rel="stylesheet" type="text/css"/>
+<link href="{% static 'css/pages/base-task.css' %}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
+{% block title %}User Profile{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/pages/homepage.js' %}"></script>
+{% endblock %}
+
+{% block content-task %}
+<!--begin::Content-->
+
+<div class="box-wrap-1">
+	<div class="item1">
+		<div class="box-wrap-2">
+			<div class="item11">
+				<a class="btn btn-primary btn-lg m-1" href="{% url 'task:homepage' %}" role="button"
+				           style="">Back to Homepage</a>
+			</div>
+			<div class="item12"><strong style="transform: translate(100%, 0%);font-size: 40px;"> User Profile</strong></div>
+		</div>
+	</div>
+	<div class="item2">
+		<div class="box-wrap-3">
+			<div class="item21">
+				
+				 <div class="box-wrap-4">
+					 {% csrf_token %}
+					 <!-- <form method="post"> -->
+					 <div class="item36"></div>
+					 <div class="item31">
+						 <label class="labelsy">Sculpture:</label>
+						 <img id='userImage' class="circle" src="/static/media/images/{{user.id}}.jpg" alt="user picture">
+						 <label id="label_avatar" for="id_avatar" class="lavatar">
+							 Select image
+							<input type="file" id="id_avatar" name="avatar" accept="image/*" textContent="Select image" hidden>
+						 </label>
+					 </div>
+					 <div class="item32">
+						 
+						 <label class="labelsy">Username:</label>
+						 <input type="text" id="id_username" name="username" value="{{ user.username }}"class="form-control">
+						 
+					 </div>
+					 <div class="item33">
+						 <label class="labelsy">Username:</label>
+						 <input type="email" id="id_email" name="email" value="{{ user.email }}"class="form-control">
+					 </div>
+					 <div class="item34">
+						 <label class="labelsy">Date Joined:</label>
+						 <input type="text" id="id_date_joined" name="date_joined" value="{{ user.date_joined }}"
+						                                        class="form-control" readonly>
+					 </div>
+					 {{ form.as_p }}
+					 <div class="item35">
+						 <button id="saveChangesBtn" type="submit" class="btn btn-primary">Save Changes</button>
+					 </div>
+					 
+				 </div>
+				 
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	
+	document.getElementById('id_avatar').addEventListener('change', function() {
+		var input = this;
+		var file = input.files[0];
+		
+		if (file) {
+			const reader = new FileReader();
+			        reader.onload = function() {
+			            const img = document.getElementById('userImage');
+			            img.src = reader.result;
+			        }
+			        reader.readAsDataURL(file);
+			document.getElementById('label_avatar').style.background='#0d37a3';
+		}
+	});
+	
+	document.getElementById('saveChangesBtn').addEventListener('click', function() {
+	 
+		uploadFile();
+	});
+	
+	function uploadFile() {
+	    var fileInput = document.getElementById('id_avatar');
+	    var file = fileInput.files[0]; 
+	
+	    var formData = new FormData();
+		
+		const csrfToken = getCookie('csrftoken');
+		formData.append('csrfmiddlewaretoken', csrfToken);
+		formData.append('avatar', file);
+		
+		var usernamelInput = document.getElementById('id_username').value;
+		formData.append('username', usernamelInput);
+		
+		var emailInput = document.getElementById('id_email').value;
+		formData.append('email', emailInput);
+		
+		var datejoinedlInput = document.getElementById('id_date_joined').value;
+		formData.append('date_joined', datejoinedlInput);
+		
+	
+	    fetch("{% url 'profilesv' %}", { 
+	        method: 'POST',
+	        body: formData
+	    })
+	    .then(function(response) {
+	        if (response.ok) {
+				return response.json();
+			} else {
+				throw new Error('Network response was not ok.');
+			}
+	    })
+		.then(function(data) {
+			
+			if (data.success){
+				alert(data.message);
+				window.location.reload();
+			}else{
+				alert(data.message);
+			}
+			
+		})
+	    .catch(function(error) {
+	        console.error('error2:', error);
+	    });
+	};
+	
+	function getCookie(name) {
+	    let cookieValue = null;
+	    if (document.cookie && document.cookie !== '') {
+	        const cookies = document.cookie.split(';');
+	        for (let i = 0; i < cookies.length; i++) {
+	            const cookie = cookies[i].trim();
+	            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+	                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+	                break;
+	            }
+	        }
+	    }
+	    return cookieValue;
+	}
+	
+</script>
+<!--end::Content-->
+{% endblock %}

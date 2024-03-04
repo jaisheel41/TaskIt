@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-=zcygfy%j&k34m71ty!ne=$d0-7aqj@g0wd#52k5v_hvg@@mp-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*', 'jaisheel42.pythonanywhere.com']
 
 
 # Application definition
@@ -60,7 +60,7 @@ ROOT_URLCONF = 'TaskIt.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -72,6 +72,9 @@ TEMPLATES = [
         },
     },
 ]
+
+
+# ALLOWED_HOSTS = ['jaisheel42.pythonanywhere.com']
 
 WSGI_APPLICATION = 'TaskIt.wsgi.application'
 ASGI_APPLICATION = 'TaskIt.asgi.application'
@@ -131,11 +134,19 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
+# STATIC_URL = '/static/'
+
+# STATICFILES_DIRS = (
+#     join(BASE_DIR, 'static'),
+# )
+
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = (
-    join(BASE_DIR, 'static'),
-)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),  # Make sure this is the correct path to your static directory
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -144,3 +155,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
+
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#         'CONFIG': {
+#             "hosts": [('127.0.0.1', 6379)],
+#         },
+#     },
+# }
