@@ -1,0 +1,19 @@
+{% load static %}
+
+{% block title %}404 Not Found{% endblock %}
+
+{% block css %}
+    {{ block.super }}
+    <link href="{% static 'css/404.css' %}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
+{% block content-task %}
+<!--begin::Content-->
+<div class="centered-container">
+    <h1 class="heading-404">404</h1>
+    <h2 class="title-404">Page Not Found</h2>
+    <p class="description-404">The page you're looking for does not seem to exist</p>
+    <a href="{% url 'home' %}" class="home-button">Go to Home</a>
+</div>
+<!--end::Content-->
+{% endblock %}
