@@ -1,0 +1,21 @@
+.user-info-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    font-size: 1.2em;
+}
+
+.user-info-box .border {
+    border: 10px solid #000;
+    background-color: #fff;
+}
+
+.user-info-box p {
+    font-size: 3em;
+    font-weight: normal;
+}
+
+.user-info-box h2 {
+    font-size: 4em;
+}

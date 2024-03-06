@@ -1,0 +1,225 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+<link href="{% static '/css/pages/loginpage.css' %}" rel="stylesheet" type="text/css"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block title %}TaskIT Login{% endblock %}
+
+<style>
+.separator-or {
+    font-size: 16px;
+    padding: 8px 20px;
+    border-radius: 30px; /* Makes it rounded */
+    display: inline-block;
+    background-color: #f3f6f9; /* Light grey background, you can change this */
+    color: #7E8299; /* Dark grey text, this too can be changed */
+    font-weight: bold;
+    margin: 2em 0; /* Adds space above and below the separator */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Optional: adds a subtle shadow */
+    border: 1px solid #e5eaee; /* Optional: adds a slight border */
+}
+
+</style>
+{% block content %}
+<!--begin::Main-->
+<div class="d-flex flex-column flex-root">
+    <!--begin::Login-->
+    <div class="login login-2 login-signin-on d-flex flex-column flex-lg-row flex-column-fluid bg-white" id="kt_login">
+        <!--begin::Aside-->
+        <div class="login-aside d-flex flex-row-auto position-relative overflow-hidden order-lg-1" style="background-image: url('/static/media/svgs/loginimage.svg');">
+            <!--begin: Aside Container-->
+            <div class="d-flex flex-row-fluid flex-column justify-content-between py-9 px-7 py-lg-13 px-lg-35">
+                <!--begin::Aside Top-->
+                
+                <!--end::Aside Top-->
+            </div>
+            <!--end: Aside Container-->
+        </div>
+        <!--end::Aside-->
+        <!--begin::Content-->
+        <div class="content d-flex flex-column w-100 order-lg-2">
+            <!--begin::Title-->
+            <div class="d-flex flex-column justify-content-center align-items-center text-center pt-md-5 pt-sm-5 px-lg-0 pt-5 px-7">
+                <h3 class="display4 font-weight-bolder my-7 text-dark" style="color: #986923;">TaskIT</h3>
+                <!--begin::Image-->
+                <!-- Image placeholder if necessary -->
+                <!--end::Image-->
+            </div>
+            <!--end::Title-->
+            <!--begin::Login forms-->
+            <div class="d-flex flex-column-fluid flex-center mt-30 mt-lg-0">
+                <!--begin::Signin-->
+                <div class="login-form login-signin">
+                    <!--begin::Form-->
+                    <form class="form" novalidate="novalidate" id="kt_login_signin_form" method="post">
+                        {% csrf_token %}
+                        <!--begin::Title-->
+                        <div class="text-center pb-8">
+                            <h2 class="font-weight-bolder text-dark font-size-h2 font-size-h1-lg">Welcome Back!</h2>
+                        </div>
+                        <!--end::Title-->
+                        <!--begin::Form group-->
+                        <!-- <div class="form-group">
+                            <input class="form-control form-control-solid h-auto py-5 px-6" type="email" placeholder="Email" name="email" autocomplete="off"/>
+                        </div> -->
+                        <div class="form-group">
+                            <label class="font-size-h6 font-weight-bolder text-dark">Username</label>
+                            <input id="in-email"
+                                   class="form-control form-control-solid h-auto py-7 px-6 rounded-lg"
+                                   type="text"
+                                   name="username" autocomplete="off"/>
+                        </div>
+                        <!--end::Form group-->
+                        <!--begin::Form group-->
+                        <!-- <div class="form-group">
+                            <input class="form-control form-control-solid h-auto py-5 px-6" type="password" placeholder="Password" name="password" autocomplete="off"/>
+                            <a href="javascript:;" class="text-primary font-size-h6 font-weight-bolder text-hover-primary pt-5" id="kt_login_forgot">Forgot Password?</a>
+                        </div> -->
+                        <!-- <div class="form-group" style="display: flex; flex-direction: column; align-items: flex-end;">
+                            <input class="form-control form-control-solid h-auto py-5 px-6" type="password" placeholder="Password" name="password" autocomplete="off"/>
+                            <a href="javascript:;" class="text-primary font-size-h6 font-weight-bolder text-hover-primary pt-5" id="kt_login_forgot">Forgot Password?</a>
+                        </div> -->
+                        
+
+                        <div class="form-group position-relative">
+                            <label class="font-size-h6 font-weight-bolder text-dark pt-5">Password</label>
+                            <div style="display: flex; align-items: center;">
+                                <input id="in-password"
+                                       class="form-control form-control-solid h-auto py-7 px-6 rounded-lg"
+                                       type="password" name="password" autocomplete="off" style="flex-grow: 1;"/>
+                                <i id="toggle-password" class="fa fa-eye" onclick="togglePasswordVisibility()" style="cursor: pointer; margin-left: -30px;"></i>
+                            </div>
+                            <div class="text-right pt-2">
+                                <a href="javascript:;"
+                                   class="text-primary font-size-h6 font-weight-bolder text-hover-primary"
+                                   id="kt_login_forgot">Forgot Password?</a>
+                            </div>
+                        </div>
+                        
+                        
+                        
+                        <!--end::Form group-->
+                        <!--begin::Action-->
+                        <div class="text-center pt-2">
+                            <button id="kt_login_signin_submit" class="btn btn-dark font-weight-bolder font-size-h6 px-8 py-4 my-3">Login</button>
+                        </div>
+                        <!--end::Action-->
+                        <!--begin::Separator-->
+                        <div class="text-center my-7">
+                            <span class="separator-or">OR</span>
+                        </div>
+                        <!--end::Separator-->
+                        <!--begin::Action-->
+                        <div class="text-center">
+                            <button id="kt_login_signup" class="btn btn-light-primary font-weight-bolder px-8 py-4 my-3">Create an Account</button>
+                        </div>
+                        <!--end::Action-->
+                    </form>
+                    <!--end::Form-->
+                </div>
+                <!--end::Signin-->
+                <!--begin::Signup-->
+                <div class="login-form login-signup pt-11">
+                    <!--begin::Form-->
+                    <form class="form" novalidate="novalidate" id="kt_login_signup_form"
+                          method="post">{% csrf_token %}
+                        <!--begin::Title-->
+                        <div class="text-center pb-8">
+                            <h2 class="font-weight-bolder text-dark font-size-h2 font-size-h1-lg">Sign Up</h2>
+                            <p class="text-muted font-weight-bold font-size-h4">Enter your details to create
+                                your
+                                account</p>
+                        </div>
+                        <!--end::Title-->
+                        <!--begin::Form group-->
+                        <div class="form-group">
+                            <input class="form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6"
+                                   type="text" placeholder="Username" name="username" autocomplete="off"/>
+                        </div>
+                        <!--end::Form group-->
+                        <!--begin::Form group-->
+                        <div class="form-group">
+                            <input class="form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6"
+                                   type="email" placeholder="Email" name="email" autocomplete="off"/>
+                        </div>
+                        <!--end::Form group-->
+                        <!--begin::Form group-->
+                        <div class="form-group">
+                            <input class="form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6"
+                                   type="password" placeholder="Password" name="password" autocomplete="off"/>
+                        </div>
+                        <!--end::Form group-->
+                        <!--begin::Form group-->
+                        <div class="form-group">
+                            <input class="form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6"
+                                   type="password" placeholder="Confirm password" name="cpassword"
+                                   autocomplete="off"/>
+                        </div>
+                        <!--end::Form group-->
+                        <!--begin::Form group-->
+                        <div class="form-group d-flex flex-wrap flex-center pb-lg-0 pb-3">
+                            <button type="button" id="kt_login_signup_submit"
+                                    class="btn btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mx-4">
+                                Submit
+                            </button>
+                            <button type="button" id="kt_login_signup_cancel"
+                                    class="btn btn-light-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mx-4">
+                                Cancel
+                            </button>
+                        </div>
+                        <!--end::Form group-->
+                    </form>
+                    <!--end::Form-->
+                </div>
+                <!--end::Signup-->
+                <!--begin::Forgot-->
+                <div class="login-form login-forgot pt-11">
+                    <!--begin::Form-->
+                    <form class="form" novalidate="novalidate" id="kt_login_forgot_form">
+                        <!--begin::Title-->
+                        <div class="text-center pb-8">
+                            <h2 class="font-weight-bolder text-dark font-size-h2 font-size-h1-lg">Forgotten
+                                Password
+                            </h2>
+                            <p class="text-muted font-weight-bold font-size-h4">Enter your email to reset your
+                                password</p>
+                        </div>
+                        <!--end::Title-->
+                        <!--begin::Form group-->
+                        <div class="form-group">
+                            <input class="form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6"
+                                   type="email" placeholder="Email" name="email" autocomplete="off"/>
+                        </div>
+                        <!--end::Form group-->
+                        <!--begin::Form group-->
+                        <div class="form-group d-flex flex-wrap flex-center pb-lg-0 pb-3">
+                            <button type="button" id="kt_login_forgot_submit"
+                                    class="btn btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mx-4">
+                                Submit
+                            </button>
+                            <button type="button" id="kt_login_forgot_cancel"
+                                    class="btn btn-light-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mx-4">
+                                Cancel
+                            </button>
+                        </div>
+                        <!--end::Form group-->
+                    </form>
+                    <!--end::Form-->
+                </div>
+            </div>
+            <!--end::Login forms-->
+        </div>
+        <!--end::Content-->
+    </div>
+    <!--end::Login-->
+</div>
+<!--end::Main-->
+{% endblock %}
+
+{% block js %}
+<script src="{% static '/js/pages/loginpage.js' %}"></script>
+{% endblock %}
+```
