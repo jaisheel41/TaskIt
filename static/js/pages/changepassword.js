@@ -69,7 +69,18 @@ document.addEventListener("DOMContentLoaded", function() {
     {
       console.error('new_password1 element not found!');
     }
+    document.querySelectorAll('.toggle-password').forEach(function(toggle) {
+      toggle.addEventListener('click', function() {
+          var input = document.querySelector(this.getAttribute('toggle'));
+          if (input.type === 'password') {
+              input.type = 'text';
+              this.textContent = 'Hide'; // Update toggle text
+          } else {
+              input.type = 'password';
+              this.textContent = 'Show'; // Update toggle text
+          }
+      });
     
-    
+    });
   });
 

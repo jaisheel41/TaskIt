@@ -13,4 +13,5 @@ urlpatterns = [
     path('user/profile/', views.user_profile, name='user_profile'),
     path('user/profilesv/', views.profilesv, name='profilesv'),
     path('calendar/', views.calendar_view, name='calendar'),
+    path('user/check_avatar/', views.check_avatar, name='check_avatar'),
 ]

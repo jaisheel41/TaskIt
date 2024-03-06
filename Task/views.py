@@ -16,6 +16,25 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 # from django.urls import reverse_lazy
 from django.contrib.auth.models import User
 from Task.forms import UserProfileForm, AvatarUploadForm
+from django.shortcuts import redirect
+from django.shortcuts import render
+from django.contrib.auth.views import LogoutView
+from django.shortcuts import render, redirect
+from django.http import JsonResponse
+from .models import PersonalTask
+from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_http_methods
+
+from .forms import PersonalTaskForm
+from django.shortcuts import get_object_or_404
+from django.forms.models import model_to_dict
+from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import ensure_csrf_cookie
+# from django.urls import reverse_lazy
+from django.contrib.auth.models import User
+from Task.forms import UserProfileForm, AvatarUploadForm
+import os
 
 # Create your views here.
 
@@ -78,53 +97,6 @@ def get_task_status(request, task_id):
     # Return the status as JSON
     return JsonResponse({'taskStatus': task_status})
 
-def user_profile(request):
-    user = request.user
-    context = {'user': user}
-    return render(request, 'user_profile.html', context)
-
-
-def profilesv(request):
-    user = request.user
-    context = {'user': user}
-    if request.method == 'POST':
-        avatar = request.FILES.get('avatar')
-        form = UserProfileForm(request.POST, instance=request.user)
-        new_email = request.POST.get('email')
-        new_username = request.POST.get('username')
-
-        if (User.objects.filter(username=new_username).exists() and new_username != user.username) or \
-                (User.objects.filter(email=new_email).exists() and new_email != user.email):
-
-            return JsonResponse({'success': False, 'message': 'Error: Username or email already exists!!'})
-        else:
-            request.user.username = new_username
-            request.user.email = new_email
-            request.user.save()
-            if not form.errors:
-                form.save()
-
-                if avatar is not None:
-                    with open(f"./static/media/images/{request.user.id}.jpg", 'wb+') as f:
-                        for chunk in avatar:
-                            f.write(chunk)
-                form.save()
-                return JsonResponse({'success': True, 'message': 'Modified successfully.'})
-            else:
-                return JsonResponse({'success': False, 'message': 'Incorrect format!!!'})
-
-    return redirect(user_profile)
-
-def upload_avatar(request):
-    if request.method == 'POST':
-        form = AvatarUploadForm(request.POST, request.FILES, instance=request.user)
-        if form.is_valid():
-            form.save()
-            return redirect('profile')
-    else:
-        form = AvatarUploadForm(instance=request.user)
-    return render(request, 'upload_avatar.html', {'form': form})
-
 @login_required
 def calendar_view(request):
     tasks = PersonalTask.objects.filter(user=request.user).values(
@@ -145,3 +117,68 @@ def calendar_view(request):
 
     tasks_json = json.dumps(tasks_for_calendar)
     return render(request, 'calendar.html', {'tasks_json': tasks_json})
+
+def user_profile(request):
+    user = request.user
+    context = {'user': user}
+    return render(request, 'user_profile.html', context)
+
+
+import os
+
+def profilesv(request):
+    user = request.user
+    context = {'user': user}
+
+    if request.method == 'POST':
+        avatar = request.FILES.get('avatar')
+        form = UserProfileForm(request.POST, instance=request.user)
+        new_email = request.POST.get('email')
+        new_username = request.POST.get('username')
+        if (User.objects.filter(username=new_username).exists() and new_username != user.username) or \
+                (User.objects.filter(email=new_email).exists() and new_email != user.email):
+
+            return JsonResponse({'success': False, 'message': 'Error: Username or email already exists!!'})
+        else:
+            request.user.username = new_username
+            request.user.email = new_email
+            request.user.save()
+            if not form.errors:
+                form.save()
+
+                if avatar is not None:
+                    # Assuming 'static' is at your Django project root level
+                    user_pic_dir = os.path.join('static', 'media', 'userpic')
+                    os.makedirs(user_pic_dir, exist_ok=True)  # Make sure the directory exists
+
+                    with open(os.path.join(user_pic_dir, f"{request.user.id}.jpg"), 'wb+') as f:
+                        for chunk in avatar.chunks():
+                            f.write(chunk)
+                form.save()
+                return JsonResponse({'success': True, 'message': 'Modified successfully.'})
+            else:
+                return JsonResponse({'success': False, 'message': 'Incorrect format!!!'})
+    return redirect(user_profile, context)
+
+
+def upload_avatar(request):
+    if request.method == 'POST':
+        form = AvatarUploadForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+    else:
+        form = AvatarUploadForm(instance=request.user)
+    return render(request, 'upload_avatar.html', {'form': form})
+
+def check_avatar(request):
+    if request.method == 'GET':
+        user_id = request.user.id
+
+        if str(user_id)+'.jpg' in os.listdir('./static/media/UserPic/'):
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False})
+        
+def my_custom_404_view(request, exception):
+    return render(request, '404.html', {}, status=404)
