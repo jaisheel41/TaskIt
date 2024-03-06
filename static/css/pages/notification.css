@@ -1,0 +1,70 @@
+
+#notification-bell {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    cursor: pointer;
+    z-index: 1000; 
+    transition: transform 0.3s ease;
+}
+
+#notification-bell img {
+    width: 30px; 
+    height: auto;
+}
+
+
+#notification-bell:hover {
+    transform: scale(1.1); 
+}
+
+#notification-popup {
+    position: fixed;
+    bottom: 60px; 
+    left: 20px;
+    width: 300px;
+    background: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    border-radius: 8px;
+    padding: 10px;
+    overflow-y: auto;
+    max-height: 400px;
+    display: none; 
+}
+
+/* 通知條目樣式 */
+.notification-item {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 6px;
+}
+
+.notification-item:last-child {
+    border-bottom: none;
+}
+
+.notification-item:hover {
+    background-color: #f0f0f0;
+}
+
+#clear-notifications-btn {
+    display: block;
+    width: calc(100% - 20px); 
+    padding: 8px 10px;
+    margin-top: 10px;
+    background-color: #f44336;
+    color: white;
+    text-align: center;
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#clear-notifications-btn:hover {
+    background-color: #d32f2f;
+}

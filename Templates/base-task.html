@@ -9,7 +9,6 @@
 {% endblock %}
 
 {% block content %}
-
 <div class="logo">
     <a href="{% url 'homepage' %}" title="Home">
         <img src="{% static 'media/images/Logo.png' %}" alt="Logo" style="height: 50px;">
@@ -46,7 +45,12 @@
     </nav>
 </div>
 
+
+
 {% block content-task %}
-<!-- Child templates content here -->
+    <!-- Child templates content here -->
 {% endblock %}
+{% endblock %}
+
+{% block js %}
 {% endblock %}

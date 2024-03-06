@@ -16,6 +16,9 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 # from django.urls import reverse_lazy
 from django.contrib.auth.models import User
 from Task.forms import UserProfileForm, AvatarUploadForm
+from .models import Notification
+
+=======
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.contrib.auth.views import LogoutView
@@ -61,9 +64,13 @@ def create_task(request):
         task = form.save(commit=False)
         task.user = request.user
         task.save()
+        # Create and save a notification
+        create_notification(request.user, "Task Creation", f"Task '{task.taskname}' has been created.")
+
         return JsonResponse({'task_id': task.id})
     else:
         return JsonResponse({'error': form.errors}, status=400)
+
     
 def update_task(request, task_id):
     task = get_object_or_404(PersonalTask, pk=task_id, user=request.user)
@@ -132,33 +139,41 @@ def profilesv(request):
 
     if request.method == 'POST':
         avatar = request.FILES.get('avatar')
-        form = UserProfileForm(request.POST, instance=request.user)
+        form = UserProfileForm(request.POST, instance=user)
         new_email = request.POST.get('email')
         new_username = request.POST.get('username')
         if (User.objects.filter(username=new_username).exists() and new_username != user.username) or \
-                (User.objects.filter(email=new_email).exists() and new_email != user.email):
-
+           (User.objects.filter(email=new_email).exists() and new_email != user.email):
             return JsonResponse({'success': False, 'message': 'Error: Username or email already exists!!'})
         else:
-            request.user.username = new_username
-            request.user.email = new_email
-            request.user.save()
+            user.username = new_username
+            user.email = new_email
+            user.save()
+            
             if not form.errors:
                 form.save()
 
                 if avatar is not None:
+
+              
+=======
                     # Assuming 'static' is at your Django project root level
                     user_pic_dir = os.path.join('static', 'media', 'userpic')
                     os.makedirs(user_pic_dir, exist_ok=True)  # Make sure the directory exists
 
                     with open(os.path.join(user_pic_dir, f"{request.user.id}.jpg"), 'wb+') as f:
+
                         for chunk in avatar.chunks():
                             f.write(chunk)
-                form.save()
+
+                # Create and save a notification
+                create_notification(user, "Profile Update", "Your profile has been updated successfully.")
+
                 return JsonResponse({'success': True, 'message': 'Modified successfully.'})
             else:
                 return JsonResponse({'success': False, 'message': 'Incorrect format!!!'})
     return redirect(user_profile, context)
+
 
 
 def upload_avatar(request):
@@ -175,6 +190,54 @@ def check_avatar(request):
     if request.method == 'GET':
         user_id = request.user.id
 
+
+    tasks_json = json.dumps(tasks_for_calendar)
+    return render(request, 'calendar.html', {'tasks_json': tasks_json})
+
+@login_required
+def notification_view(request):
+    notifications = Notification.objects.filter(user=request.user, is_read=False)
+    context = {
+        'notifications': notifications
+    }
+    return render(request, 'notification.html', context)
+
+
+
+def get_notifications(request):
+    if request.user.is_authenticated:
+        notifications = Notification.objects.filter(user=request.user, is_read=False)
+        return JsonResponse({"notifications": list(notifications.values())})
+    else:
+        return JsonResponse({"error": "User not authenticated"}, status=401)
+
+@login_required
+def fetch_notifications(request):
+    if not request.user.is_authenticated:
+        return JsonResponse({'error': 'Authentication required'}, status=401)
+    notifications = Notification.objects.filter(user=request.user, is_read=False)
+    return JsonResponse({'notifications': list(notifications.values())})
+
+
+def mark_notification_read(request, notification_id):
+    try:
+        notification = Notification.objects.get(id=notification_id, user=request.user)
+        notification.is_read = True
+        notification.save()
+        return JsonResponse({'status': 'success'})
+    except Notification.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Notification not found'}, status=404)
+
+@login_required
+@require_POST
+def clear_notifications(request):
+    request.user.notifications.filter(is_read=True).delete()
+    return JsonResponse({'status': 'success'})
+
+def create_notification(user, title, message):
+    notification = Notification(user=user, title=title, message=message)
+    notification.save()
+=======
         if str(user_id)+'.jpg' in os.listdir('./static/media/UserPic/'):
             return JsonResponse({'success': True})
         else:
@@ -182,3 +245,4 @@ def check_avatar(request):
         
 def my_custom_404_view(request, exception):
     return render(request, '404.html', {}, status=404)
+

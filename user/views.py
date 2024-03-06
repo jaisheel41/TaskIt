@@ -4,12 +4,16 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
 from django.http import JsonResponse
 from django.contrib.auth.models import User
+
+from Task.views import create_notification
+
 from .models import Profile
 import random
 from django.http import HttpResponse
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
 from .forms import CustomPasswordChangeForm
+
 
 
 def index(request):
@@ -103,9 +107,12 @@ def change_password(request):
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)
+
+            # Create and save a notification
+            create_notification(user, "Password Change", "Your password has been successfully changed.")
+
             return JsonResponse({'success': True})
         else:
-            # Collect the errors into a list (or any other structure you see fit)
             errors = list(form.errors.values())
             return JsonResponse({'success': False, 'error': errors}, status=400)
     else:
