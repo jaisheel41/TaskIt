@@ -21,3 +21,16 @@ class CustomUser(AbstractUser):
     # Add related_name parameters to avoid clashes with auth.User
     groups = models.ManyToManyField('auth.Group', related_name='custom_user_set')
     user_permissions = models.ManyToManyField('auth.Permission', related_name='custom_user_set')
+
+class Notification(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100, null=True) 
+    message = models.TextField()
+    is_read = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+
+

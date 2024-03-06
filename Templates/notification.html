@@ -1,0 +1,23 @@
+{% load static %}
+
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- 通知內容 -->
+<div class="notification-content">
+    <!-- 這裡可以新增通知相關的內容和邏輯 -->
+</div>
+
+<div id="notification-popup">
+    <div class="notification-header">
+        <h4>Notifications</h4>
+    </div>
+    <div class="notification-body" id="notification-items">
+        <!-- 通知項目將被動態加入這裡 -->
+    </div>
+    <button id="clear-notifications-btn">Clear All</button>
+</div>
+{% endblock %}
+
+<!-- 加入 JavaScript -->
+<script src="{% static 'js/pages/notification.js' %}"></script>

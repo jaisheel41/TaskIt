@@ -1,6 +1,14 @@
 from django.urls import path
 from Task import views
 from .views import get_task_status
+from .views import notification_view
+from .views import get_notifications
+from .views import fetch_notifications, mark_notification_read
+from . import views
+from .views import clear_notifications
+
+
+
 
 app_name = 'task'
 urlpatterns = [
@@ -13,4 +21,11 @@ urlpatterns = [
     path('user/profile/', views.user_profile, name='user_profile'),
     path('user/profilesv/', views.profilesv, name='profilesv'),
     path('calendar/', views.calendar_view, name='calendar'),
+    path('notifications/', notification_view, name='notifications'),
+    # path('notifications/', get_notifications, name='notifications'),
+    path('notifications/fetch/', views.fetch_notifications, name='fetch_notifications'),
+    path('notifications/read/<int:notification_id>/', mark_notification_read, name='mark_notification_read'),
+    path('notifications/clear/', clear_notifications, name='clear_notifications'),
+
+
 ]
