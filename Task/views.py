@@ -246,3 +246,81 @@ def create_notification(user, title, message):
 def my_custom_404_view(request, exception):
     return render(request, '404.html', {}, status=404)
 
+
+
+def projectmanagement(request):
+    if not request.user.is_authenticated:
+        return redirect('signIn')
+
+    users = User.objects.all()  # Get all user objects
+    projects = Project.objects.filter(users=request.user)  # Replace with your actual query to get projects
+
+    # Pass both users and projects to the template context
+    context = {
+        'users': users,
+        'projects': projects,
+    }
+
+    return render(request, 'projectmanagement.html', context)
+
+
+def user_list(request):
+    users = User.objects.all().values_list('id', flat=True)  # 获取所有用户的ID
+    return JsonResponse(list(users), safe=False)
+
+
+@csrf_exempt
+def create_project(request):
+    if request.method == 'POST':
+        # Get the form data
+        project_name = request.POST.get('project_name')
+        project_description = request.POST.get('project_description')
+        #project_details = request.POST.get('project_details')
+
+        # Handle multi-selected users
+        user_ids = [value for key, value in request.POST.items() if key.startswith('project_users_')]
+
+        # Create a project instance
+        project = Project(
+            project_name=project_name,
+            project_description=project_description,
+            #project_details=project_details,
+        )
+        project.save()
+
+        user_ids = [value for key, value in request.POST.items() if key.startswith('project_users_')]
+        for user_id in user_ids:
+            user = User.objects.get(pk=user_id)
+            project.users.add(user)
+
+        project.save()
+        # TODO: Add users to the project (update your project model accordingly)
+
+        return JsonResponse({'status': 'success'})
+    else:
+        # Handle non-POST requests here
+        return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
+
+
+# Update Project
+@login_required
+@require_POST
+def update_project(request, project_id):
+    project = get_object_or_404(Project, pk=project_id, users=request.user)  # Ensure the user has access
+    form = ProjectForm(request.POST or None, instance=project)
+    if form.is_valid():
+        updated_project = form.save(commit=False)
+        updated_project.save()
+        form.save_m2m()  # Save many-to-many data for the form
+        project_data = model_to_dict(updated_project, fields=[field.name for field in updated_project._meta.fields])
+        return JsonResponse({'status': 'success', 'project': project_data})
+    else:
+        return JsonResponse({'status': 'error', 'errors': form.errors})
+
+# Delete Project
+@login_required
+@require_POST
+def delete_project(request, project_id):
+    project = get_object_or_404(Project, id=project_id, users=request.user)
+    project.delete()
+    return JsonResponse({'status': 'success'})

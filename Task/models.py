@@ -32,5 +32,14 @@ class Notification(models.Model):
     def __str__(self):
         return self.title
 
+class Project(models.Model):
+    project_name = models.CharField(max_length=255)
+    project_description = models.TextField()
+    creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
+    # Assuming you are using Django's built-in User model
+    users = models.ManyToManyField(User, related_name='projects')
+
+    def __str__(self):
+        return self.project_name
 

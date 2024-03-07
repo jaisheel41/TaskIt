@@ -20,3 +20,10 @@ class AvatarUploadForm(forms.ModelForm):
     class Meta:
         model = CustomUser
         fields = ['avatar']
+
+class ProjectForm(forms.ModelForm):
+    class Meta:
+        model = Project
+        fields = ['project_name', 'project_description']  # List all fields you want from the model
+        # Optionally, you can exclude fields, but it's generally safer to explicitly list all fields you want to include.
+        # exclude = ['field_to_exclude']
