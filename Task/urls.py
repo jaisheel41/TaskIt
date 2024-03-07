@@ -34,4 +34,9 @@ urlpatterns = [
     path('project/delete/<int:project_id>/', views.delete_project, name='delete-project'),
 
     path('users/list/', views.user_list, name='user_list'),
+    
+    path('project/<uuid:project_uuid>/', views.project_task_list, name='project-task-list'),
+    path('project/<uuid:project_uuid>/create/', views.create_project_task, name='create-project-task'),
+    path('project/<uuid:project_uuid>/update/<int:project_task_id>/', views.update_project_task, name='update-project-task'),
+    path('project/<uuid:project_uuid>/delete/<int:project_task_id>/', views.delete_project_task, name='delete-project-task'),
 ]

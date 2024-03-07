@@ -7,7 +7,7 @@ from .models import PersonalTask
 from django.views.decorators.http import require_POST
 from django.views.decorators.http import require_http_methods
 import json
-from .forms import PersonalTaskForm
+from .forms import PersonalTaskForm, ProjectTaskForm
 from django.shortcuts import get_object_or_404
 from django.forms.models import model_to_dict
 from django.views.decorators.http import require_POST
@@ -20,6 +20,7 @@ from .models import Notification
 from django.views.decorators.csrf import csrf_exempt
 from .models import Project
 from .forms import ProjectForm
+from .models import ProjectTask
 
 # Create your views here.
 
@@ -169,10 +170,11 @@ def upload_avatar(request):
 def check_avatar(request):
     if request.method == 'GET':
         user_id = request.user.id
-
-
-    tasks_json = json.dumps(tasks_for_calendar)
-    return render(request, 'calendar.html', {'tasks_json': tasks_json})
+        
+        if str(user_id)+'.jpg' in os.listdir('./static/media/UserPic/'):
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False})
 
 @login_required
 def notification_view(request):
@@ -217,10 +219,6 @@ def clear_notifications(request):
 def create_notification(user, title, message):
     notification = Notification(user=user, title=title, message=message)
     notification.save()
-    if str(user_id)+'.jpg' in os.listdir('./static/media/UserPic/'):
-        return JsonResponse({'success': True})
-    else:
-        return JsonResponse({'success': False})
         
 def my_custom_404_view(request, exception):
     return render(request, '404.html', {}, status=404)
@@ -302,4 +300,55 @@ def update_project(request, project_id):
 def delete_project(request, project_id):
     project = get_object_or_404(Project, id=project_id, users=request.user)
     project.delete()
+    return JsonResponse({'status': 'success'})
+
+
+def project_task_list(request, project_uuid):
+    if not request.user.is_authenticated:
+        return redirect('signIn')
+    
+    if not Project.objects.get(uuid=project_uuid):
+        return redirect('task:homepage')
+    
+    context_dict = {}
+    tasks = ProjectTask.objects.filter(project=Project.objects.get(uuid=project_uuid))
+    context_dict.update({'tasks': tasks})
+    #context_dict.update({'header': project_id})
+    context_dict.update({'header': Project.objects.get(uuid=project_uuid).project_name})
+    context_dict.update({'uuid': project_uuid})
+    context_dict.update({'project_id': Project.objects.get(uuid=project_uuid).id})
+    return render(request, 'projecttask.html', context_dict)
+
+@require_POST
+def create_project_task(request, project_uuid):
+    form = ProjectTaskForm(request.POST)
+    if form.is_valid():
+        task = form.save(commit=False)
+        #task.user = request.user
+        task.project = Project.objects.get(uuid=project_uuid)
+        task.save()
+        return JsonResponse({'task_id': task.id})
+    else:
+        return JsonResponse({'error': form.errors}, status=400)
+    
+def update_project_task(request, project_uuid, project_task_id):
+    task = get_object_or_404(ProjectTask, pk=project_task_id, project=Project.objects.get(uuid=project_uuid))
+    if request.method == 'POST':
+        form = ProjectTaskForm(request.POST, instance=task)
+        if form.is_valid():
+            updated_task = form.save(commit=False)  # Don't commit yet
+            updated_task.status = request.POST.get('status', 0)  # Default to 0 if not provided
+            updated_task = form.save()
+            task_data = model_to_dict(updated_task)
+            task_data['end_time'] = updated_task.end_time.strftime('%b %d, %Y')
+            return JsonResponse({'task': task_data}, status=200)
+        else:
+            return JsonResponse({'error': form.errors}, status=400)
+    return JsonResponse({'error': 'Invalid request'}, status=400)
+
+@login_required
+@require_POST
+def delete_project_task(request, project_uuid, project_task_id):
+    task = get_object_or_404(ProjectTask, id=project_task_id, project=Project.objects.get(uuid=project_uuid))
+    task.delete()
     return JsonResponse({'status': 'success'})

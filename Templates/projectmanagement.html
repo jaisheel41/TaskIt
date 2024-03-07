@@ -36,7 +36,8 @@
         <div class="col-lg-4 col-md-6 mb-4">
             <div class="card project-card" data-project-id="{{ project.id }}">
                 <div class="card-body">
-                    <h5 class="card-title">{{ project.project_name }}</h5>
+                    {% url 'task:project-task-list' project.uuid as project_url %}
+                    <h5 class="card-title"><a href="{{ project_url }}">{{ project.project_name }}</a></h5>
                     <p class="card-text">{{ project.project_description }}</p>
                     <div class="d-flex justify-content-between align-items-center">
                         

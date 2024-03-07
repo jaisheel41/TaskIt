@@ -2,6 +2,7 @@ from django import forms
 from .models import PersonalTask
 from .models import CustomUser
 from .models import Project
+from .models import ProjectTask
 
 class PersonalTaskForm(forms.ModelForm):
     class Meta:
@@ -28,3 +29,8 @@ class ProjectForm(forms.ModelForm):
         fields = ['project_name', 'project_description']  # List all fields you want from the model
         # Optionally, you can exclude fields, but it's generally safer to explicitly list all fields you want to include.
         # exclude = ['field_to_exclude']
+
+class ProjectTaskForm(forms.ModelForm):
+    class Meta:
+        model = ProjectTask
+        fields = ['project', 'taskname', 'description', 'start_time', 'end_time']
