@@ -1,6 +1,7 @@
 from django import forms
 from .models import PersonalTask
 from .models import CustomUser
+from .models import Project
 
 class PersonalTaskForm(forms.ModelForm):
     class Meta:

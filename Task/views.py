@@ -17,27 +17,9 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from django.contrib.auth.models import User
 from Task.forms import UserProfileForm, AvatarUploadForm
 from .models import Notification
-
-=======
-from django.shortcuts import redirect
-from django.shortcuts import render
-from django.contrib.auth.views import LogoutView
-from django.shortcuts import render, redirect
-from django.http import JsonResponse
-from .models import PersonalTask
-from django.views.decorators.http import require_POST
-from django.views.decorators.http import require_http_methods
-
-from .forms import PersonalTaskForm
-from django.shortcuts import get_object_or_404
-from django.forms.models import model_to_dict
-from django.views.decorators.http import require_POST
-from django.contrib.auth.decorators import login_required
-from django.views.decorators.csrf import ensure_csrf_cookie
-# from django.urls import reverse_lazy
-from django.contrib.auth.models import User
-from Task.forms import UserProfileForm, AvatarUploadForm
-import os
+from django.views.decorators.csrf import csrf_exempt
+from .models import Project
+from .forms import ProjectForm
 
 # Create your views here.
 
@@ -154,9 +136,7 @@ def profilesv(request):
                 form.save()
 
                 if avatar is not None:
-
               
-=======
                     # Assuming 'static' is at your Django project root level
                     user_pic_dir = os.path.join('static', 'media', 'userpic')
                     os.makedirs(user_pic_dir, exist_ok=True)  # Make sure the directory exists
@@ -237,11 +217,10 @@ def clear_notifications(request):
 def create_notification(user, title, message):
     notification = Notification(user=user, title=title, message=message)
     notification.save()
-=======
-        if str(user_id)+'.jpg' in os.listdir('./static/media/UserPic/'):
-            return JsonResponse({'success': True})
-        else:
-            return JsonResponse({'success': False})
+    if str(user_id)+'.jpg' in os.listdir('./static/media/UserPic/'):
+        return JsonResponse({'success': True})
+    else:
+        return JsonResponse({'success': False})
         
 def my_custom_404_view(request, exception):
     return render(request, '404.html', {}, status=404)
