@@ -27,5 +27,16 @@ urlpatterns = [
     path('notifications/fetch/', views.fetch_notifications, name='fetch_notifications'),
     path('notifications/read/<int:notification_id>/', mark_notification_read, name='mark_notification_read'),
     path('notifications/clear/', clear_notifications, name='clear_notifications'),
+    
+    path('projectmanagement/', views.projectmanagement, name='projectmanagement'),
+    path('project/create/', views.create_project, name='create_project'),
+    path('project/update/<int:project_id>/', views.update_project, name='update-project'),
+    path('project/delete/<int:project_id>/', views.delete_project, name='delete-project'),
 
+    path('users/list/', views.user_list, name='user_list'),
+    
+    path('project/<uuid:project_uuid>/', views.project_task_list, name='project-task-list'),
+    path('project/<uuid:project_uuid>/create/', views.create_project_task, name='create-project-task'),
+    path('project/<uuid:project_uuid>/update/<int:project_task_id>/', views.update_project_task, name='update-project-task'),
+    path('project/<uuid:project_uuid>/delete/<int:project_task_id>/', views.delete_project_task, name='delete-project-task'),
 ]
