@@ -19,134 +19,203 @@
 .user-info-box h2 {
     font-size: 4em;
 }
-.box-wrap-1 {
-	width: 100%;
-	height: 100%;
-	display: flex  ;
-	flex-direction: column;
-	flex-wrap : wrap;
-	position: absolute;
-	align-items: center; 
 
-	.item1{
-		width: 80%;
-		height: 20%;
-	}
-	
-	.item2{
-			width: 80%;
-			height: 70%;
-		}
+.box-wrap-1 {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    position: absolute;
+    align-items: center;
+
+    .item1 {
+        width: 80%;
+        height: 20%;
+    }
+
+    .item2 {
+        width: 80%;
+        height: 70%;
+    }
 }
 
 .box-wrap-2 {
-	width: 100%;
-	height: 100%;
-	display: flex  ;
-	flex-direction: row;
-	flex-wrap : wrap;
-	justify-content: space-between;
-	align-items: center; 
-	
-	.item11{
-		width: 20%;
-		height: 100%;
-		display: flex;
-		align-items: center;
-	}
-	
-	.item12{
-			width: 80%;
-			height: 100%;
-			display: flex;
-			align-items: center;
-		}
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    
+    
+
+
+    .item12 {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+		justify-content: center;
+
+    }
 
 }
+
 .box-wrap-3 {
-	width: 100%;
-	height: 100%;
-	display: flex  ;
-	flex-direction: row;
-	flex-wrap : wrap;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    justify-content: center;
 	
-	justify-content: center;
-	.item21{
-		width: 90%;
-		height: 100%;
-		background-color: white;
-		border-radius: 10px;	
-	}
+	.item22 {
+        width: 30%;
+        height: 100%;
+        background-color: white;
+        border-radius: 10px;
+    }
+	
+    .item21 {
+        width: 60%;
+        height: 100%;
+        background-color: white;
+        border-radius: 10px;
+    }
 }
-.box-wrap-4 {
+.box-wrap-5{
 	width: 95%;
 	height: 100%;
 	
-	display: flex  ;
+	display: flex;
 	flex-direction: column;
-	flex-wrap : wrap;
+	flex-wrap: wrap;
 	margin-left: 3%;
-	gap: 10px; 
-	align-items: center; 
-	.item36{
-		width: 95%;
-		height: 3%;
-		/* background-color: black; */
+	gap: 10px;
+	align-items: center;
+	
+	
+	
+	.iteam52{
+		height: 5%;
 	}
 	
-	.item31{
+	.item51{
 		width: 95%;
-		height: 30%;
-		display: flex ;
+		height: 50%;
+		display: flex;
 		flex-direction: column;
-		gap: 2px; 
+		gap: 2px;
 		justify-content: space-between;
-		/* background-color: black; */
+		align-items: center;
 	}
-	.item32{
-		width: 95%;
-		height: 15%;
-		
-		/* background-color: palegoldenrod; */
-	}
-	.item33{
-		width: 95%;
-		height: 15%;
-		/* background-color: green; */
-	}
-	.item34{
-		width: 95%;
-		height: 15%;
-		/* background-color: blue; */
-	}
-	.item35{
-		width: 95%;
-		height: 10%;
-		/* background-color: red; */
-	}
+}
+
+.box-wrap-4 {
+    width: 95%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin-left: 3%;
+    gap: 10px;
+    align-items: center;
+
+    .item36 {
+        width: 95%;
+        height: 3%;
+        /* background-color: black; */
+    }
+
+    .item31 {
+        width: 95%;
+        height: 10%;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        justify-content: space-between;
+        align-items: center;
+        /* background-color: black; */
+    }
+
+    .item32 {
+        width: 55%;
+        height: 15%;
+
+        /* background-color: palegoldenrod; */
+    }
+
+    .item33 {
+        width: 55%;
+        height: 15%;
+        /* background-color: green; */
+    }
+
+    .item34 {
+        width: 55%;
+        height: 15%;
+        /* background-color: blue; */
+    }
+
+    .item35 {
+        display: flex;
+        justify-content: center; /* This will center-align the button horizontally */
+        align-items: center; /* This will center-align the button vertically */
+    }
 }
 
 .circle {
-		width: 100px; 
-		height: 100px;
-		border-radius: 50%; 
-		overflow: hidden; 
+/*    width: auto;
+    height: auto; */
+    border-radius: 50%;
+    overflow: hidden;
 }
-.labelsy {
-	color:#7E8299;
-	font-size: 20px;
-}
-.lavatar {
-	
-	width: 11%;
-	height: 18%;
-	position: relative;
-	background: #6993ff;
-	color: aliceblue;
-	border-radius: 5px;
-	text-align: center;
-	display: flex;
-	justify-content: center;
-	align-items: center;
 
+.labelsy {
+    color: #7E8299;
+    font-size: 20px;
+}
+
+.lavatar {
+
+    width: 40%;
+    height: 12%;
+    position: relative;
+    background: #6993ff;
+    color: aliceblue;
+    border-radius: 5px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+@media (max-width: 768px) {
+    /* Adjusts the styles when the screen width is less than or equal to 768px */
+    .box-wrap-3 {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .item21, .item22 {
+        width: 90%; /* Adjust the width as necessary */
+        height: auto; /* Height can be auto to accommodate content */
+    }
+
+    /* Ensures the user image scales down appropriately and stays at the top */
+    .box-wrap-5, .box-wrap-4 {
+        width: 90%;
+        align-items: center;
+        margin-left: 0; /* Remove margin-left to center the elements */
+    }
+
+    .item31, .item32, .item33, .item34, .item35 {
+        width: 100%; /* Full width for smaller screen */
+    }
+
+    .item51 {
+        width: 100%;
+    }
 }

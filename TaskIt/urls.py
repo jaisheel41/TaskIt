@@ -20,6 +20,7 @@ from Task import views
 from django.contrib.auth.views import LogoutView
 from django.contrib.auth import views as auth_views
 from django.urls import reverse_lazy
+from django.conf.urls import handler404
 
 from django.http import HttpResponse
 def test(request):
@@ -38,5 +39,8 @@ urlpatterns = [
     path('accounts/reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
     path('task/user/profile/', views.user_profile, name='user_profile'),
     path('task/user/profilesv/', views.profilesv, name='profilesv'),
+    path('user/check_avatar/', views.check_avatar, name='check_avatar'),
     path('chat/', include('chat.urls')),
 ]
+
+handler404 = 'Task.views.my_custom_404_view'
