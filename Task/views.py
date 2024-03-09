@@ -18,7 +18,6 @@ from django.contrib.auth.models import User
 from Task.forms import UserProfileForm, AvatarUploadForm
 from .models import Notification
 
-=======
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.contrib.auth.views import LogoutView
@@ -156,7 +155,7 @@ def profilesv(request):
                 if avatar is not None:
 
               
-=======
+
                     # Assuming 'static' is at your Django project root level
                     user_pic_dir = os.path.join('static', 'media', 'userpic')
                     os.makedirs(user_pic_dir, exist_ok=True)  # Make sure the directory exists
@@ -174,8 +173,6 @@ def profilesv(request):
                 return JsonResponse({'success': False, 'message': 'Incorrect format!!!'})
     return redirect(user_profile, context)
 
-
-
 def upload_avatar(request):
     if request.method == 'POST':
         form = AvatarUploadForm(request.POST, request.FILES, instance=request.user)
@@ -190,9 +187,10 @@ def check_avatar(request):
     if request.method == 'GET':
         user_id = request.user.id
 
-
-    tasks_json = json.dumps(tasks_for_calendar)
-    return render(request, 'calendar.html', {'tasks_json': tasks_json})
+        if str(user_id)+'.jpg' in os.listdir('./static/media/UserPic/'):
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False})
 
 @login_required
 def notification_view(request):
@@ -237,11 +235,6 @@ def clear_notifications(request):
 def create_notification(user, title, message):
     notification = Notification(user=user, title=title, message=message)
     notification.save()
-=======
-        if str(user_id)+'.jpg' in os.listdir('./static/media/UserPic/'):
-            return JsonResponse({'success': True})
-        else:
-            return JsonResponse({'success': False})
         
 def my_custom_404_view(request, exception):
     return render(request, '404.html', {}, status=404)
