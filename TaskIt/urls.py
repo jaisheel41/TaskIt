@@ -31,6 +31,8 @@ urlpatterns = [
     # path('', views.index, name='index'),
     path('test/', test),
     path('logout/', LogoutView.as_view(next_page='login'), name='logout'),
+    path('users/list/', views.user_list, name='user_list'),
+    path('project/create/', views.create_project, name='create_project'),
     path('', include('user.urls')),
     path('task/', include('Task.urls')),
     path('admin/', admin.site.urls),
@@ -40,6 +42,7 @@ urlpatterns = [
     path('task/user/profile/', views.user_profile, name='user_profile'),
     path('task/user/profilesv/', views.profilesv, name='profilesv'),
     path('user/check_avatar/', views.check_avatar, name='check_avatar'),
+    path('chat/', include('chat.urls')),
 ]
 
 handler404 = 'Task.views.my_custom_404_view'
