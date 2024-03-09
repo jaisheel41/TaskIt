@@ -19,7 +19,8 @@
 }
 
 #notification-popup {
-    position: fixed;
+    position: absolute;
+    z-index: 1001;
     bottom: 60px; 
     left: 20px;
     width: 300px;

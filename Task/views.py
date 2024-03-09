@@ -22,6 +22,26 @@ from .models import Project
 from .forms import ProjectForm
 from .models import ProjectTask
 
+from django.shortcuts import redirect
+from django.shortcuts import render
+from django.contrib.auth.views import LogoutView
+from django.shortcuts import render, redirect
+from django.http import JsonResponse
+from .models import PersonalTask
+from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_http_methods
+
+from .forms import PersonalTaskForm
+from django.shortcuts import get_object_or_404
+from django.forms.models import model_to_dict
+from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import ensure_csrf_cookie
+# from django.urls import reverse_lazy
+from django.contrib.auth.models import User
+from Task.forms import UserProfileForm, AvatarUploadForm
+import os
+
 # Create your views here.
 
 def homepage(request):
@@ -137,7 +157,9 @@ def profilesv(request):
                 form.save()
 
                 if avatar is not None:
+
               
+
                     # Assuming 'static' is at your Django project root level
                     user_pic_dir = os.path.join('static', 'media', 'userpic')
                     os.makedirs(user_pic_dir, exist_ok=True)  # Make sure the directory exists
@@ -155,8 +177,6 @@ def profilesv(request):
                 return JsonResponse({'success': False, 'message': 'Incorrect format!!!'})
     return redirect(user_profile, context)
 
-
-
 def upload_avatar(request):
     if request.method == 'POST':
         form = AvatarUploadForm(request.POST, request.FILES, instance=request.user)
@@ -170,7 +190,7 @@ def upload_avatar(request):
 def check_avatar(request):
     if request.method == 'GET':
         user_id = request.user.id
-        
+
         if str(user_id)+'.jpg' in os.listdir('./static/media/UserPic/'):
             return JsonResponse({'success': True})
         else:
