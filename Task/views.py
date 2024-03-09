@@ -191,9 +191,10 @@ def check_avatar(request):
     if request.method == 'GET':
         user_id = request.user.id
 
-
-    tasks_json = json.dumps(tasks_for_calendar)
-    return render(request, 'calendar.html', {'tasks_json': tasks_json})
+        if str(user_id)+'.jpg' in os.listdir('./static/media/UserPic/'):
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False})
 
 @login_required
 def notification_view(request):
