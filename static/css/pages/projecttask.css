@@ -18,6 +18,15 @@
     border-left: 5px solid #007bff; 
 }
 
+ .card-body {
+  -webkit-box-flex: 1;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  min-height: 1px;
+  padding: 2.25rem;
+  background-color: lightblue;
+} 
+
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f4f4f9;

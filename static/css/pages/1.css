@@ -18,6 +18,15 @@
     transition: box-shadow 0.3s ease;
 }
 
+ .card-body {
+  -webkit-box-flex: 1;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  min-height: 1px;
+  padding: 2.25rem;
+  background-color: lightblue;
+} 
+
 body {
     font-family: 'Helvetica', sans-serif; /* 更改字体以适应项目管理的专业场合 */
     background-color: #e9ecef; /* 调整背景颜色以减少眼睛疲劳 */

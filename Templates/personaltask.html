@@ -26,27 +26,32 @@
         <button id="create-task-btn" class="btn btn-primary" data-toggle="modal" data-target="#create-task-modal">Create Task</button>
         {% for task in tasks %}
         <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card task-card" data-task-id="{{ task.id }}">
+            <div class="solution_card" data-task-id="{{ task.id }}">
+                <div class="hover_color_bubble"></div>
                 <div class="card-body">
-                    <h5 class="card-title">{{ task.taskname }}</h5>
-                    <p class="card-text">{{ task.description }}</p>
-                    <small class="card-text card-deadline">Deadline: {{ task.end_time|date:"M d, Y" }}</small>
-                    <div class="progress">
-                        <div class="progress-bar" role="progressbar" style="width: {{ task.status }}%;" aria-valuenow="{{ task.status }}" aria-valuemin="0" aria-valuemax="100">{{ task.status }}%</div>
+                    <div class="so_top_icon">
+                        <!-- You can insert your SVG icon here -->
                     </div>
-                    <div class="task-actions">
-                        <!-- <button type="button" class="btn btn-icon btn-edit" data-toggle="modal" data-target="#editTaskModal-{{ task.id }}"><i class="fas fa-edit"></i></button>
-                         -->
-                         <button type="button" class="btn btn-icon btn-edit" data-toggle="modal" data-target="#editTaskModal-{{ task.id }}" data-task-id="{{ task.id }}" data-task-progress="{{ task.status }}">
-                            <i class="fas fa-edit"></i>
-                          </button>
-                        <!-- Delete Button -->
-                            <!-- <a href="#" class="btn btn-icon btn-danger delete-btn" data-toggle="modal" data-target="#deleteConfirmationModal" data-task-id="{{ task.id }}"><i class="fas fa-trash-alt"></i></a> -->
+                    <div class="solu_title">
+                        <div>{{ task.taskname }}</div>
+                    </div>
+                    <div class="solu_description">
+                        <p>{{ task.description }}</p>
+                        <small class="card-text card-deadline">Deadline: {{ task.end_time|date:"M d, Y" }}</small>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: {{ task.status }}%;" aria-valuenow="{{ task.status }}" aria-valuemin="0" aria-valuemax="100">{{ task.status }}%</div>
+                        </div>
+                        <div class="task-actions">
+                            <button type="button" class="btn btn-icon btn-edit" data-toggle="modal" data-target="#editTaskModal-{{ task.id }}" data-task-id="{{ task.id }}" data-task-progress="{{ task.status }}">
+                                <i class="fas fa-edit"></i>
+                            </button>
                             <a href="#" class="btn btn-icon btn-danger btn-delete" data-task-id="{{ task.id }}"><i class="fas fa-trash-alt"></i></a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        
         <!-- Edit Task Modal -->
         <div class="modal fade" id="editTaskModal-{{ task.id }}" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
