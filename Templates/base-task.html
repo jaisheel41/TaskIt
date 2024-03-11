@@ -23,9 +23,9 @@
     <div class="nav-header">
         <!-- User Profile -->
         <div class="user-profile">
-            <img class="rounded-circle img-fluid" src="/static/media/userpic/{{user.id}}.jpg" alt="user picture">
+            <img class="rounded-circle img-fluid userImage_class" src="/static/media/userpic/{{user.id}}.jpg" alt="user picture">
         </div>
-        
+			
         <!-- Logout Button -->
         <div class="logout-area">
             <a href="{% url 'signOut' %}" class="logout-button">
@@ -40,11 +40,11 @@
             <li><a href="{% url 'task:user_profile' %}">Profile</a></li>
             <li><a href="{% url 'change_password' %}">Change Password</a></li>
             <li><a href="{% url 'task:calendar' %}">Calendar</a></li>
+			<li><a href="{% url 'aboutus' %}">About Us</a></li>
             <li><a href="#">Group</a></li>
         </ul>
     </nav>
 </div>
-
 
 
 {% block content-task %}
@@ -54,3 +54,4 @@
 
 {% block js %}
 {% endblock %}
+

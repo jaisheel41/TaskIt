@@ -42,17 +42,28 @@
 
 
 <div id="notification-bell" style="z-index: 1000;">
-    <img src="{% static 'media/images/bell_icon.png' %}" alt="Notification Bell" onclick="toggleNotifications()">
+		<img src="{% static 'media/images/bell_icon.png' %}" alt="Notification Bell" onclick="toggleNotifications()">
+</div>
+
+<div id="notification-belle" style="z-index: 1000;">
+		<img src="{% static 'media/images/query.png' %}" alt="Notification Bele" onclick="aboutthispage()">
 </div>
 
 <div id="notification-popup" style="display: none;">
     <!-- 這裡將通過 JavaScript 動態加載通知內容 -->
 </div>
-
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+	<p><strong style="font-size: 25px;">About Page</strong></p>
+    <p id="aboutmsg">This is a custom modal dialog. You can put any content here.</p>
+  </div>
+</div>
 
 
 <!--begin::Global Config(global config for global JS scripts)-->
-<script>var KTAppSettings = {
+<script>
+	var KTAppSettings = {
     "breakpoints": {"sm": 576, "md": 768, "lg": 992, "xl": 1200, "xxl": 1200},
     "colors": {
         "theme": {
@@ -103,7 +114,94 @@
         }
     },
     "font-family": "Poppins"
-};</script>
+};
+
+checkAvatarExists();
+function checkAvatarExists() {
+
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET", "{% url 'check_avatar' %}", true);
+	xhr.onreadystatechange = function () {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			var jsonResponse = JSON.parse(xhr.responseText);
+
+			var userImage_elements_w = document.querySelectorAll('.userImage_class');
+			
+			if (jsonResponse.success){
+				for (var er = 0; er < userImage_elements_w.length; er++) {
+					userImage_elements_w[er].src = "/static/media/userpic/{{user.id}}.jpg";
+					
+				};
+				
+			}else{
+				for (var i = 0; i < userImage_elements_w.length; i++) {
+					userImage_elements_w[i].src = "{% static 'media/images/placeholder.png' %}";
+				};
+			}
+		}
+	};
+	xhr.send();
+
+};
+
+function aboutthispage (){
+	
+	const aboutDict = {
+		'/aboutus/': 'The introduction page contains an introduction to the product and the development team.', 
+        '/homepage/': 'The main page contains interfaces for team project management and personal project management.',
+        '/task/user/profile/': 'This profile page can display and edit user information, including avatar, email address and nickname.',
+        '/change-password/': 'This page provides the function of changing the password.',
+        '/task/calendar/': 'This page references a third-party calendar and can display added projects.',
+        '/task/personaltask/': 'This page provides the functionality to view and edit personal task progress.',
+        '/task/projectmanagement/': 'This page provides the functionality to view and edit team project progress, and select members for projects.',
+        
+		b: 2, 
+		c: 3,
+	};
+		
+	console.log(aboutDict[currentPath]);
+		
+	var currentPath = window.location.pathname;
+	var paragraph = document.getElementById("aboutmsg");
+	if (aboutDict[currentPath]!=undefined){
+		try {
+		  paragraph.textContent = aboutDict[currentPath];
+		  
+		  openModal();
+		} catch (error) {
+		  
+		  paragraph.textContent = "No About.";
+		  openModal();
+		}
+	}else{
+		paragraph.textContent = "No About.";
+		openModal();
+	}
+};
+
+
+// JavaScript 代码
+var modal = document.getElementById("myModal");
+
+// 打开弹框函数
+function openModal() {
+	modal.style.display = "block";
+}
+
+// 关闭弹框函数
+function closeModal() {
+	modal.style.display = "none";
+}
+
+// 当用户点击弹框外部区域时关闭弹框
+window.onclick = function(event) {
+	if (event.target == modal) {
+		modal.style.display = "none";
+	}
+}
+
+
+</script>
 <!--end::Global Config-->
 
 <!--begin::Global Theme Bundle(used by all pages)-->
