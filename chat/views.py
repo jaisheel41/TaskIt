@@ -23,7 +23,7 @@ def chat(request, room_name):
             message = {
                 "type": "chat_message",
                 "username": log.user.username,
-                "time": log.time.strftime(r"%Y%m%d%H%M%S"),
+                "time": log.time.strftime(r"%Y%m%d%H%M%S%f"),
                 "message": log.message
             }
             chat_log_texts.update({str(log.id): message})
@@ -115,7 +115,6 @@ def get_chat_message_log(room_name, last_timestamp):
             }
             id_text = str(log.id)
             chat_log_texts.update({id_text: message})
-        
         return chat_log_texts
     except ChatRoom.DoesNotExist:
         return None

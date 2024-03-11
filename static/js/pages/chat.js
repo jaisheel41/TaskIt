@@ -184,8 +184,8 @@ function showMessage(data) {
 
 function handleReturnMessage(data) {
     for (let key in data) {
+        lastTimeStamp = data[key].time;
         showMessage(data[key]);
-        lastTimeStamp = data[key].time
     }
 }
 
@@ -283,6 +283,8 @@ function displayTypingStatus() {
     };
     area.textContent = text;
 }
+
+handleReturnMessage(chatLog);
 
 setTimeout(() => {
     refresh();
