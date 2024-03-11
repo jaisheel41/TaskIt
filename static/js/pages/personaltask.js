@@ -133,9 +133,16 @@ function getCSRFToken() {
 }
 
 function updateTaskCard(task, taskId) {
-    const taskCard = document.querySelector('.task-card[data-task-id="' + taskId + '"]');
-    taskCard.querySelector('.card-title').textContent = task.taskname;
-    taskCard.querySelector('.card-text').textContent = task.description;
+    // Query the card using the updated class name and data attribute
+    const taskCard = document.querySelector('.solution_card[data-task-id="' + taskId + '"]');
+    
+    // Update the task name
+    taskCard.querySelector('.solu_title div').textContent = task.taskname;
+    
+    // Update the task description
+    taskCard.querySelector('.solu_description p').textContent = task.description;
+    
+    // Format and update the task deadline
     const deadlineDate = new Date(task.end_time); // Assuming 'end_time' is in ISO format
     const formattedDate = deadlineDate.toLocaleDateString('en-US', {
         year: 'numeric', 
@@ -144,13 +151,33 @@ function updateTaskCard(task, taskId) {
     });
     taskCard.querySelector('.card-deadline').textContent = 'Deadline: ' + formattedDate;
 
+    // Update the progress bar
     const progressBar = taskCard.querySelector('.progress-bar');
     progressBar.style.width = task.status + '%';
     progressBar.setAttribute('aria-valuenow', task.status);
     progressBar.textContent = task.status + '%';
-    // taskCard.querySelector('.card-deadline').textContent = 'Deadline: ' + new Date(task.end_time).toLocaleDateString();
-    // Update other task card elements as needed
 }
+
+
+// function updateTaskCard(task, taskId) {
+//     const taskCard = document.querySelector('.task-card[data-task-id="' + taskId + '"]');
+//     taskCard.querySelector('.card-title').textContent = task.taskname;
+//     taskCard.querySelector('.card-text').textContent = task.description;
+//     const deadlineDate = new Date(task.end_time); // Assuming 'end_time' is in ISO format
+//     const formattedDate = deadlineDate.toLocaleDateString('en-US', {
+//         year: 'numeric', 
+//         month: 'short', 
+//         day: 'numeric'
+//     });
+//     taskCard.querySelector('.card-deadline').textContent = 'Deadline: ' + formattedDate;
+
+//     const progressBar = taskCard.querySelector('.progress-bar');
+//     progressBar.style.width = task.status + '%';
+//     progressBar.setAttribute('aria-valuenow', task.status);
+//     progressBar.textContent = task.status + '%';
+//     // taskCard.querySelector('.card-deadline').textContent = 'Deadline: ' + new Date(task.end_time).toLocaleDateString();
+//     // Update other task card elements as needed
+// }
 
 // document.addEventListener('DOMContentLoaded', function() {
 //     const editButtons = document.querySelectorAll('.save-edit-btn');

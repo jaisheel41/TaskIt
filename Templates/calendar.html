@@ -40,7 +40,9 @@
       info.el.style.backgroundColor = color;
 
       // Update tooltip content
-      var tooltipContent = `${info.event.extendedProps.description}<br>Progress: ${status}%`;
+      var taskType = info.event.extendedProps.type;
+      var tooltipContent = `<strong>${taskType} Task</strong><br>${info.event.extendedProps.description}<br>Progress: ${status}%`;
+      // var tooltipContent = `${info.event.extendedProps.description}<br>Progress: ${status}%`;
       $(info.el).tooltip({
         title: tooltipContent,
         placement: 'top',

@@ -8,6 +8,30 @@
     gap: 15px;
 }
 
+.btn-edit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px; /* Circular shape */
+    background-color: #007bff; /* Blue background */
+    color: white; /* White icon */
+    border: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional: Adds a subtle shadow */
+    transition: background-color 0.3s, color 0.3s; /* Transition for background and color */
+}
+
+.btn-edit:hover, .btn-edit:focus, .solution_card:hover .btn-edit {
+    background-color: white; /* White background on hover/focus */
+    color: #007bff; /* Blue icon on hover/focus */
+    text-decoration: none; /* Removes underline text decoration if any */
+}
+
+.btn-edit i {
+    font-size: 1rem; /* Adjust icon size as needed */
+}
+
 .task-card {
     flex: 0 0 calc(33.333% - 15px);
     margin-bottom: 8px;
@@ -194,3 +218,60 @@ body {
 .modal-footer {
     border-top: 1px solid #e9ecef;
 }
+
+.solution_card {
+    background: #fff;
+    box-shadow: 0 2px 4px 0 rgba(136, 144, 195, 0.2),
+    0 5px 15px 0 rgba(37, 44, 97, 0.15);
+    border-radius: 15px;
+    margin: 8px;
+    padding: 10px 15px;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    min-height: 265px;
+    transition: 0.7s;
+}
+
+.solution_card:hover {
+    background: #309df0;
+    color: #fff;
+    transform: scale(1.1);
+    z-index: 9;
+}
+
+.hover_color_bubble {
+    position: absolute;
+    background: rgb(54 81 207 / 15%);
+    width: 100rem;
+    height: 100rem;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    top: 16rem;
+    border-radius: 50%;
+    transform: rotate(-36deg);
+    left: -18rem;
+    transition: 0.7s;
+}
+
+.solution_card:hover .hover_color_bubble {
+    top: 0rem;
+}
+
+.solution_card .so_top_icon {
+    /* Style for your icon container */
+}
+
+.solution_card .solu_title div {
+    color: #212121;
+    font-size: 1.3rem;
+    margin-top: 13px;
+    margin-bottom: 13px;
+}
+
+.solution_card .solu_description p {
+    font-size: 15px;
+    margin-bottom: 15px;
+}
+

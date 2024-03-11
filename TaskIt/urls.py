@@ -43,6 +43,10 @@ urlpatterns = [
     path('task/user/profilesv/', views.profilesv, name='profilesv'),
     path('user/check_avatar/', views.check_avatar, name='check_avatar'),
     path('chat/', include('chat.urls')),
+    path('notifications/', views.notification_view, name='notifications'),
+    path('notifications/fetch/', views.fetch_notifications, name='fetch_notifications'),
+    path('notifications/read/<int:notification_id>/', views.mark_notification_read, name='mark_notification_read'),
+    path('notifications/clear/', views.clear_notifications, name='clear_notifications'),
 ]
 
 handler404 = 'Task.views.my_custom_404_view'

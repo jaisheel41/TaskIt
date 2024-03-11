@@ -39,21 +39,6 @@
 {% block content %}
 {% endblock %}
 
-<div id="notification-bell" style="z-index: 1000;" onclick="toggleNotifications()">
-    <img src="{% static 'media/images/bell_icon.png' %}" alt="Notification Bell">
-    <span id="notification-count" style="background-color: red; color: white; border-radius: 50%; width: 20px; height: 20px; display: none; position: absolute; top: 0px; right: 0px; font-size: 12px; text-align: center;">0</span>
-</div>
-
-
-<!-- <div id="notification-bell" style="z-index: 1000;">
-    <img src="{% static 'media/images/bell_icon.png' %}" alt="Notification Bell" onclick="toggleNotifications()">
-</div> -->
-
-<div id="notification-popup" style="display: none;">
-</div>
-
-
-
 <!--begin::Global Config(global config for global JS scripts)-->
 <script>var KTAppSettings = {
     "breakpoints": {"sm": 576, "md": 768, "lg": 992, "xl": 1200, "xxl": 1200},
