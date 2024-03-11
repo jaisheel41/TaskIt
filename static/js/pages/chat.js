@@ -9,6 +9,7 @@ let typingStatusUsers = new Map();
 let isTyping = false;
 
 let lastTimeStamp = "";
+let refreshTimer;
 
 function getCookie(name) {
     // this function is from django documentation
@@ -64,7 +65,8 @@ $("#chat-message-submit").click(function() {
             "X-CSRFToken": csrftoken,
         },
         success: (data) => {
-            update();
+            //update();
+            refreshNow();
         },
         error: (error) => {
             console.log(error);
@@ -201,9 +203,14 @@ function refresh() {
     } else if (emptyUpdateNum > 100) {
         interval = 10.0 *1000;
     }
-    setTimeout(() => {
+    refreshTimer = setTimeout(() => {
         refresh();
     }, interval);
+}
+
+function refreshNow() {
+    clearTimeout(refreshTimer);
+    refresh();
 }
 
 function sendTypingStatus(e) {
@@ -227,7 +234,8 @@ function sendTypingStatus(e) {
                 "X-CSRFToken": csrftoken,
             },
             success: (data) => {
-                update();
+                //update();
+                refreshNow();
             },
             error: (error) => {
                 console.log(error);

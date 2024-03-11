@@ -1,11 +1,11 @@
-from datetime import datetime, timedelta
+from django.utils.timezone import now
+import datetime
 import json
 from uuid import uuid4
 
 from django.contrib.auth.models import User
 from django.http import HttpResponseBadRequest, JsonResponse
 from django.shortcuts import render
-from django.utils.timezone import now
 
 from chat.models import ChatRoom, ChatMessage, ChatTypingStatus
 
@@ -102,7 +102,7 @@ def get_chat_message_log(room_name, last_timestamp):
         if last_timestamp == "":
             chat_logs = ChatMessage.objects.filter(room=room)
         else:
-            last_datetime = datetime.strptime(last_timestamp, r"%Y%m%d%H%M%S%f")
+            last_datetime = datetime.datetime.strptime(last_timestamp, r"%Y%m%d%H%M%S%f")
             chat_logs = ChatMessage.objects.filter(room=room, time__gt=last_datetime)
             
         chat_log_texts = {}
@@ -124,7 +124,7 @@ def get_typing_status_log(room_name):
 
     try:
         room = ChatRoom.objects.get(name=room_name)
-        recently = now() - timedelta(seconds=3)
+        recently = now() - datetime.timedelta(seconds=3)
         typing_status = ChatTypingStatus.objects.filter(room=room, time__gt=recently)
 
         typing_status_texts = {}
