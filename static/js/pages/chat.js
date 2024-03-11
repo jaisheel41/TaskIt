@@ -1,43 +1,37 @@
-/**
- * Used channels tutorial https://channels.readthedocs.io/en/stable/tutorial/index.html as initial reference
- */
 
 const roomName = JSON.parse(document.getElementById('room-name').textContent);
 const thisUsername = JSON.parse(document.getElementById('username').textContent);
 const chatLog = JSON.parse(document.getElementById('chat-log').textContent);
 let messageGroupNum = 0;
 let lastUserWhoSendsMessage = null;
+let emptyUpdateNum = 0;
 let typingStatusUsers = new Map();
 let isTyping = false;
 
-console.log("chat log is: " + chatLog);
+let lastTimeStamp = "";
 
-const chatSocket = new WebSocket(
-    'ws://'
-    + window.location.host
-    + '/ws/chat/'
-    + roomName
-    + '/'
-);
-
-chatSocket.onmessage = function(e) {
-    const data = JSON.parse(e.data);
-    if (data.type === "chat-message") {
-        console.log("chat message received");
-        showMessage(data);
-    } else if (data.type === "typing-status") {
-        console.log("typing status received");
-        showTypingStatus(data);
+function getCookie(name) {
+    // this function is from django documentation
+    // https://docs.djangoproject.com/en/3.0/ref/csrf/#ajax
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
     }
-};
-
-chatSocket.onclose = function(e) {
-    console.error('Chat socket closed unexpectedly');
-};
+    return cookieValue;
+}
+const csrftoken = getCookie('csrftoken');
 
 document.querySelector('#chat-message-input').focus();
 
-document.querySelector('#chat-message-input').onkeyup = function(e) {
+$('#chat-message-input').keyup(function(e) {
     // for firefox ref: https://developer.mozilla.org/en-US/docs/Web/API/Element/keyup_event
     if (e.isComposing || e.keyCode == 229) {
         return;
@@ -47,20 +41,67 @@ document.querySelector('#chat-message-input').onkeyup = function(e) {
     } else {
         sendTypingStatus(e);
     };
-};
+});
 
-document.querySelector('#chat-message-submit').onclick = function(e) {
+$("#chat-message-submit").click(function() {
     const messageInputDom = document.querySelector('#chat-message-input');
     const message = messageInputDom.value;
     if (message.trim().length === 0) {
         return;
     }
-    chatSocket.send(JSON.stringify({
-        "message": message,
-        "type": "chat-message"
-    }))
+    $.ajax({
+        url: '/chat/send-message/',
+        type: "POST",
+        dataType: "json",
+        data: JSON.stringify({
+            "type": "chat_message",
+            "room": roomName,
+            "username": thisUsername,
+            "content": message
+        }),
+        headers: {
+            "X-Requested-With": "XMLHttpRequest",
+            "X-CSRFToken": csrftoken,
+        },
+        success: (data) => {
+            update();
+        },
+        error: (error) => {
+            console.log(error);
+        }
+    });
     messageInputDom.value = "";
-};
+})
+
+function update() {
+    $.ajax({
+        url: '/chat/update/',
+        type: "POST",
+        dataType: "json",
+        data: JSON.stringify({
+            "room": roomName,
+            "username": thisUsername,
+            "last-timestamp": lastTimeStamp
+        }),
+        headers: {
+            "X-Requested-With": "XMLHttpRequest",
+            "X-CSRFToken": csrftoken,
+        },
+        success: (data) => {
+            if ($.isEmptyObject(data)) {
+                emptyUpdateNum += 1;
+            } else {
+                emptyUpdateNum = 0;
+            }
+            handleReturnMessage(data['chat_message']);
+            handleReturnTypingStatus(data['typing_status']);
+        },
+        error: (error) => {
+            console.log(error);
+        }
+    });
+
+}
 
 function isOwnMessage(senderUsername) {
     if (thisUsername.toLowerCase() === senderUsername.toLowerCase()) {
@@ -115,7 +156,7 @@ function showMessage(data) {
 
     // create timestamp
     const messageTime = document.createElement("div");
-    // YYYYMMDDHHmmss
+    // YYYYMMDDHHmmss (and then ffffff)
     const hour = data.time.substring(8, 10);
     const minute = data.time.substring(10, 12);
     messageTime.appendChild(document.createTextNode(hour + ":" + minute));
@@ -139,6 +180,32 @@ function showMessage(data) {
 
 };
 
+function handleReturnMessage(data) {
+    for (let key in data) {
+        showMessage(data[key]);
+        lastTimeStamp = data[key].time
+    }
+}
+
+function handleReturnTypingStatus(data) {
+    for (let key in data) {
+        showTypingStatus(data[key]);
+    }
+}
+
+function refresh() {
+    update();
+    interval = 2.0 * 1000;
+    if (emptyUpdateNum > 60) {
+        interval = 5.0 * 1000;
+    } else if (emptyUpdateNum > 100) {
+        interval = 10.0 *1000;
+    }
+    setTimeout(() => {
+        refresh();
+    }, interval);
+}
+
 function sendTypingStatus(e) {
     const messageInputDom = document.querySelector('#chat-message-input');
     const message = messageInputDom.value;
@@ -146,9 +213,26 @@ function sendTypingStatus(e) {
         return;
     };
     if (isTyping === false) {
-        chatSocket.send(JSON.stringify({
-            "type": "typing-status"
-        }));
+        $.ajax({
+            url: '/chat/send-message/',
+            type: "POST",
+            dataType: "json",
+            data: JSON.stringify({
+                "type": "typing_status",
+                "room": roomName,
+                "username": thisUsername
+            }),
+            headers: {
+                "X-Requested-With": "XMLHttpRequest",
+                "X-CSRFToken": csrftoken,
+            },
+            success: (data) => {
+                update();
+            },
+            error: (error) => {
+                console.log(error);
+            }
+        });
         // to reduce the number of message
         isTyping = true;
         setTimeout(function() {
@@ -173,7 +257,7 @@ function showTypingStatus(data) {
     }
     timeoutID = setTimeout(function() {
         removeTypingStatus(data.username)
-    }, 2 * 1000);
+    }, 2.25 * 1000);
     typingStatusUsers.set(data.username, timeoutID);
     displayTypingStatus();
 }
@@ -192,10 +276,6 @@ function displayTypingStatus() {
     area.textContent = text;
 }
 
-function showChatHistory(log) {
-    for (const data in log) {
-        showMessage(log[data]);
-    };
-}
-
-showChatHistory(chatLog);
+setTimeout(() => {
+    refresh();
+}, "3000");

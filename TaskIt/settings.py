@@ -33,7 +33,6 @@ ALLOWED_HOSTS = ['jaisheel42.pythonanywhere.com', '127.0.0.1', 'localhost']
 # Application definition
 
 INSTALLED_APPS = [
-    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -77,17 +76,6 @@ TEMPLATES = [
 # ALLOWED_HOSTS = ['jaisheel42.pythonanywhere.com']
 
 WSGI_APPLICATION = 'TaskIt.wsgi.application'
-ASGI_APPLICATION = 'TaskIt.asgi.application'
-
-# Channels
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)]
-        }
-    }
-}
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
