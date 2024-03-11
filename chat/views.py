@@ -4,16 +4,30 @@ import json
 from uuid import uuid4
 
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseBadRequest, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.views.decorators.http import require_POST
 
 from chat.models import ChatRoom, ChatMessage, ChatTypingStatus
+from Task.models import Project
 
+@login_required
 def chat(request, room_name):
     context_dict = {}
     username = request.user.username
     context_dict["room_name"] = room_name
     context_dict["username"] = username
+
+    # Redirect if there is no project with this uuid
+    try:
+        project = Project.objects.get(uuid=room_name)
+    except Project.DoesNotExist:
+        return redirect('task:homepage')
+    
+    # Redirect if the user is not in this project
+    if not project.users.contains(request.user):
+        return redirect('task:homepage')
 
     try:
         room = ChatRoom.objects.get(name=room_name)
@@ -26,21 +40,21 @@ def chat(request, room_name):
 
     return render(request, "chat.html", context_dict)
 
+@login_required
+@require_POST
 def send_message(request):
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
 
     if is_ajax:
-        if request.method == 'POST':
-            data = json.load(request)
-            if (data["type"] == "chat_message"):
-                process_chat_message(data)
-            elif (data["type"] == "typing_status"):
-                process_typing_status(data)
-            else:
-                return JsonResponse({'status': 'Invalid request'})
+        data = json.load(request)
+        if (data["type"] == "chat_message"):
+            process_chat_message(data)
+        elif (data["type"] == "typing_status"):
+            process_typing_status(data)
+        else:
+            return JsonResponse({'status': 'Invalid request'})
 
-            return JsonResponse({'status': 'Success'})
-        return JsonResponse({'status': 'Invalid request'})
+        return JsonResponse({'status': 'Success'})
     else:
         return HttpResponseBadRequest('Invalid request')
 
@@ -64,15 +78,14 @@ def process_typing_status(message):
         typing_status.save()
     
 
+@login_required
+@require_POST
 def update(request):
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
 
     if is_ajax:
-        if request.method == 'POST':
-            data = json.load(request)
-            #to_return = process_update(data)
-            return JsonResponse(get_log(data['room'], data['last-timestamp']))
-        return JsonResponse({'status': 'Invalid request'}, status=200)
+        data = json.load(request)
+        return JsonResponse(get_log(data['room'], data['last-timestamp']))
     else:
         return HttpResponseBadRequest('Invalid request')
 
