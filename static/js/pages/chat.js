@@ -184,8 +184,11 @@ function showMessage(data) {
 
 function handleReturnMessage(data) {
     for (let key in data) {
-        lastTimeStamp = data[key].time;
+        if (data[key].time == lastTimeStamp) {
+            break;
+        }
         showMessage(data[key]);
+        lastTimeStamp = data[key].time;
     }
 }
 

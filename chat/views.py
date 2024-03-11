@@ -17,23 +17,12 @@ def chat(request, room_name):
 
     try:
         room = ChatRoom.objects.get(name=room_name)
-        chat_logs = ChatMessage.objects.filter(room=room)
-        chat_log_texts = {}
-        for log in chat_logs:
-            message = {
-                "type": "chat_message",
-                "username": log.user.username,
-                "time": log.time.strftime(r"%Y%m%d%H%M%S%f"),
-                "message": log.message
-            }
-            chat_log_texts.update({str(log.id): message})
-        
-        context_dict["chat_log"] = chat_log_texts
     except ChatRoom.DoesNotExist:
         new_room = ChatRoom(name=room_name)
         new_room.save()
         room = ChatRoom.objects.get(name=room_name)
-        context_dict["chat_log"] = None
+
+    context_dict["chat_log"] = get_chat_message_log(room_name)
 
     return render(request, "chat.html", context_dict)
 
@@ -94,7 +83,7 @@ def get_log(room_name, last_timestamp=""):
 
     return {"chat_message": chat_message, "typing_status": typing_status}
 
-def get_chat_message_log(room_name, last_timestamp):
+def get_chat_message_log(room_name, last_timestamp=""):
 
     try:
         room = ChatRoom.objects.get(name=room_name)
