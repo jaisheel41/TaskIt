@@ -198,13 +198,11 @@
 			xhr.onreadystatechange = function () {
 			    if (xhr.readyState == 4 && xhr.status == 200) {
 			        var jsonResponse = JSON.parse(xhr.responseText);
-			        
-					
-					
+
 					var userImage_elements_w = document.querySelectorAll('.userImage_class');
 					
 					// .src = "/static/media/UserPic/{{user.id}}.jpg"
-					document.getElementById('userImage').src="/static/media/userpic/{{user.id}}.jpg";
+					//document.getElementById('userImage').src="/static/media/userpic/{{user.id}}.jpg";
 					
 					
 					if (jsonResponse.success){
@@ -216,7 +214,7 @@
 						
 					}else{
 						for (var i = 0; i < userImage_elements_w.length; i++) {
-							userImage_elements_w[i].src = "{% static 'media/userpic/placeholder.png' %}";
+							userImage_elements_w[i].src = "{% static 'media/images/placeholder.png' %}";
 						};
 						
 					}
@@ -244,16 +242,12 @@
 				    
 				};
 				
-				
 				// lavatar
 				var lavatar_elements = document.querySelectorAll('.lavatar');
 				for (var i = 0; i < lavatar_elements.length; i++) {
 					lavatar_elements[i].style.width = '130px';
 					lavatar_elements[i].style.height = '16%';
 				};
-				
-				
-				
 				
 				var item31Elements = document.querySelectorAll('.box-wrap-4 .item31');
 				    item31Elements.forEach(function(element) {
