@@ -23,9 +23,11 @@
         <p>Here are your current tasks.</p>
     </div>
     <div class="row">
-        {% url 'chat:room' uuid as chat_url %}
-        <a href="{{ chat_url }}" id="chat-btn" class="btn btn-primary">Chat</a>
-        <button id="create-task-btn" class="btn btn-primary" data-toggle="modal" data-target="#create-task-modal">Create Task</button>
+        <div id="header-button-row">
+            {% url 'chat:room' uuid as chat_url %}
+            <a href="{{ chat_url }}" id="chat-btn" class="btn btn-primary">Chat</a>
+            <button id="create-task-btn" class="btn btn-primary" data-toggle="modal" data-target="#create-task-modal">Create Task</button>
+        </div>
         {% for task in tasks %}
         <div class="col-lg-4 col-md-6 mb-4">
             <div class="card task-card" data-task-id="{{ task.id }}">

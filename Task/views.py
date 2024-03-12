@@ -374,22 +374,27 @@ def delete_project(request, project_id):
     return JsonResponse({'status': 'success'})
 
 
+@login_required
 def project_task_list(request, project_uuid):
-    if not request.user.is_authenticated:
-        return redirect('signIn')
-
+    
+    # If there is no project with this uuid
     if not Project.objects.get(uuid=project_uuid):
         return redirect('task:homepage')
-
+    
+    project = Project.objects.get(uuid=project_uuid)
+    
+    # If the user is not in this project
+    if not project.users.contains(request.user):
+        return redirect('task:homepage')
+    
     context_dict = {}
     tasks = ProjectTask.objects.filter(project=Project.objects.get(uuid=project_uuid))
     context_dict.update({'tasks': tasks})
-    # context_dict.update({'header': project_id})
+
     context_dict.update({'header': Project.objects.get(uuid=project_uuid).project_name})
     context_dict.update({'uuid': project_uuid})
     context_dict.update({'project_id': Project.objects.get(uuid=project_uuid).id})
     return render(request, 'projecttask.html', context_dict)
-
 
 @require_POST
 def create_project_task(request, project_uuid):
@@ -404,22 +409,21 @@ def create_project_task(request, project_uuid):
     else:
         return JsonResponse({'error': form.errors}, status=400)
 
-
+    
+@require_POST
 def update_project_task(request, project_uuid, project_task_id):
     task = get_object_or_404(ProjectTask, pk=project_task_id, project=Project.objects.get(uuid=project_uuid))
-    if request.method == 'POST':
-        form = ProjectTaskForm(request.POST, instance=task)
-        if form.is_valid():
-            updated_task = form.save(commit=False)  # Don't commit yet
-            updated_task.status = request.POST.get('status', 0)  # Default to 0 if not provided
-            updated_task = form.save()
-            task_data = model_to_dict(updated_task)
-            task_data['end_time'] = updated_task.end_time.strftime('%b %d, %Y')
-            create_notification(request.user,"Project Task Update", f"Project Task '{task.taskname}' has been updated.")
-            return JsonResponse({'task': task_data}, status=200)
-        else:
-            return JsonResponse({'error': form.errors}, status=400)
-    return JsonResponse({'error': 'Invalid request'}, status=400)
+    form = ProjectTaskForm(request.POST, instance=task)
+    if form.is_valid():
+        updated_task = form.save(commit=False)  # Don't commit yet
+        updated_task.status = request.POST.get('status', 0)  # Default to 0 if not provided
+        updated_task = form.save()
+        task_data = model_to_dict(updated_task)
+        task_data['end_time'] = updated_task.end_time.strftime('%b %d, %Y')
+        create_notification(request.user,"Project Task Update", f"Project Task '{task.taskname}' has been updated.")
+        return JsonResponse({'task': task_data}, status=200)
+    else:
+        return JsonResponse({'error': form.errors}, status=400)
 
 
 @login_required
