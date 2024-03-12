@@ -1,0 +1,231 @@
+.container {
+    position: relative; /* Needed to position the button absolutely within */
+    padding-left: 80px; /* Adjust based on the size of your logo */
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.projects-overview {
+    clear: both; /* If the logo is floated */
+    padding-top: 60px; /* Adjust as needed */
+    margin-left: 80px;
+}
+
+.projects-overview h2 {
+    font-size: 24px; /* Adjust the size to match your design */
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #333; /* Adjust the color to match your design */
+}
+
+.projects-overview h3 {
+    font-size: 18px;
+    font-weight: normal;
+    margin-bottom: 0.5rem;
+    color: #555; /* Slightly lighter than the title for contrast */
+}
+
+.projects-overview p {
+    font-size: 16px;
+    color: #666; /* A lighter shade for the descriptive text */
+}
+
+.project-card {
+    flex: 0 0 calc(33.333% - 20px);
+    margin-bottom: 20px;
+    /*background-color: #fff;*/
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+ .card-body {
+  -webkit-box-flex: 1;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  min-height: 1px;
+  padding: 2.25rem;
+  /*background-color: lightblue;*/
+} 
+
+body {
+    font-family: 'Helvetica', sans-serif;
+    background-color: #e9ecef;
+    margin: 0;
+    padding: 20px;
+    color: #212529;
+}
+
+.project-card:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.card-title {
+    font-weight: bold;
+}
+
+.card-text {
+    margin-bottom: 0.5rem;
+}
+
+.btn-icon {
+    background: none;
+    border: none;
+    padding: 0;
+    margin-right: 0.5rem;
+}
+
+.btn-edit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px; /* Circular shape */
+    background-color: #007bff; /* Blue background */
+    color: white; /* White icon */
+    border: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional: Adds a subtle shadow */
+    transition: background-color 0.3s, color 0.3s; /* Transition for background and color */
+}
+
+.btn-edit:hover, .btn-edit:focus, .solution_card:hover .btn-edit {
+    background-color: white; /* White background on hover/focus */
+    color: #007bff; /* Blue icon on hover/focus */
+    text-decoration: none; /* Removes underline text decoration if any */
+}
+
+.btn-edit i {
+    font-size: 1rem; /* Adjust icon size as needed */
+}
+
+
+.btn-edit i, .btn-delete i {
+    color: #007bff; /* Blue icons for a consistent look */
+}
+
+.btn-edit:hover i,
+.btn-delete:hover i {
+    color: #007bff;
+}
+
+
+
+#create-project-btn {
+    position: fixed;
+    right: 300px;
+    bottom: 668px;
+    z-index: 1050;
+    font-size: 16px;
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    background-color: #007bff;
+    color: #fff;
+}
+
+#create-project-btn:hover {
+    background-color: #0056b3;
+}
+
+#project-list {
+    padding-bottom: 100px;
+}
+
+.modal-content {
+    border-radius: 8px;
+}
+
+
+input[type="text"],
+input[type="date"],
+textarea,
+select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    background-color: #fff;
+    color: #495057;
+}
+
+
+input[type="submit"],
+button[type="submit"] {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 5px;
+    border: none;
+    background-color: #28a745;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+input[type="submit"]:hover,
+button[type="submit"]:hover {
+    background-color: #218838;
+}
+
+
+
+.solution_card {
+    background: #fff;
+    box-shadow: 0 2px 4px 0 rgba(136, 144, 195, 0.2),
+    0 5px 15px 0 rgba(37, 44, 97, 0.15);
+    border-radius: 15px;
+    margin: 8px;
+    padding: 10px 15px;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    min-height: 265px;
+    transition: 0.7s;
+}
+
+.solution_card:hover {
+    background: #FFAA00;
+    color: #fff;
+    transform: scale(1.1);
+    z-index: 9;
+}
+
+.hover_color_bubble {
+    position: absolute;
+    background: rgb(54 81 207 / 15%);
+    width: 100rem;
+    height: 100rem;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    top: 16rem;
+    border-radius: 50%;
+    transform: rotate(-36deg);
+    left: -18rem;
+    transition: 0.7s;
+}
+
+.solution_card:hover .hover_color_bubble {
+    top: 0rem;
+}
+
+.solution_card .so_top_icon {
+
+}
+
+.solution_card .solu_title div {
+    color: #212121;
+    font-size: 1.3rem;
+    margin-top: 13px;
+    margin-bottom: 13px;
+}
+
+.solution_card .solu_description p {
+    font-size: 15px;
+    margin-bottom: 15px;
+}
