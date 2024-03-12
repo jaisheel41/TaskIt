@@ -197,7 +197,7 @@ button[type="submit"]:hover {
 
 .hover_color_bubble {
     position: absolute;
-    background: rgb(54 81 207 / 15%);
+    background: rgb(255 60 0 / 15%);
     width: 100rem;
     height: 100rem;
     left: 0;
