@@ -9,7 +9,7 @@ from django.http import HttpResponseBadRequest, JsonResponse
 from django.shortcuts import redirect, render
 from django.views.decorators.http import require_POST
 
-from chat.models import ChatRoom, ChatMessage, ChatTypingStatus
+from chat.models import ChatRoom, ChatMessage, ChatSeenStatus, ChatTypingStatus
 from Task.models import Project
 
 @login_required
@@ -36,6 +36,7 @@ def chat(request, room_name):
         new_room.save()
         room = ChatRoom.objects.get(name=room_name)
 
+    context_dict["project_name"] = project.project_name
     context_dict["chat_log"] = get_chat_message_log(room_name)
 
     return render(request, "chat.html", context_dict)
@@ -51,6 +52,8 @@ def send_message(request):
             process_chat_message(data)
         elif (data["type"] == "typing_status"):
             process_typing_status(data)
+        elif (data["type"] == "seen_status"):
+            process_seen_status(data)
         else:
             return JsonResponse({'status': 'Invalid request'})
 
@@ -76,7 +79,19 @@ def process_typing_status(message):
     except ChatTypingStatus.DoesNotExist:
         typing_status = ChatTypingStatus(room=room, user=user, time=now())
         typing_status.save()
+
+def process_seen_status(message):
+    user = User.objects.get(username=message["username"])
+    try:
+        chat_message = ChatMessage.objects.get(id=message["message_id"])
+    except ChatMessage.DoesNotExist:
+        return
     
+    try:
+        seen_status = ChatSeenStatus.objects.get(chat_message=chat_message, user=user)
+    except ChatSeenStatus.DoesNotExist:
+        seen_status = ChatSeenStatus(chat_message=chat_message, user=user, time=now())
+        seen_status.save()
 
 @login_required
 @require_POST

@@ -2,6 +2,29 @@
     background-color: #95C623;
 }
 
+#chat-header-area {
+    /*background-color: red;*/
+    backdrop-filter: blur(12px);
+    background-color: rgb(21, 113, 69, .1);
+    z-index: 999;
+}
+
+#chat-header-name-area {
+    text-overflow: ellipsis;
+}
+
+#chat-title a {
+    text-align: center;
+    color: #DF2935 !important;
+    transition: all 0.5s ease-in-out;
+}
+
+#chat-title:hover a {
+    background-color: #57E2E5;
+    border-radius: 50% 10%;
+    font-size: larger;
+}
+
 .message-username-tag {
     padding: 0.3em 0.5em;
 }
@@ -26,7 +49,7 @@
 #chat-message-area {
     display:block;
     width: 100vw;
-    height: 80vh;
+    height: 70vh;
     overflow-y:scroll;
     scrollbar-width: thin;
 }
