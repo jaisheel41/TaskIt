@@ -24,7 +24,6 @@ urlpatterns = [
     path('calendar/', views.calendar_view, name='calendar'),
     path('user/check_avatar/', views.check_avatar, name='check_avatar'),
     path('notifications/', notification_view, name='notifications'),
-    # path('notifications/', get_notifications, name='notifications'),
     path('notifications/fetch/', views.fetch_notifications, name='fetch_notifications'),
     path('notifications/read/<int:notification_id>/', mark_notification_read, name='mark_notification_read'),
     path('notifications/clear/', clear_notifications, name='clear_notifications'),

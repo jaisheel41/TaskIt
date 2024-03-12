@@ -23,6 +23,26 @@ from .forms import ProjectForm
 from .models import ProjectTask
 
 
+from django.shortcuts import redirect
+from django.shortcuts import render
+from django.contrib.auth.views import LogoutView
+from django.shortcuts import render, redirect
+from django.http import JsonResponse
+from .models import PersonalTask
+from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_http_methods
+
+from .forms import PersonalTaskForm
+from django.shortcuts import get_object_or_404
+from django.forms.models import model_to_dict
+from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import ensure_csrf_cookie
+# from django.urls import reverse_lazy
+from django.contrib.auth.models import User
+from Task.forms import UserProfileForm, AvatarUploadForm
+import os
+
 # Create your views here.
 
 def homepage(request):
@@ -66,6 +86,7 @@ def update_task(request, task_id):
             updated_task = form.save(commit=False)  # Don't commit yet
             updated_task.status = request.POST.get('status', 0)  # Default to 0 if not provided
             updated_task = form.save()
+            create_notification(request.user,"Task Update", f"Task '{task.taskname}' has been updated.")
             task_data = model_to_dict(updated_task)
             task_data['end_time'] = updated_task.end_time.strftime('%b %d, %Y')
             return JsonResponse({'task': task_data}, status=200)
@@ -79,6 +100,7 @@ def update_task(request, task_id):
 def delete_task(request, task_id):
     task = get_object_or_404(PersonalTask, id=task_id, user=request.user)
     task.delete()
+    create_notification(request.user,"Task Deletion", f"Task '{task.taskname}' has been deleted.")
     return JsonResponse({'status': 'success'})
 
 
@@ -95,21 +117,51 @@ def get_task_status(request, task_id):
 
 @login_required
 def calendar_view(request):
-    tasks = PersonalTask.objects.filter(user=request.user).values(
-        'id', 'taskname', 'end_time', 'status', 'description'  # Assuming 'status' is the progress percentage
+
+    personal_tasks = PersonalTask.objects.filter(user=request.user).values(
+        'id', 'taskname', 'end_time', 'status', 'description'
     )
 
-    tasks_for_calendar = [
-        {
+    project_tasks = ProjectTask.objects.filter(project__users=request.user).values(
+        'id', 'taskname', 'end_time', 'status', 'description', 'project__project_name'
+    )
+    tasks_for_calendar = []
+
+    for task in personal_tasks:
+        tasks_for_calendar.append({
             'title': task['taskname'],
             'start': task['end_time'].isoformat(),
             'allDay': True,
             'extendedProps': {
                 'description': task['description'],
-                'status': task['status']  # Progress percentage
+                'status': task['status'],
+                'type': 'Personal'
             }
-        } for task in tasks
-    ]
+        })
+
+    for task in project_tasks:
+        tasks_for_calendar.append({
+            'title': f"{task['project__project_name']}: {task['taskname']}",
+            'start': task['end_time'].isoformat(),
+            'allDay': True,
+            'extendedProps': {
+                'description': task['description'],
+                'status': task['status'],
+                'type': 'Project'
+            }
+        })
+
+    # tasks_for_calendar = [
+    #     {
+    #         'title': task['taskname'],
+    #         'start': task['end_time'].isoformat(),
+    #         'allDay': True,
+    #         'extendedProps': {
+    #             'description': task['description'],
+    #             'status': task['status']  # Progress percentage
+    #         }
+    #     } for task in tasks
+    # ]
 
     tasks_json = json.dumps(tasks_for_calendar)
     return render(request, 'calendar.html', {'tasks_json': tasks_json})
@@ -151,7 +203,6 @@ def profilesv(request):
                 form.save()
 
                 if avatar is not None:
-
                     # Assuming 'static' is at your Django project root level
                     user_pic_dir = os.path.join('static', 'media', 'userpic')
                     os.makedirs(user_pic_dir, exist_ok=True)  # Make sure the directory exists
@@ -184,6 +235,7 @@ def upload_avatar(request):
 def check_avatar(request):
     if request.method == 'GET':
         user_id = request.user.id
+
 
         if str(user_id) + '.jpg' in os.listdir('./static/media/UserPic/'):
             return JsonResponse({'success': True})
@@ -241,7 +293,6 @@ def create_notification(user, title, message):
 def my_custom_404_view(request, exception):
     return render(request, '404.html', {}, status=404)
 
-
 def projectmanagement(request):
     if not request.user.is_authenticated:
         return redirect('signIn')
@@ -289,7 +340,7 @@ def create_project(request):
 
         project.save()
         # TODO: Add users to the project (update your project model accordingly)
-
+        create_notification(request.user, "Project Creation", f"Project '{project.project_name}' has been created.")
         return JsonResponse({'status': 'success'})
     else:
         # Handle non-POST requests here
@@ -307,6 +358,7 @@ def update_project(request, project_id):
         updated_project.save()
         form.save_m2m()  # Save many-to-many data for the form
         project_data = model_to_dict(updated_project, fields=[field.name for field in updated_project._meta.fields])
+        create_notification(request.user,"Project Update", f"Project '{project.project_name}' has been updated.")
         return JsonResponse({'status': 'success', 'project': project_data})
     else:
         return JsonResponse({'status': 'error', 'errors': form.errors})
@@ -317,6 +369,7 @@ def update_project(request, project_id):
 @require_POST
 def delete_project(request, project_id):
     project = get_object_or_404(Project, id=project_id, users=request.user)
+    create_notification(request.user,"Project Deletion", f"Project '{project.project_name}' has been deleted.")
     project.delete()
     return JsonResponse({'status': 'success'})
 
@@ -346,6 +399,7 @@ def create_project_task(request, project_uuid):
         # task.user = request.user
         task.project = Project.objects.get(uuid=project_uuid)
         task.save()
+        create_notification(request.user,"Project Task Creation", f"Project Task '{task.taskname}' has been created.")
         return JsonResponse({'task_id': task.id})
     else:
         return JsonResponse({'error': form.errors}, status=400)
@@ -361,6 +415,7 @@ def update_project_task(request, project_uuid, project_task_id):
             updated_task = form.save()
             task_data = model_to_dict(updated_task)
             task_data['end_time'] = updated_task.end_time.strftime('%b %d, %Y')
+            create_notification(request.user,"Project Task Update", f"Project Task '{task.taskname}' has been updated.")
             return JsonResponse({'task': task_data}, status=200)
         else:
             return JsonResponse({'error': form.errors}, status=400)
@@ -372,4 +427,5 @@ def update_project_task(request, project_uuid, project_task_id):
 def delete_project_task(request, project_uuid, project_task_id):
     task = get_object_or_404(ProjectTask, id=project_task_id, project=Project.objects.get(uuid=project_uuid))
     task.delete()
+    create_notification(request.user,"Project Task Deletion", f"Project Task '{task.taskname}' has been deleted.")
     return JsonResponse({'status': 'success'})

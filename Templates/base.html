@@ -39,28 +39,6 @@
 {% block content %}
 {% endblock %}
 
-
-
-<div id="notification-bell" style="z-index: 1000;">
-		<img src="{% static 'media/images/bell_icon.png' %}" alt="Notification Bell" onclick="toggleNotifications()">
-</div>
-
-<div id="notification-belle" style="z-index: 1000;">
-		<img src="{% static 'media/images/query.png' %}" alt="Notification Bele" onclick="aboutthispage()">
-</div>
-
-<div id="notification-popup" style="display: none;">
-    <!-- 這裡將通過 JavaScript 動態加載通知內容 -->
-</div>
-<div id="myModal" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeModal()">&times;</span>
-	<p><strong style="font-size: 25px;">About Page</strong></p>
-    <p id="aboutmsg">This is a custom modal dialog. You can put any content here.</p>
-  </div>
-</div>
-
-
 <!--begin::Global Config(global config for global JS scripts)-->
 <script>
 	var KTAppSettings = {

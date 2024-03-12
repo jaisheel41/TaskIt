@@ -2,6 +2,7 @@ window.toggleNotifications = toggleNotifications;
 
 document.addEventListener('DOMContentLoaded', function() {
     fetchNotifications();
+    setInterval(fetchNotifications, 30000);
 });
 
 function toggleNotifications() {
@@ -19,24 +20,76 @@ function fetchNotifications() {
         .then(response => response.json())
         .then(data => {
             displayNotifications(data.notifications);
+            updateNotificationBell(data.notifications.length);
         });
 }
 
+function updateNotificationBell(count) {
+    const bellIcon = document.getElementById("notification-count");
+    if (count > 0) {
+        bellIcon.innerText = count;
+        bellIcon.style.display = "block";
+    } else {
+        bellIcon.style.display = "none";
+    }
+}
+
+// function displayNotifications(notifications) {
+//     var notificationPopup = document.getElementById("notification-popup");
+//     notificationPopup.innerHTML = ''; // Clear previous notifications
+//     notifications.forEach(notification => {
+//         var notificationItem = document.createElement("div");
+//         notificationItem.innerHTML = notification.message;
+//         notificationItem.onclick = function() {
+//             markNotificationRead(notification.id);
+//             notificationItem.remove(); // Optionally remove the notification from the popup
+//         };
+//         notificationPopup.appendChild(notificationItem);
+//     });
+// }
+
 function displayNotifications(notifications) {
     var notificationPopup = document.getElementById("notification-popup");
-    notificationPopup.innerHTML = ''; 
-    notifications.forEach(notification => {
-        var notificationItem = document.createElement("div");
-        notificationItem.innerHTML = notification.message;
-        notificationItem.onclick = function() {
-            markNotificationRead(notification.id);
-        };
-        notificationPopup.appendChild(notificationItem);
-    });
+    notificationPopup.innerHTML = ''; // Clear previous notifications
+
+    // Check if the notifications array is empty
+    if (notifications.length === 0) {
+        // If empty, display a 'no notifications' message
+        var noNotificationsItem = document.createElement("div");
+        noNotificationsItem.classList.add("notification-item");
+        noNotificationsItem.textContent = "No Notifications Available right now";
+        notificationPopup.appendChild(noNotificationsItem);
+    } else {
+        // If not empty, display all notifications
+        notifications.forEach(notification => {
+            var notificationItem = document.createElement("div");
+            notificationItem.classList.add("notification-item");
+            notificationItem.textContent = notification.message;
+            notificationItem.onclick = function() {
+                markNotificationRead(notification.id);
+                notificationItem.remove(); // Optionally remove the notification from the popup
+            };
+            notificationPopup.appendChild(notificationItem);
+        });
+    }
+}
+
+
+// function displayNotifications(notifications) {
+//     var notificationPopup = document.getElementById("notification-popup");
+//     notificationPopup.innerHTML = ''; 
+//     notifications.forEach(notification => {
+//         var notificationItem = document.createElement("div");
+//         notificationItem.innerHTML = notification.message;
+//         notificationItem.onclick = function() {
+//             markNotificationRead(notification.id);
+//         };
+//         notificationPopup.appendChild(notificationItem);
+//     });
 
     
-    addClearButtonListener();
-}
+//     addClearButtonListener();
+// }
 
 function addClearButtonListener() {
     setTimeout(function() {
@@ -52,7 +105,9 @@ function markNotificationRead(notificationId) {
     fetch(`/notifications/read/${notificationId}/`)
         .then(response => response.json())
         .then(data => {
-            
+            if(data.status === 'success') {
+                fetchNotifications(); // Refetch to update UI
+            }
         });
 }
 

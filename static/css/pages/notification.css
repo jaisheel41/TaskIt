@@ -1,4 +1,13 @@
 
+.notification-item {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 6px;
+    text-align: center; /* Centers the text in the notification item */
+}
+
 #notification-bell {
     position: fixed;
     bottom: 10px;
@@ -13,29 +22,13 @@
     height: auto;
 }
 
-#notification-belle {
-    position: fixed;
-    bottom: 60px;
-    left: 10px;
-    cursor: pointer;
-    z-index: 1000; 
-    transition: transform 0.3s ease;
-}
-
-#notification-belle img {
-    width: 30px; 
-    height: auto;
-}
-
-#notification-belle:hover {
-    transform: scale(1.1); 
-}
 #notification-bell:hover {
     transform: scale(1.1); 
 }
 
 #notification-popup {
-    position: fixed;
+    position: absolute;
+    z-index: 1001;
     bottom: 60px; 
     left: 20px;
     width: 300px;
@@ -49,7 +42,6 @@
     display: none; 
 }
 
-/* 通知條目樣式 */
 .notification-item {
     padding: 10px;
     border-bottom: 1px solid #eee;

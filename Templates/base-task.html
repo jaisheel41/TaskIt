@@ -6,6 +6,11 @@
 <link href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" rel="stylesheet">
 <link href="{% static 'css/pages/homepage.css' %}" rel="stylesheet" type="text/css"/>
 <link href="{% static 'css/pages/base-task.css' %}" rel="stylesheet" type="text/css"/>
+<link href="{% static 'css/pages/notification.css' %}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/pages/notification.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -40,18 +45,22 @@
             <li><a href="{% url 'task:user_profile' %}">Profile</a></li>
             <li><a href="{% url 'change_password' %}">Change Password</a></li>
             <li><a href="{% url 'task:calendar' %}">Calendar</a></li>
-			<li><a href="{% url 'aboutus' %}">About Us</a></li>
-            <li><a href="#">Group</a></li>
+            <li><a href="{% url 'aboutus' %}">About Us</a></li>
+           
+
         </ul>
     </nav>
 </div>
 
+<div id="notification-bell" style="z-index: 1000;" onclick="toggleNotifications()">
+    <img src="{% static 'media/images/bell_icon.png' %}" alt="Notification Bell">
+    <span id="notification-count" style="background-color: red; color: white; border-radius: 50%; width: 20px; height: 20px; display: none; position: absolute; top: 0px; right: 0px; font-size: 12px; text-align: center;">0</span>
+</div>
+
+<div id="notification-popup" style="display: none;"></div>
 
 {% block content-task %}
     <!-- Child templates content here -->
 {% endblock %}
-{% endblock %}
 
-{% block js %}
 {% endblock %}
-

@@ -5,6 +5,7 @@
 <link href="{% static 'css/pages/1.css' %}" rel="stylesheet" type="text/css"/>
 <link href="{% static 'css/pages/homepage.css' %}" rel="stylesheet" type="text/css"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+<link href="{% static 'css/pages/base-task.css' %}" rel="stylesheet" type="text/css"/>
 {% endblock %}
 
 {% block title %}Project Task Management{% endblock %}
@@ -26,9 +27,9 @@
 {% endblock %}
 
 {% block content-task %}
-<!--begin::Project Tasks Content-->
+<!--begin::Project Content-->
 <div class="container mt-5">
-    <h2 class="text-center mb-4">Project Tasks</h2>
+    <h2 class="text-center mb-4">Project</h2>
     <div class="row">
         
         {% for project in projects %}
@@ -45,6 +46,7 @@
                             <button type="button" class="btn btn-icon btn-edit" data-toggle="modal" data-target="#editProjectModal-{{ project.id }}"><i class="fas fa-edit"></i></button>
                             <button type="button" class="btn btn-icon btn-delete" data-project-id="{{ project.id }}"><i class="fas fa-trash-alt"></i></button>
                         </div>
+                        <a href="{{ project_url }}" class="btn btn-outline-secondary float-right">Tasks</a>
                     </div>
                 </div>
             </div>
