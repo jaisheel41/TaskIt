@@ -49,6 +49,8 @@ def send_message(request):
     if is_ajax:
         data = json.load(request)
         if (data["type"] == "chat_message"):
+            if (len(data["content"]) > 2000):
+                return JsonResponse({'status': 'Too long message'})
             process_chat_message(data)
         elif (data["type"] == "typing_status"):
             process_typing_status(data)

@@ -49,6 +49,9 @@ $("#chat-message-submit").click(function() {
     const message = messageInputDom.value;
     if (message.trim().length === 0) {
         return;
+    } else if (message.trim().length > 2000) {
+        displayTooLongMessage();
+        return;
     }
     $.ajax({
         url: '/chat/send-message/',
@@ -285,6 +288,15 @@ function displayTypingStatus() {
         text = [...typingStatusUsers.keys()].join(", ") + " is typing...";
     };
     area.textContent = text;
+}
+
+function displayTooLongMessage() {
+    const area = document.getElementById("warning-message-area");
+    let text = "A message cannot be longer than 2000 characters.";
+    area.textContent = text;
+    timeoutID = setTimeout(function() {
+        area.textContent = "";
+    }, 3 * 1000);
 }
 
 handleReturnMessage(chatLog);
