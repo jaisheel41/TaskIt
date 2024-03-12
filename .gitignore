@@ -11,3 +11,4 @@ launch.json
 *.pyc
 
 *.sqlite3
+.idea/
