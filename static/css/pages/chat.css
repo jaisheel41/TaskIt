@@ -12,6 +12,14 @@
 #chat-header-name-area {
     text-overflow: ellipsis;
 }
+.fixed-bottom {
+    position: RELATIVE;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+}
+
 
 #chat-title a {
     text-align: center;

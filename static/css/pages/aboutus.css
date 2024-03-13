@@ -1,7 +1,7 @@
 @media screen and (max-width: 768px) {
     .box-wrap-4 {
         justify-content: flex-start;
-        width: auto !important; /* 修正语法错误 */
+        width: auto !important; 
     }
 
     .box-wrap-4 .item41 {
@@ -12,7 +12,7 @@
         width: 100% !important;
         height: 100%;
         /* background-color: violet; */
-        box-sizing: border-box; /* 确保宽度包括内边距和边框 */
+        box-sizing: border-box; 
     }
 
     .fisimg2 {
@@ -21,7 +21,7 @@
 
     .item321 {
         justify-content: flex-start;
-        width: 100% !important; /* 修正语法错误 */
+        width: 100% !important; 
         top: 500px !important;
     }
 

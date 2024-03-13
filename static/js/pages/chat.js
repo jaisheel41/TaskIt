@@ -328,7 +328,7 @@ function displayTypingStatus() {
 
 function displayTooLongMessage() {
     const area = document.getElementById("warning-message-area");
-    let text = "A message cannot be longer than 2000 characters.";
+    let text = "Message exceeds the maximum character limit of 2000. Please shorten your message and try again.";
     area.textContent = text;
     timeoutID = setTimeout(function() {
         area.textContent = "";

@@ -1,6 +1,6 @@
 .container {
-    position: relative; /* Needed to position the button absolutely within */
-    padding-left: 80px; /* Adjust based on the size of your logo */
+    position: relative; 
+    padding-left: 80px; 
 }
 
 .row {
@@ -11,7 +11,7 @@
 
 .projects-overview {
     clear: both; /* If the logo is floated */
-    padding-top: 60px; /* Adjust as needed */
+    padding-top: 60px; 
     margin-left: 80px;
 }
 
@@ -90,7 +90,7 @@ body {
     background-color: #007bff; /* Blue background */
     color: white; /* White icon */
     border: none;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional: Adds a subtle shadow */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
     transition: background-color 0.3s, color 0.3s; /* Transition for background and color */
 }
 

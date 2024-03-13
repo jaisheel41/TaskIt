@@ -21,6 +21,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import Project
 from .forms import ProjectForm
 from .models import ProjectTask
+import os
 
 
 from django.shortcuts import redirect
@@ -106,9 +107,7 @@ def delete_task(request, task_id):
 
 @require_http_methods(["GET"])
 def get_task_status(request, task_id):
-    # Replace 'Task' with your actual Task model
     task = get_object_or_404(PersonalTask, pk=task_id)
-    # Assuming the Task model has a field called 'status' that holds the progress
     task_status = task.status
 
     # Return the status as JSON
@@ -151,18 +150,6 @@ def calendar_view(request):
             }
         })
 
-    # tasks_for_calendar = [
-    #     {
-    #         'title': task['taskname'],
-    #         'start': task['end_time'].isoformat(),
-    #         'allDay': True,
-    #         'extendedProps': {
-    #             'description': task['description'],
-    #             'status': task['status']  # Progress percentage
-    #         }
-    #     } for task in tasks
-    # ]
-
     tasks_json = json.dumps(tasks_for_calendar)
     return render(request, 'calendar.html', {'tasks_json': tasks_json})
 
@@ -177,10 +164,6 @@ def aboutus(request):
     user = request.user
     context = {'user': user}
     return render(request, 'aboutus.html', context)
-
-
-import os
-
 
 def profilesv(request):
     user = request.user
@@ -203,9 +186,8 @@ def profilesv(request):
                 form.save()
 
                 if avatar is not None:
-                    # Assuming 'static' is at your Django project root level
                     user_pic_dir = os.path.join('static', 'media', 'userpic')
-                    os.makedirs(user_pic_dir, exist_ok=True)  # Make sure the directory exists
+                    os.makedirs(user_pic_dir, exist_ok=True)
 
                     with open(os.path.join(user_pic_dir, f"{request.user.id}.jpg"), 'wb+') as f:
 
@@ -235,8 +217,6 @@ def upload_avatar(request):
 def check_avatar(request):
     if request.method == 'GET':
         user_id = request.user.id
-
-
         if str(user_id) + '.jpg' in os.listdir('./static/media/UserPic/'):
             return JsonResponse({'success': True})
         else:
@@ -298,7 +278,7 @@ def projectmanagement(request):
         return redirect('signIn')
 
     users = User.objects.all()  # Get all user objects
-    projects = Project.objects.filter(users=request.user)  # Replace with your actual query to get projects
+    projects = Project.objects.filter(users=request.user) 
 
     # Pass both users and projects to the template context
     context = {
@@ -310,7 +290,7 @@ def projectmanagement(request):
 
 
 def user_list(request):
-    users = User.objects.all().values_list('id', flat=True)  # 获取所有用户的ID
+    users = User.objects.all().values_list('id', flat=True)  
     return JsonResponse(list(users), safe=False)
 
 
@@ -320,7 +300,6 @@ def create_project(request):
         # Get the form data
         project_name = request.POST.get('project_name')
         project_description = request.POST.get('project_description')
-        # project_details = request.POST.get('project_details')
 
         # Handle multi-selected users
         user_ids = [value for key, value in request.POST.items() if key.startswith('project_users_')]

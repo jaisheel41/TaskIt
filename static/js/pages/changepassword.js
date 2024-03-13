@@ -16,20 +16,20 @@ document.addEventListener("DOMContentLoaded", function() {
         method: 'POST',
         body: formData,
         headers: {
-          'X-CSRFToken': formData.get('csrfmiddlewaretoken') // Ensure CSRF token is included
+          'X-CSRFToken': formData.get('csrfmiddlewaretoken') 
         },
-        credentials: 'same-origin' // Include cookies in the request
+        credentials: 'same-origin' // Including cookies in the request
       })
       .then(response => response.json())
       .then(data => {
         // Check if the password change was successful
         if (data.success) {
           // Password change was successful
-          modalMessage.textContent = "Your password was successfully updated! Redirecting...";
+          modalMessage.textContent = "Password Updated Successfully! Redirecting you now...";
           modal.style.display = "block";
           // Redirect after a short delay
           setTimeout(function() {
-            window.location.href = "/"; // Replace with your homepage URL
+            window.location.href = "/";
           }, 2000); // Redirect delay in milliseconds
         } else {
           // Password change failed, show an error message
