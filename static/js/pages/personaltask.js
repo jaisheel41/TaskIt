@@ -253,6 +253,21 @@ document.addEventListener('DOMContentLoaded', function() {
         const endInputId = input.id.replace('startTime', 'endTime');
         updateMinEndDate(input, endInputId);
     });
+
+    const descriptionInputs = document.querySelectorAll('textarea[id^="taskDescription"]');
+
+    descriptionInputs.forEach(input => {
+        input.addEventListener('input', function() {
+            if (this.value.length > 200) { 
+                alert("Description cannot exceed 200 characters.");
+                this.value = this.value.substring(0, 200); 
+            }
+        });
+    });
+
+
+
+
 });
 
 function updateProgress(inputElement, taskId) {
@@ -262,3 +277,4 @@ function updateProgress(inputElement, taskId) {
     progressBar.setAttribute('aria-valuenow', progressValue);
     progressBar.textContent = progressValue + '%';
 }
+
