@@ -23,6 +23,18 @@ class ChatTypingStatus(models.Model):
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=['room', 'user'], name='unique_room_user'
+                fields=['room', 'user'], name='unique_chat_typing_status_room_user'
+            )
+        ]
+
+class ChatSeenStatus(models.Model):
+    chat_message = models.ForeignKey(ChatMessage, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    time = models.DateTimeField()
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['room', 'user'], name='unique_chat_seen_status_room_user'
             )
         ]

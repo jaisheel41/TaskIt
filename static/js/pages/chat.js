@@ -11,6 +11,8 @@ let isTyping = false;
 let lastTimeStamp = "";
 let refreshTimer;
 
+let userImages = new Map();
+
 function getCookie(name) {
     // this function is from django documentation
     // https://docs.djangoproject.com/en/3.0/ref/csrf/#ajax
@@ -48,6 +50,9 @@ $("#chat-message-submit").click(function() {
     const messageInputDom = document.querySelector('#chat-message-input');
     const message = messageInputDom.value;
     if (message.trim().length === 0) {
+        return;
+    } else if (message.trim().length > 2000) {
+        displayTooLongMessage();
         return;
     }
     $.ajax({
@@ -116,6 +121,9 @@ function isOwnMessage(senderUsername) {
 function showMessage(data) {
     const area = document.getElementById("chat-message-area");
 
+    // wrapper is user image and message group
+    let messageWrapper = null;
+
     // every message will be put in message group
     // message group will have one user name tag (if not one's own message)
     let messageGroup = null;
@@ -123,26 +131,56 @@ function showMessage(data) {
     // find if this message should be inserted into the previous message group
     if (data.username === lastUserWhoSendsMessage) {
         // this message will be inserted into the previous message group
+        messageWrapper = document.getElementById("message-wrapper-" + messageGroupNum);
         messageGroup = document.getElementById("message-group-" + messageGroupNum);
     } else {
+        messageGroupNum += 1;
+        
+        // create new message wrapper
+        messageWrapper = document.createElement("div");
+        messageWrapper.classList.add("message-wrapper");
+        messageWrapper.id = "message-wrapper-" + messageGroupNum;
+        let messageWrapperClass = "d-flex flex-column";
+
         // create new message group
         messageGroup = document.createElement("div");
-        messageGroupNum += 1;
         messageGroup.id = "message-group-" + messageGroupNum;
-        let messageGroupClass = "d-flex flex-column m-5";
+        let messageGroupClass = "d-inline-flex flex-column m-5";
 
         // determine if this is one's own message
         if (isOwnMessage(data.username) === true) {
-            messageGroupClass += " align-items-end";
+            messageWrapperClass += " align-items-end owned-message-wrapper";
+            messageGroupClass += " align-items-end owned-message-group";
         } else {
-            messageGroupClass += " align-items-start";
+            messageWrapperClass += " align-items-start not-owned-message-wrapper";
+            messageGroupClass += " align-items-start not-owned-message-group";
+
+            // create user image
+            // wrapper
+            let messageUserImageBox = document.createElement("div");
+            messageUserImageBox.classList.add("message-user-image-box");
+            messageUserImageBox.classList.add("message-user-image-box-" + data.username);
+
+            // name wrapper
+            let messageNameWrapper = document.createElement("div");
+            messageNameWrapper.classList.add("message-name-wrapper");
+
+            // image
+            let messageUserImage = document.createElement("img");
+            messageUserImage.classList.add("message-user-image");
+            messageUserImage.src = "/static/media/userpic/" + data.userid + ".jpg";
+            messageUserImageBox.appendChild(messageUserImage);
+
+            messageNameWrapper.appendChild(messageUserImageBox);
 
             // create name tag
             let messageUsernameTag = document.createElement("div");
             messageUsernameTag.classList.add("message-username-tag");
             messageUsernameTag.appendChild(document.createTextNode(data.username));
-            messageGroup.appendChild(messageUsernameTag);
+            messageNameWrapper.appendChild(messageUsernameTag);
+            messageGroup.appendChild(messageNameWrapper);
         };
+        messageWrapper.setAttribute("class", messageWrapperClass);
         messageGroup.setAttribute("class", messageGroupClass);
     }
 
@@ -175,7 +213,8 @@ function showMessage(data) {
     messageRow.appendChild(messageBox);
     messageRow.appendChild(messageTime);
     messageGroup.appendChild(messageRow);
-    area.appendChild(messageGroup);
+    messageWrapper.appendChild(messageGroup);
+    area.appendChild(messageWrapper);
 
     messageRow.scrollIntoView();
     lastUserWhoSendsMessage = data.username;
@@ -285,6 +324,15 @@ function displayTypingStatus() {
         text = [...typingStatusUsers.keys()].join(", ") + " is typing...";
     };
     area.textContent = text;
+}
+
+function displayTooLongMessage() {
+    const area = document.getElementById("warning-message-area");
+    let text = "A message cannot be longer than 2000 characters.";
+    area.textContent = text;
+    timeoutID = setTimeout(function() {
+        area.textContent = "";
+    }, 3 * 1000);
 }
 
 handleReturnMessage(chatLog);
