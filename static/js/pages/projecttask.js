@@ -260,10 +260,12 @@ function updateProgress(inputElement, taskId) {
 
 function bindDescriptionInputEvents() {
     const descriptionInputs = document.querySelectorAll('textarea[id^="taskDescription"]');
+
     descriptionInputs.forEach(input => {
         input.addEventListener('input', function() {
-            if (this.value.length > 200) {
+            if (this.value.length > 200) { 
                 alert("Description cannot exceed 200 characters.");
+                this.value = this.value.substring(0, 200); 
             }
         });
     });

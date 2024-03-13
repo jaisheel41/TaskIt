@@ -127,6 +127,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Load users into the 'Select Users' dropdown
 document.addEventListener('DOMContentLoaded', function() {
+    bindDescriptionInputEvents();
     fetch('/users/list/', { // Ensure this URL matches your route for listing users
         method: 'GET',
         headers: {
@@ -173,3 +174,16 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 });
+
+function bindDescriptionInputEvents() {
+    const descriptionInputs = document.querySelectorAll('textarea[id^="taskDescription"]');
+
+    descriptionInputs.forEach(input => {
+        input.addEventListener('input', function() {
+            if (this.value.length > 200) { 
+                alert("Description cannot exceed 200 characters.");
+                this.value = this.value.substring(0, 200); 
+            }
+        });
+    });
+}

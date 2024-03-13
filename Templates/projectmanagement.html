@@ -8,7 +8,7 @@
 <link href="{% static 'css/pages/base-task.css' %}" rel="stylesheet" type="text/css"/>
 {% endblock %}
 
-{% block title %}Project Task Management{% endblock %}
+{% block title %}Project Management{% endblock %}
 
 {% block js %}
 <script src="{% static 'js/pages/projectmanagement.js' %}"></script>
@@ -78,7 +78,7 @@
                         </div>
                         <div class="form-group">
                             <label for="projectDescription-{{ project.id }}">Description *</label>
-                            <textarea class="form-control" id="projectDescription-{{ project.id }}" name="project_description" required>{{ project.project_description }}</textarea>
+                            <textarea class="form-control" id="projectDescription-{{ project.id }}" name="project_description" required maxlength="200">{{ project.project_description }}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="projectUsers-{{ project.id }}">Select Users *</label>
@@ -125,7 +125,7 @@
                         </div>
                         <div class="form-group">
                             <label for="projectDescription">Description *</label>
-                            <textarea class="form-control" id="projectDescription" name="project_description" placeholder="Description" required></textarea>
+                            <textarea class="form-control" id="projectDescription" name="project_description" placeholder="Description" required maxlength="200"></textarea>
                         </div>
                         
                         <div class="form-group">
