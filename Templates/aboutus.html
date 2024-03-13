@@ -1,0 +1,110 @@
+{% extends 'base-task.html' %}
+{% load static %}
+
+{% block css %}
+    <link href="{% static 'css/pages/aboutus.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'css/pages/base-task.css' %}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
+{% block title %}About Us{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/pages/homepage.js' %}"></script>
+{% endblock %}
+
+{% block content-task %}
+    <!--begin::Content-->
+
+    <div class="box-wrap-1">
+        <div class="item1">
+            <div class="box-wrap-2">
+                <div class="item21"><strong style="text-align: center;font-size: 40px;"> About Us</strong></div>
+            </div>
+        </div>
+        <div class="item2">
+            <div class="box-wrap-3">
+                <div class="item31">
+                    <div class="box-wrap-4">
+                        <div class="item41">
+                            <img class="fisimg" src="/static/media/images/zhuhe2.png"/>
+                        </div>
+                        <div class="item42">
+                            <div class="box-wrap-5">
+                                <div class="item51">
+                                    <div class="item511">
+                                        <div class="lankuai"></div>
+                                    </div>
+                                    <div class="item512">
+                                        <strong style="font-size: 25px;"> About Our Product</strong>
+                                    </div>
+
+                                </div>
+                                <div class="item52">
+                                    <p>
+                                        <span class="hyphenate" style="font-size: 18px;">Our platform offers a centralized solution for task assignment and management, allowing users to effortlessly create personal tasks, initiate multiple assignments within project teams, and receive tasks allocated by project administrators.</span>
+                                    </p>
+                                    <p>
+                                        <span class="hyphenate" style="font-size: 18px;">Each project on our platform functions as a collaborative space where users can create multiple projects, manage tasks, and engage in direct communication.</span>
+                                    </p>
+                                    <p>
+                                        <span class="hyphenate" style="font-size: 18px;">The platform is designed with an interactive dashboard that showcases the deadlines in a calendar view, along with the status of all projects and individual contributions.</span>
+                                    </p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="bigdiv" class="item32">
+                    <div class="item321">
+                        <div class="bantou">
+                            <div class="box-wrap-7">
+                                <div class="item71">
+                                    <div class="item711">
+                                        <div class="lankuai2"></div>
+                                    </div>
+                                    <div class="item712">
+                                        <strong style="font-size: 25px;"> About Our Team</strong>
+                                    </div>
+                                </div>
+
+                                <div class="item72">
+                                    <p></p>
+                                    <span class="hyphenate" style="font-size: 18px;">
+        <ul>
+            <li><img src="{% static 'media/images/Sai Jaisheel Polimera.jpg' %}" alt="Sai Jaisheel Polimera" width="100"
+                     height="120"><strong>Sai Jaisheel Polimera</strong> - Project Manager</li>
+            <li><img src="{% static 'media/images/Sarida Thavornvipas.jpg' %}" alt="Sarida Thavornvipas" width="100"
+                    height="100"><strong>Sarida Thavornvipas</strong> - Lead Developer </li>
+            <li><img src="{% static 'media/images/Yi Hsiu Tsai.png' %}" alt="Yi Hsiu Tsai" width="100"
+                    height="100"><strong>Yi Hsiu Tsai</strong> - Marketing Specialist </li>
+            <li><img src="{% static 'media/images/Zhenyuan Shen.jpg' %}" alt="Zhenyuan Shen" width="100"
+                    height="120"><strong>Zhenyuan Shen</strong> - Marketing Specialist </li>
+            <li><img src="{% static 'media/images/Hanwen Liu.jpg' %}" alt="Hanwen Liu" width="100"
+                    height="100"><strong>Hanwen Liu</strong> - Marketing Specialist </li>
+            <!-- Add more members as needed -->
+        </ul>
+    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <img id="myImg" class="fisimg2" src="/static/media/images/tushan.png"
+                         style="position: relative; z-index: 1;">
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <script>
+        var img = document.getElementById("myImg");
+        var imgWidth = img.clientWidth;
+        var bigdiv = document.getElementById("bigdiv");
+        var bigdivWidth = bigdiv.clientWidth;
+        var mi = document.getElementById("midiv");
+        mi.style.width = bigdivWidth - imgWidth + 'px';
+    </script>
+    <!--end::Content-->
+{% endblock %}
