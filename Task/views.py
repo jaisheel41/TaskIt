@@ -333,15 +333,35 @@ def create_project(request):
 @login_required
 @require_POST
 def update_project(request, project_id):
-    project = get_object_or_404(Project, pk=project_id, users=request.user)  # Ensure the user has access
-    form = ProjectForm(request.POST or None, instance=project)
+    project = get_object_or_404(Project, pk=project_id, users=request.user)
+    if request.user not in project.users.all():
+        return JsonResponse({'status': 'error', 'message': 'Unauthorized'}, status=403)
+
+    form = ProjectForm(request.POST, instance=project)
     if form.is_valid():
+        # Save project info like name and description
         updated_project = form.save(commit=False)
         updated_project.save()
-        form.save_m2m()  # Save many-to-many data for the form
+        form.save_m2m()  # This might be necessary depending on your form and model setup
         project_data = model_to_dict(updated_project, fields=[field.name for field in updated_project._meta.fields])
-        create_notification(request.user,"Project Update", f"Project '{project.project_name}' has been updated.")
-        return JsonResponse({'status': 'success', 'project': project_data})
+
+        # Now handle the user associations
+        user_ids = request.POST.getlist('project_users')  # Make sure the name 'project_users' matches your form
+        project.users.clear()  # Clear existing users
+        for user_id in user_ids:
+            try:
+                user = User.objects.get(pk=user_id)
+                project.users.add(user)
+            except User.DoesNotExist:
+                pass  # You could handle this error differently if you like
+
+        # Finalize the project update
+        project.save()
+
+        # Create a notification about the update
+        create_notification(request.user, "Project Update", f"Project '{project.project_name}' has been updated.")
+
+        return JsonResponse({'status': 'success' ,'project': project_data})
     else:
         return JsonResponse({'status': 'error', 'errors': form.errors})
 
