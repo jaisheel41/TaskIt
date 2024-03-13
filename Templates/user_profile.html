@@ -24,42 +24,32 @@
         </div>
         <div class="item2">
             <div class="box-wrap-3">
-				
-				<div class="item22" id="item_win">
-					<div class="box-wrap-5">
-						<div class="iteam52"></div>
-						
-						<div class="item51">
-							<label class="labelsy win_cla">Profile Pic:</label>
-							<img id='userImage' class="circle win_cla" src=""
-								 alt="user picture">
-							<label id="label_avatar" for="id_avatar" class="lavatar win_cla">
-								Select image
-								<input type="file" id="id_avatar" name="avatar" accept="image/*"
-									   textContent="Select image" hidden>
-							</label>
-						</div>
-					</div>
-				</div>
-				
+
+                <div class="item22" id="item_win">
+                    <div class="box-wrap-5">
+                        <div class="iteam52"></div>
+
+                        <div class="item51">
+                            <label class="labelsy win_cla">Profile Pic:</label>
+                            <img id='userImage' class="circle win_cla userImage_class" src=""
+                                 alt="user picture">
+                            <label id="label_avatar" for="id_avatar" class="lavatar win_cla">
+                                Select image
+                                <input type="file" id="id_avatar" name="avatar" accept="image/*"
+                                       textContent="Select image" hidden>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="item21" id="item21_mobi">
 
                     <div class="box-wrap-4">
                         {% csrf_token %}
                         <!-- <form method="post"> -->
                         <div class="item36"></div>
-						
-                        <div class="item31">
-							<label class="labelsy mobl_cla">Sculpture:</label>
-							<img id='userImage' class="circle mobl_cla userImage_class" src=""
-								 alt="user picture">
-							<label id="label_avatar" for="id_avatar" class="lavatar mobl_cla">
-								Select image
-								<input type="file" id="id_avatar" name="avatar" accept="image/*"
-									   textContent="Select image" hidden>
-							</label>
-							
-                        </div>
+
+
                         <div class="item32">
 
                             <label class="labelsy">Username:</label>
@@ -90,8 +80,8 @@
     </div>
 
     <script>
-		checkAvatarExists();
-		check_ua();
+        checkAvatarExists();
+        check_ua();
 
         document.getElementById('id_avatar').addEventListener('change', function () {
             var input = this;
@@ -101,25 +91,27 @@
                 const reader = new FileReader();
                 reader.onload = function () {
                     const img = document.getElementById('userImage');
-					
-					var userImage_elements_w = document.querySelectorAll('.userImage_class');
-					for (var er = 0; er < userImage_elements_w.length; er++) {
-						userImage_elements_w[er].src = reader.result;
-						
-					};
-					
-					
+
+                    var userImage_elements_w = document.querySelectorAll('.userImage_class');
+                    for (var er = 0; er < userImage_elements_w.length; er++) {
+                        userImage_elements_w[er].src = reader.result;
+
+                    }
+                    ;
+
+
                     img.src = reader.result;
                 }
                 reader.readAsDataURL(file);
-				
-				var lavatar_elements = document.querySelectorAll('.lavatar');
-				for (var i = 0; i < lavatar_elements.length; i++) {
-					lavatar_elements[i].style.width = '130px';
-					lavatar_elements[i].style.height = '16%';
-					lavatar_elements[i].style.background = '#0d37a3';
-				};
-				
+
+                var lavatar_elements = document.querySelectorAll('.lavatar');
+                for (var i = 0; i < lavatar_elements.length; i++) {
+                    lavatar_elements[i].style.width = '130px';
+                    lavatar_elements[i].style.height = '16%';
+                    lavatar_elements[i].style.background = '#0d37a3';
+                }
+                ;
+
             }
         });
 
@@ -131,9 +123,7 @@
         function uploadFile() {
             var fileInput = document.getElementById('id_avatar');
             var file = fileInput.files[0];
-			
-			
-			
+
 
             var formData = new FormData();
 
@@ -191,118 +181,107 @@
             }
             return cookieValue;
         }
+
         function checkAvatarExists() {
-			
-			var xhr = new XMLHttpRequest();
-			xhr.open("GET", "{% url 'check_avatar' %}", true);
-			xhr.onreadystatechange = function () {
-			    if (xhr.readyState == 4 && xhr.status == 200) {
-			        var jsonResponse = JSON.parse(xhr.responseText);
+            var userID = "{{ user.id }}";
+            var userImage_elements_w = document.querySelectorAll('.userImage_class');
 
-					var userImage_elements_w = document.querySelectorAll('.userImage_class');
-					
-					// .src = "/static/media/UserPic/{{user.id}}.jpg"
-					//document.getElementById('userImage').src="/static/media/userpic/{{user.id}}.jpg";
-					
-					
-					if (jsonResponse.success){
-						for (var er = 0; er < userImage_elements_w.length; er++) {
-							userImage_elements_w[er].src = "/static/media/userpic/{{user.id}}.jpg";
-							
-						};
-						
-						
-					}else{
-						for (var i = 0; i < userImage_elements_w.length; i++) {
-							userImage_elements_w[i].src = "{% static 'media/images/placeholder.png' %}";
-						};
-						
-					}
-			    }
-			};
-			xhr.send();
-            
+            if (jsonResponse.success) {
+                for (var er = 0; er < userImage_elements_w.length; er++) {
+                    userImage_elements_w[er].src = "/static/media/userpic/" + userID + ".jpg";
+                }
+            } else {
+                for (var i = 0; i < userImage_elements_w.length; i++) {
+                    userImage_elements_w[i].src = "{% static 'media/images/placeholder.png' %}";
+                }
+            }
+
         };
-		
-		function check_ua(){
-			
-			var screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-			var mob_elements = document.getElementsByClassName('mobl_cla');
-			var win_elements = document.getElementsByClassName('win_cla');
-			if (screenWidth < 768) {
-				
-				//userImage
-				var userImage_elements = document.querySelectorAll('.userImage_class');
-				
-				for (var i = 0; i < userImage_elements.length; i++) {
-				    userImage_elements[i].style.width = '100px';
-				    var computedStyle = window.getComputedStyle(userImage_elements[i]);
-				    var width = computedStyle.getPropertyValue('width');
-				    userImage_elements[i].style.height = width;
-				    
-				};
-				
-				// lavatar
-				var lavatar_elements = document.querySelectorAll('.lavatar');
-				for (var i = 0; i < lavatar_elements.length; i++) {
-					lavatar_elements[i].style.width = '130px';
-					lavatar_elements[i].style.height = '16%';
-				};
-				
-				var item31Elements = document.querySelectorAll('.box-wrap-4 .item31');
-				    item31Elements.forEach(function(element) {
-				        element.style.height = '30%';
-				    });
-					
-					document.getElementById('item21_mobi').style.width='95%';
-					// document.getElementById('userImage').style.width
-				
-				    for (var i = 0; i < mob_elements.length; i++) {
-				      mob_elements[i].hidden = false;
-				    };
-					
-					
-					document.getElementById('item_win').hidden=true;
-					for (var i = 0; i < win_elements.length; i++) {
-					  win_elements[i].hidden = true;
-					};
-				
-			    
-			} else {
-				
-				//userImage
-				var userImage_elements = document.querySelectorAll('.userImage_class');
-				
-				for (var i = 0; i < userImage_elements.length; i++) {
-				    userImage_elements[i].style.width = '180px';
-				    var computedStyle = window.getComputedStyle(userImage_elements[i]);
-				    var width = computedStyle.getPropertyValue('width');
-				    userImage_elements[i].style.height = width;
-				    
-				};
-				
-				
-				var userImage_element = document.getElementById('userImage');
-				userImage_element.style.width = '60%';
-				var computedStyle = window.getComputedStyle(userImage_element);
-				var width = computedStyle.getPropertyValue('width');
-				userImage_element.style.height = width;
 
-			    
-				for (var i = 0; i < mob_elements.length; i++) {
-				  mob_elements[i].hidden = true;
-				};
-				
-				for (var i = 0; i < win_elements.length; i++) {
-				  win_elements[i].hidden = false;
-				};
-				
-				
-			    
-			}
-		}
+        function check_ua() {
 
-        
+            var screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+            var mob_elements = document.getElementsByClassName('mobl_cla');
+            var win_elements = document.getElementsByClassName('win_cla');
+            if (screenWidth < 768) {
+
+                //userImage
+                var userImage_elements = document.querySelectorAll('.userImage_class');
+
+                for (var i = 0; i < userImage_elements.length; i++) {
+                    userImage_elements[i].style.width = '100px';
+                    var computedStyle = window.getComputedStyle(userImage_elements[i]);
+                    var width = computedStyle.getPropertyValue('width');
+                    userImage_elements[i].style.height = width;
+
+                }
+                ;
+
+                // lavatar
+                var lavatar_elements = document.querySelectorAll('.lavatar');
+                for (var i = 0; i < lavatar_elements.length; i++) {
+                    lavatar_elements[i].style.width = '130px';
+                    lavatar_elements[i].style.height = '16%';
+                }
+                ;
+
+                var item31Elements = document.querySelectorAll('.box-wrap-4 .item31');
+                item31Elements.forEach(function (element) {
+                    element.style.height = '30%';
+                });
+
+                document.getElementById('item21_mobi').style.width = '95%';
+                // document.getElementById('userImage').style.width
+
+                for (var i = 0; i < mob_elements.length; i++) {
+                    mob_elements[i].hidden = false;
+                }
+                ;
+
+
+                document.getElementById('item_win').hidden = true;
+                for (var i = 0; i < win_elements.length; i++) {
+                    win_elements[i].hidden = true;
+                }
+                ;
+
+
+            } else {
+
+                //userImage
+                var userImage_elements = document.querySelectorAll('.userImage_class');
+
+                for (var i = 0; i < userImage_elements.length; i++) {
+                    userImage_elements[i].style.width = '180px';
+                    var computedStyle = window.getComputedStyle(userImage_elements[i]);
+                    var width = computedStyle.getPropertyValue('width');
+                    userImage_elements[i].style.height = width;
+
+                }
+                ;
+
+
+                var userImage_element = document.getElementById('userImage');
+                userImage_element.style.width = '60%';
+                var computedStyle = window.getComputedStyle(userImage_element);
+                var width = computedStyle.getPropertyValue('width');
+                userImage_element.style.height = width;
+
+
+                for (var i = 0; i < mob_elements.length; i++) {
+                    mob_elements[i].hidden = true;
+                }
+                ;
+
+                for (var i = 0; i < win_elements.length; i++) {
+                    win_elements[i].hidden = false;
+                }
+                ;
+
+
+            }
+        }
+
 
     </script>
     <!--end::Content-->

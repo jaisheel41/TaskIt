@@ -1,7 +1,7 @@
 @media screen and (max-width: 768px) {
     .box-wrap-4 {
         justify-content: flex-start;
-        width: auto !important; 
+        width: auto !important;
     }
 
     .box-wrap-4 .item41 {
@@ -12,7 +12,7 @@
         width: 100% !important;
         height: 100%;
         /* background-color: violet; */
-        box-sizing: border-box; 
+        box-sizing: border-box;
     }
 
     .fisimg2 {
@@ -21,13 +21,28 @@
 
     .item321 {
         justify-content: flex-start;
-        width: 100% !important; 
+        width: 100% !important;
         top: 500px !important;
     }
 
     .item72 ul li img {
         display: block;
     }
+}
+
+ul {
+    list-style-type: none; /* 移除列表项的默认样式 */
+    padding: 0; /* 移除列表的内边距 */
+}
+
+li {
+    margin-bottom: 10px; /* 添加底部间隔 */
+}
+
+/* 如果需要，你也可以添加其他样式来调整列表项的外观 */
+li img {
+    vertical-align: middle; /* 设置图像垂直居中 */
+    margin-right: 10px; /* 添加右侧间隔 */
 }
 
 
@@ -285,7 +300,7 @@
     height: 100%;
     width: auto;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
-
+    margin-top: 300px;
 
 }
 
