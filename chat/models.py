@@ -35,6 +35,6 @@ class ChatSeenStatus(models.Model):
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=['room', 'user'], name='unique_chat_seen_status_room_user'
+                fields=['chat_message', 'user'], name='unique_chat_seen_status_room_user'
             )
         ]
