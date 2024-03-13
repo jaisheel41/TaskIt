@@ -3,8 +3,8 @@
 }
 
 .container {
-    position: relative; /* Needed to position the button absolutely within */
-    padding-left: 80px; /* Adjust based on the size of your logo */
+    position: relative; 
+    padding-left: 80px; 
 }
 .row {
     display: flex;
@@ -273,7 +273,7 @@ h5:hover {
 }
 
 .modal-header {
-    background-color: #6c757d; /* A pleasant grey, you can choose any color you like */
+    background-color: #6c757d; /* A pleasant grey*/
     color: white;
 }
 

@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
   if (window.myFullCalendar) {
-    return; // If it's already initialized, do nothing
+    return;
   }
   var calendarEl = document.getElementById('calendar');
   var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -35,9 +35,9 @@ document.addEventListener('DOMContentLoaded', function () {
     },
     windowResize: function (view) {
       if (window.innerWidth < 600) {
-        calendar.changeView('listMonth'); // Use 'listMonth' view for very small screens
+        calendar.changeView('listMonth'); // Using 'listMonth' view for very small screens
       } else if (window.innerWidth < 768) {
-        calendar.changeView('timeGridDay'); // Use 'timeGridDay' view for medium-small screens
+        calendar.changeView('timeGridDay'); // Using 'timeGridDay' view for medium-small screens
       } else {
         calendar.changeView('dayGridMonth'); // Default view for larger screens
       }
