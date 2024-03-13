@@ -70,14 +70,13 @@ h5:hover {
 }
 
 .card-text {
-    display: -webkit-box;
-    margin-bottom: 1rem;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
+    display: block; /* Changed from -webkit-box to block for broader compatibility */
     overflow: hidden;
-    text-overflow: ellipsis;
     white-space: nowrap;
-  }
+    text-overflow: ellipsis;
+    margin-bottom: 1rem;
+    max-width: 100%; /* Make sure this is here to prevent overflow */
+}
   
 
 .btn-icon {

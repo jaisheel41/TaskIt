@@ -114,8 +114,6 @@ body {
     color: #007bff;
 }
 
-
-
 #create-project-btn {
     position: fixed;
     right: 300px;
@@ -228,4 +226,54 @@ button[type="submit"]:hover {
 .solution_card .solu_description p {
     font-size: 15px;
     margin-bottom: 15px;
+}
+
+.modal-footer {
+    display: flex; /* This will enable flexbox */
+    justify-content: flex-end; /* This will align the buttons to the right */
+    align-items: center; /* This will align the buttons vertically in the center */
+    gap: 10px; /* This adds space between your buttons */
+}
+
+.card-text {
+    display: block; /* Changed from -webkit-box to block for broader compatibility */
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-bottom: 1rem;
+    max-width: 100%; /* Make sure this is here to prevent overflow */
+}
+
+.pro-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 3px;
+}
+
+.pro-actions .btn {
+    flex-grow: 0;     /* Do not allow the button to grow */
+    flex-shrink: 0;   /* Do not allow the button to shrink */
+    flex-basis: auto; /* Base width on content width, set to a specific value if needed */
+}
+
+.pro-actions .btn-primary {
+    width: auto; /* Override any other width properties */
+}
+
+.procreate-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 3px;
+}
+
+.procreate-actions .btn {
+    flex-grow: 0;     /* Do not allow the button to grow */
+    flex-shrink: 0;   /* Do not allow the button to shrink */
+    flex-basis: auto; /* Base width on content width, set to a specific value if needed */
+}
+
+.procreate-actions .btn-primary {
+    width: auto; /* Override any other width properties */
 }
