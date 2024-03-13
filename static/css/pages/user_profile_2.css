@@ -132,10 +132,10 @@
 
 
 .circle {
-		width: 100px; /* 设置图片显示区域大小 */
+		width: 100px; 
 		height: 100px;
-		border-radius: 50%; /* 设置边界半径为50%，使得图片变为圆形 */
-		overflow: hidden; /* 隐藏超出部分 */
+		border-radius: 50%; 
+		overflow: hidden; 
 }
 .labelsy {
 	color:#7E8299;

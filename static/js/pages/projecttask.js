@@ -97,11 +97,11 @@ document.addEventListener('DOMContentLoaded', function() {
         var formData = new FormData(createTaskForm);
         formData.append("project", projectID);
 
-        fetch(`/task/project/${uuid}/create/`, { // Make sure this URL is correct
+        fetch(`/task/project/${uuid}/create/`, { 
             method: 'POST',
             body: formData,
             headers: {
-                'X-CSRFToken': getCookie('csrftoken') // Correctly getting the CSRF token
+                'X-CSRFToken': getCookie('csrftoken') //  getting the CSRF token
             },
             credentials: 'same-origin' // Changed from 'include' to 'same-origin'
         })
@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 alert('An error occurred, please try again');
             } else {
                 hideModal();
-                location.reload(); // Simplest approach
+                location.reload(); 
             }
         })
         .catch((error) => {
@@ -140,7 +140,7 @@ function updateTaskCard(task, taskId) {
     const taskCard = document.querySelector('.task-card[data-task-id="' + taskId + '"]');
     taskCard.querySelector('.card-title').textContent = task.taskname;
     taskCard.querySelector('.card-text').textContent = task.description;
-    const deadlineDate = new Date(task.end_time); // Assuming 'end_time' is in ISO format
+    const deadlineDate = new Date(task.end_time); 
     const formattedDate = deadlineDate.toLocaleDateString('en-US', {
         year: 'numeric', 
         month: 'short', 
@@ -152,42 +152,7 @@ function updateTaskCard(task, taskId) {
     progressBar.style.width = task.status + '%';
     progressBar.setAttribute('aria-valuenow', task.status);
     progressBar.textContent = task.status + '%';
-    // taskCard.querySelector('.card-deadline').textContent = 'Deadline: ' + new Date(task.end_time).toLocaleDateString();
-    // Update other task card elements as needed
 }
-
-// document.addEventListener('DOMContentLoaded', function() {
-//     const editButtons = document.querySelectorAll('.save-edit-btn');
-
-//     editButtons.forEach(button => {
-//         button.addEventListener('click', function(event) {
-//             event.preventDefault();
-//             const taskId = this.dataset.taskId;
-//             const form = document.getElementById('edit-task-form-' + taskId);
-//             const formData = new FormData(form);
-//             formData.append('csrfmiddlewaretoken', getCSRFToken()); // Append CSRF Token to the form data
-            
-//             fetch(`/task/update/${taskId}/`, { // Update with the correct URL pattern for updating tasks
-//                 method: 'POST',
-//                 body: formData,
-//             })
-//             .then(response => {
-//                 if (!response.ok) {
-//                     throw new Error('Network response was not ok ' + response.statusText);
-//                 }
-//                 return response.json();
-//             })
-//             .then(data => {
-//                 console.log('Success:', data);
-//                 $('#editTaskModal-' + taskId).modal('hide');
-//                 updateTaskCard(data.task, taskId);
-//             })
-//             .catch(error => {
-//                 console.error('Error:', error);
-//             });
-//         });
-//     });
-// });
 
 document.querySelectorAll('.save-edit-btn').forEach(button => {
     button.addEventListener('click', function(event) {
@@ -233,22 +198,9 @@ function updateMinEndDate(startInput, endInputId) {
     }
 }
 
-// $('#editTaskModal').on('show.bs.modal', function (event) {
-//     var button = $(event.relatedTarget);
-//     var taskId = button.data('task-id');
-//     var taskStatus = button.data('task-status');
-
-//     var modal = $(this);
-//     var progressBar = modal.find('.progress-bar');
-//     var progressInput = modal.find('input[type="range"][id="statusInput-' + taskId + '"]');
-
-//     progressBar.css('width', taskStatus + '%').attr('aria-valuenow', taskStatus).text(taskStatus + '%');
-//     progressInput.val(taskStatus);
-// });
-
 $('#editTaskModal').on('hidden.bs.modal', function (event) {
     var button = $(event.relatedTarget);
-    var taskId = button.data('task-id'); // Assuming you have the saved taskId available here
+    var taskId = button.data('task-id'); 
     var savedTaskStatus = button.data('task-status'); // This should be the saved status, not the one from the unsaved modal state
 
     // Find the progress elements within the modal
@@ -259,16 +211,12 @@ $('#editTaskModal').on('hidden.bs.modal', function (event) {
     // Reset the progress bar and input to the saved status
     progressBar.css('width', savedTaskStatus + '%').attr('aria-valuenow', savedTaskStatus).text(savedTaskStatus + '%');
     progressInput.val(savedTaskStatus);
-
-    // $(startTime).val('');
-    // $(endTime).val('');
 });
 
 $('#editTaskModal').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget);
     var taskId = button.data('task-id');
 
-    // Use the correct endpoint URL that matches your Django backend URL configuration.
     fetch(`/get-task-status/${taskId}/`)
         .then(response => {
             if (!response.ok) {
@@ -277,7 +225,7 @@ $('#editTaskModal').on('show.bs.modal', function (event) {
             return response.json();
         })
         .then(data => {
-            var taskStatus = data.taskStatus; // Assuming the backend returns { taskStatus: XX }
+            var taskStatus = data.taskStatus;
 
             var modal = $(this);
             var progressBar = modal.find('.progress-bar[id="progressBar-' + taskId + '"]');
@@ -292,9 +240,7 @@ $('#editTaskModal').on('show.bs.modal', function (event) {
         });
 });
 
-
 document.addEventListener('DOMContentLoaded', function() {
-    // Adjust the selector as needed to target your specific form(s)
     const startTimeInputs = document.querySelectorAll('.start-time-input');
     startTimeInputs.forEach(input => {
         const endInputId = input.id.replace('startTime', 'endTime');

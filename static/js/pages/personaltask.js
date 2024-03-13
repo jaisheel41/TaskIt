@@ -158,60 +158,6 @@ function updateTaskCard(task, taskId) {
     progressBar.textContent = task.status + '%';
 }
 
-
-// function updateTaskCard(task, taskId) {
-//     const taskCard = document.querySelector('.task-card[data-task-id="' + taskId + '"]');
-//     taskCard.querySelector('.card-title').textContent = task.taskname;
-//     taskCard.querySelector('.card-text').textContent = task.description;
-//     const deadlineDate = new Date(task.end_time); // Assuming 'end_time' is in ISO format
-//     const formattedDate = deadlineDate.toLocaleDateString('en-US', {
-//         year: 'numeric', 
-//         month: 'short', 
-//         day: 'numeric'
-//     });
-//     taskCard.querySelector('.card-deadline').textContent = 'Deadline: ' + formattedDate;
-
-//     const progressBar = taskCard.querySelector('.progress-bar');
-//     progressBar.style.width = task.status + '%';
-//     progressBar.setAttribute('aria-valuenow', task.status);
-//     progressBar.textContent = task.status + '%';
-//     // taskCard.querySelector('.card-deadline').textContent = 'Deadline: ' + new Date(task.end_time).toLocaleDateString();
-//     // Update other task card elements as needed
-// }
-
-// document.addEventListener('DOMContentLoaded', function() {
-//     const editButtons = document.querySelectorAll('.save-edit-btn');
-
-//     editButtons.forEach(button => {
-//         button.addEventListener('click', function(event) {
-//             event.preventDefault();
-//             const taskId = this.dataset.taskId;
-//             const form = document.getElementById('edit-task-form-' + taskId);
-//             const formData = new FormData(form);
-//             formData.append('csrfmiddlewaretoken', getCSRFToken()); // Append CSRF Token to the form data
-            
-//             fetch(`/task/update/${taskId}/`, { // Update with the correct URL pattern for updating tasks
-//                 method: 'POST',
-//                 body: formData,
-//             })
-//             .then(response => {
-//                 if (!response.ok) {
-//                     throw new Error('Network response was not ok ' + response.statusText);
-//                 }
-//                 return response.json();
-//             })
-//             .then(data => {
-//                 console.log('Success:', data);
-//                 $('#editTaskModal-' + taskId).modal('hide');
-//                 updateTaskCard(data.task, taskId);
-//             })
-//             .catch(error => {
-//                 console.error('Error:', error);
-//             });
-//         });
-//     });
-// });
-
 document.querySelectorAll('.save-edit-btn').forEach(button => {
     button.addEventListener('click', function(event) {
         event.preventDefault();
@@ -255,19 +201,6 @@ function updateMinEndDate(startInput, endInputId) {
     }
 }
 
-// $('#editTaskModal').on('show.bs.modal', function (event) {
-//     var button = $(event.relatedTarget);
-//     var taskId = button.data('task-id');
-//     var taskStatus = button.data('task-status');
-
-//     var modal = $(this);
-//     var progressBar = modal.find('.progress-bar');
-//     var progressInput = modal.find('input[type="range"][id="statusInput-' + taskId + '"]');
-
-//     progressBar.css('width', taskStatus + '%').attr('aria-valuenow', taskStatus).text(taskStatus + '%');
-//     progressInput.val(taskStatus);
-// });
-
 $('#editTaskModal').on('hidden.bs.modal', function (event) {
     var button = $(event.relatedTarget);
     var taskId = button.data('task-id'); // Assuming you have the saved taskId available here
@@ -282,8 +215,6 @@ $('#editTaskModal').on('hidden.bs.modal', function (event) {
     progressBar.css('width', savedTaskStatus + '%').attr('aria-valuenow', savedTaskStatus).text(savedTaskStatus + '%');
     progressInput.val(savedTaskStatus);
 
-    // $(startTime).val('');
-    // $(endTime).val('');
 });
 
 $('#editTaskModal').on('show.bs.modal', function (event) {
@@ -322,6 +253,21 @@ document.addEventListener('DOMContentLoaded', function() {
         const endInputId = input.id.replace('startTime', 'endTime');
         updateMinEndDate(input, endInputId);
     });
+
+    const descriptionInputs = document.querySelectorAll('textarea[id^="taskDescription"]');
+
+    descriptionInputs.forEach(input => {
+        input.addEventListener('input', function() {
+            if (this.value.length > 200) { 
+                alert("Description cannot exceed 200 characters.");
+                this.value = this.value.substring(0, 200); 
+            }
+        });
+    });
+
+
+
+
 });
 
 function updateProgress(inputElement, taskId) {
@@ -331,3 +277,4 @@ function updateProgress(inputElement, taskId) {
     progressBar.setAttribute('aria-valuenow', progressValue);
     progressBar.textContent = progressValue + '%';
 }
+

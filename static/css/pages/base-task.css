@@ -4,7 +4,7 @@
   top: 10px;
   right: 10px;
   cursor: pointer;
-  z-index: 1001; /* Ensure this is above the nav-menu */
+  z-index: 1001; 
   background: none;
   border: none;
   font-size: 40px; /* Larger icon size */
@@ -25,7 +25,7 @@
 
 /* Navigation menu styling */
 .nav-menu {
-  display: block; /* Changed from 'none' to 'block' */
+  display: block; 
   position: fixed;
   top: 0;
   right: 0;
@@ -90,9 +90,9 @@
 }
 
 .logout-area {
-  position: fixed; /* Fixed position relative to the viewport */
-  top: 20px; /* Adjust as necessary */
-  right: 20px; /* Adjust as necessary */
+  position: fixed; 
+  top: 20px; 
+  right: 20px; 
   z-index: 1500; /* High z-index to ensure it is above other elements */
 }
 

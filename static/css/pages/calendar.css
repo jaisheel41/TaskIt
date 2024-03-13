@@ -7,13 +7,13 @@
 @media (max-width: 768px) {
     #calendar {
         width: 95%;
-        padding: 50px 0; /* Reduced padding */
+        padding: 50px 0; 
     }
 }
 
 @media only screen and (max-width: 600px) {
     .fc .fc-toolbar-title {
-        font-size: 16px; /* Adjusted font size for readability */
+        font-size: 16px; 
     }
     .fc .fc-button {
         font-size: 14px; /* Increased font size for touch targets */
@@ -21,7 +21,7 @@
     }
     #calendar {
         width: 100%; /* Full width for better use of space */
-        padding: 100px 0; /* Reduced padding */
+        padding: 100px 0; 
     }
     .fc .fc-toolbar-chunk {
         display: block; /* Stack toolbar items vertically */

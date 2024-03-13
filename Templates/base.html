@@ -23,11 +23,6 @@
     <link href="{% static '/css/style.bundle.css' %}" rel="stylesheet" type="text/css"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <link href="{% static 'css/pages/notification.css' %}" rel="stylesheet" type="text/css"/>
-
-
-    <!--end::Global Theme Styles-->
-
-    <!-- <link rel="shortcut icon" href="{% static '/media/logos/favicon.ico' %}"/> -->
 </head>
 <!--end::Head-->
 
@@ -40,7 +35,8 @@
 {% endblock %}
 
 <!--begin::Global Config(global config for global JS scripts)-->
-<script>var KTAppSettings = {
+<script>
+	var KTAppSettings = {
     "breakpoints": {"sm": 576, "md": 768, "lg": 992, "xl": 1200, "xxl": 1200},
     "colors": {
         "theme": {
@@ -91,7 +87,89 @@
         }
     },
     "font-family": "Poppins"
-};</script>
+};
+
+checkAvatarExists();
+function checkAvatarExists() {
+
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET", "{% url 'check_avatar' %}", true);
+	xhr.onreadystatechange = function () {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			var jsonResponse = JSON.parse(xhr.responseText);
+
+			var userImage_elements_w = document.querySelectorAll('.userImage_class');
+			
+			if (jsonResponse.success){
+				for (var er = 0; er < userImage_elements_w.length; er++) {
+					userImage_elements_w[er].src = "/static/media/userpic/{{user.id}}.jpg";
+					
+				};
+				
+			}else{
+				for (var i = 0; i < userImage_elements_w.length; i++) {
+					userImage_elements_w[i].src = "{% static 'media/images/placeholder.png' %}";
+				};
+			}
+		}
+	};
+	xhr.send();
+
+};
+
+function aboutthispage (){
+	
+	const aboutDict = {
+		'/aboutus/': 'The introduction page contains an introduction to the product and the development team.', 
+        '/homepage/': 'The main page contains interfaces for team project management and personal project management.',
+        '/task/user/profile/': 'This profile page can display and edit user information, including avatar, email address and nickname.',
+        '/change-password/': 'This page provides the function of changing the password.',
+        '/task/calendar/': 'This page references a third-party calendar and can display added projects.',
+        '/task/personaltask/': 'This page provides the functionality to view and edit personal task progress.',
+        '/task/projectmanagement/': 'This page provides the functionality to view and edit team project progress, and select members for projects.',
+        
+		b: 2, 
+		c: 3,
+	};
+		
+	console.log(aboutDict[currentPath]);
+		
+	var currentPath = window.location.pathname;
+	var paragraph = document.getElementById("aboutmsg");
+	if (aboutDict[currentPath]!=undefined){
+		try {
+		  paragraph.textContent = aboutDict[currentPath];
+		  
+		  openModal();
+		} catch (error) {
+		  
+		  paragraph.textContent = "No About.";
+		  openModal();
+		}
+	}else{
+		paragraph.textContent = "No About.";
+		openModal();
+	}
+};
+
+var modal = document.getElementById("myModal");
+
+function openModal() {
+	modal.style.display = "block";
+}
+
+function closeModal() {
+	modal.style.display = "none";
+}
+
+window.onclick = function(event) {
+	if (event.target == modal) {
+		modal.style.display = "none";
+	}
+}
+
+
+</script>
 <!--end::Global Config-->
 
 <!--begin::Global Theme Bundle(used by all pages)-->
@@ -109,8 +187,6 @@
         {% endfor %}
     </ul>
 {% endif %}
-
-
 
 </body>
 <!--end::Body-->
