@@ -392,6 +392,7 @@ function findDayDifference(a, b) {
     return Math.floor(Math.abs(day1 - day2) / calc);
 }
 
+
 handleReturnMessage(chatLog);
 
 setTimeout(() => {

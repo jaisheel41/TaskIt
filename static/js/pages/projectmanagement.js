@@ -19,7 +19,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+
 });
+
 
     // Event listener for all delete buttons
     document.querySelectorAll('.btn-delete').forEach(button => {
@@ -40,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
             fetch(`/task/project/delete/${projectId}/`, {
                 method: 'POST',
                 headers: {
+
                     'X-CSRFToken': getCookie('csrftoken'),
                     'Content-Type': 'application/json',
                 },
@@ -59,6 +62,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+});
+
+
 function getCSRFToken() {
     return document.querySelector('[name=csrfmiddlewaretoken]').value;
 }
@@ -67,7 +73,6 @@ document.addEventListener('DOMContentLoaded', function() {
     var createProjectBtn = document.getElementById('create-project-btn');
     var createProjectModal = document.getElementById('create-project-modal');
     var createProjectForm = document.getElementById('create-project-form');
-
 
     // Show the project creation modal
     function showModal() {
@@ -90,7 +95,6 @@ document.addEventListener('DOMContentLoaded', function() {
         var formData = new FormData(createProjectForm);
         var selectUsersElement = document.getElementById('projectUsers');
         var selectedUsers = [...selectUsersElement.selectedOptions].map(option => option.value);
-
 
 
     // Append selected user ids to FormData
@@ -133,10 +137,10 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-
-
 // Load users into the 'Select Users' dropdown
 document.addEventListener('DOMContentLoaded', function() {
+    bindDescriptionInputEvents();
+
     fetch('/users/list/', { // Ensure this URL matches your route for listing users
         method: 'GET',
         headers: {
@@ -151,6 +155,10 @@ document.addEventListener('DOMContentLoaded', function() {
         data.forEach(user => {
             let option = new Option(user.id, user.id); // Assuming 'user' objects have 'id' and 'name'
             selectUsers.appendChild(option);
+
+        });
+    })
+    .catch(error => console.error('Error:', error));
 
         });
 
@@ -192,7 +200,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const projectId = this.dataset.projectId;
         const form = document.getElementById(`edit-project-form-${projectId}`);
         const formData = new FormData(form);
-
         // Get the selected user IDs from the select2 control
         const selectedUserIds = $(`#projectUsers-${projectId}`).select2('val');
 
@@ -204,6 +211,7 @@ document.addEventListener('DOMContentLoaded', function() {
             formData.append('project_users', userId);
         });
 
+
         fetch(`/task/project/update/${projectId}/`, {
             method: 'POST',
             body: formData,
@@ -214,7 +222,9 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             if(data.status === 'success') {
+
                 updateProjectCard(data.project, projectId);
+
                 // Close modal and optionally refresh data or the whole page to show changes
                 $('#editProjectModal-' + projectId).modal('hide');
                 alert('Project successfully updated.');
@@ -228,6 +238,20 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 });
 
+
+function bindDescriptionInputEvents() {
+    const descriptionInputs = document.querySelectorAll('textarea[id^="taskDescription"]');
+
+    descriptionInputs.forEach(input => {
+        input.addEventListener('input', function() {
+            if (this.value.length > 200) { 
+                alert("Description cannot exceed 200 characters.");
+                this.value = this.value.substring(0, 200); 
+            }
+        });
+    });
+}
+
 function updateProjectCard(project, projectId) {
     const taskCard = document.querySelector('.solution_card[data-project-id="' + projectId + '"]');
     if (taskCard) {
@@ -237,3 +261,4 @@ function updateProjectCard(project, projectId) {
         console.error('Project card not found for projectId:', projectId);
     }
 }
+
