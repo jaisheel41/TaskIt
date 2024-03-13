@@ -7,7 +7,6 @@ let lastUserWhoSendsMessage = null;
 let emptyUpdateNum = 0;
 let typingStatusUsers = new Map();
 let isTyping = false;
-let lastDate = "";
 
 let lastTimeStamp = "";
 let refreshTimer;
@@ -129,23 +128,8 @@ function showMessage(data) {
     // message group will have one user name tag (if not one's own message)
     let messageGroup = null;
 
-    // find if new date should be inserted
-    if (lastDate === "" | data.time.substring(0, 8) != lastDate) {
-        // Create new date tag
-        dateWrapper = document.createElement("div");
-        dateWrapper.classList.add("date-wrapper");
-        dateTag = document.createElement("div");
-        dateTag.classList.add("date-tag");
-        dateText = formatDate(data.time.substring(0, 8));
-
-        dateTag.appendChild(document.createTextNode(dateText));
-        dateWrapper.appendChild(dateTag);
-        area.appendChild(dateWrapper);
-        lastDate = data.time.substring(0, 8);
-    }
-
     // find if this message should be inserted into the previous message group
-    if (data.username === lastUserWhoSendsMessage && data.time.substring(0, 8) === lastDate) {
+    if (data.username === lastUserWhoSendsMessage) {
         // this message will be inserted into the previous message group
         messageWrapper = document.getElementById("message-wrapper-" + messageGroupNum);
         messageGroup = document.getElementById("message-group-" + messageGroupNum);
@@ -350,48 +334,6 @@ function displayTooLongMessage() {
         area.textContent = "";
     }, 3 * 1000);
 }
-
-function formatDate(daystamp) {
-
-    const year = daystamp.substring(0, 4);
-    const month = daystamp.substring(4, 6);
-    const day = daystamp.substring(6, 8);
-
-    const date = new Date(year, month - 1, day);
-    const monthText = date.toLocaleString('default', {month: 'short'});
-    const format = `${date.getDate()} ${monthText} ${date.getFullYear()}`;
-
-    const today = new Date();
-    let text = format;
-    if (today.getFullYear() === date.getFullYear()
-            && today.getMonth() === date.getMonth()) {
-        // if it's today
-        if (today.getDate() === date.getDate()) {
-            text = "Today";
-        } else {
-            dayDiff = findDayDifference(today, date);
-            console.log(dayDiff);
-            if (dayDiff == 1) {
-                text = "Yesterday";
-            } else if (dayDiff < 7) {
-                text = `${dayDiff} days ago`;
-            } else if (dayDiff < 10) {
-                text = `a week ago`;
-            }
-        }
-    }
-    
-    return text;
-}
-
-function findDayDifference(a, b) {
-    const calc = 1000 * 60 * 60 *24;
-    const day1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
-    const day2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
-
-    return Math.floor(Math.abs(day1 - day2) / calc);
-}
-
 
 handleReturnMessage(chatLog);
 

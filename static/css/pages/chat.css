@@ -20,19 +20,6 @@
     z-index: 1;
 }
 
-.date-wrapper {
-    margin-top: 1.5em;
-}
-
-.date-tag {
-    max-width: fit-content;
-    margin:auto;
-    background-color: rgb(223, 41, 53, 0.1);
-    padding: 0.5em 0.6em;
-    border-radius: 50% 10%;
-    position:sticky;
-}
-
 
 #chat-title a {
     text-align: center;

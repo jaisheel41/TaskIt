@@ -17,12 +17,6 @@ document.addEventListener('DOMContentLoaded', function() {
         return getCookie('csrftoken');
     }
 
-
-
-
-});
-
-
     // Event listener for all delete buttons
     document.querySelectorAll('.btn-delete').forEach(button => {
         button.addEventListener('click', function() {
@@ -42,8 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
             fetch(`/task/project/delete/${projectId}/`, {
                 method: 'POST',
                 headers: {
-
-                    'X-CSRFToken': getCookie('csrftoken'),
+                    'X-CSRFToken': getCSRFToken(),
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ 'project_id': projectId })
@@ -61,9 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     });
-
 });
-
 
 function getCSRFToken() {
     return document.querySelector('[name=csrfmiddlewaretoken]').value;
@@ -96,10 +87,8 @@ document.addEventListener('DOMContentLoaded', function() {
         var selectUsersElement = document.getElementById('projectUsers');
         var selectedUsers = [...selectUsersElement.selectedOptions].map(option => option.value);
 
-
     // Append selected user ids to FormData
         selectedUsers.forEach((userId, index) => formData.append('project_users_' + index, userId));
-
 
         fetch('/project/create/', { // Ensure this URL matches your route for project creation
             method: 'POST',
@@ -136,11 +125,8 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 });
 
-
 // Load users into the 'Select Users' dropdown
 document.addEventListener('DOMContentLoaded', function() {
-    bindDescriptionInputEvents();
-
     fetch('/users/list/', { // Ensure this URL matches your route for listing users
         method: 'GET',
         headers: {
@@ -150,49 +136,13 @@ document.addEventListener('DOMContentLoaded', function() {
     .then(response => response.json())
     .then(data => {
         const selectUsers = document.getElementById('projectUsers');
-
         console.log(data);
         data.forEach(user => {
             let option = new Option(user.id, user.id); // Assuming 'user' objects have 'id' and 'name'
             selectUsers.appendChild(option);
-
         });
     })
     .catch(error => console.error('Error:', error));
-
-        });
-
-    }).catch(error => console.error('Error:', error));
-        // Initialize select2 for Create New Project modal
-    $('#projectUsers').select2();
-
-    // Initialize select2 for all Edit Project modals on page load
-    initializeSelect2ForEditModals();
-
-    // Rest of your existing code
-    // ...
-
-    // This function initializes select2 for Edit Project modals
-    function initializeSelect2ForEditModals() {
-        // This selector matches any select element with an ID starting with 'projectUsers-'
-        $('[id^="projectUsers-"]').each(function() {
-            $(this).select2();
-        });
-    }
-
-    // Event listener for edit button, which triggers modal and select2 initialization
-    $('.btn-edit').on('click', function() {
-        // Extract project ID from the button's data attribute
-        var projectId = $(this).data('projectId');
-        // Initialize select2 for the edit modal related to the clicked project
-        $('#projectUsers-' + projectId).select2();
-        // Show the edit modal
-        $('#editProjectModal-' + projectId).modal('show');
-    })
-
-
-
-
 
     document.querySelectorAll('.save-edit-btn').forEach(button => {
     button.addEventListener('click', function(event) {
@@ -200,17 +150,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const projectId = this.dataset.projectId;
         const form = document.getElementById(`edit-project-form-${projectId}`);
         const formData = new FormData(form);
-        // Get the selected user IDs from the select2 control
-        const selectedUserIds = $(`#projectUsers-${projectId}`).select2('val');
-
-        // Remove any previous user entries in formData
-        formData.delete('project_users');
-
-        // Add all selected user IDs to formData
-        selectedUserIds.forEach(userId => {
-            formData.append('project_users', userId);
-        });
-
 
         fetch(`/task/project/update/${projectId}/`, {
             method: 'POST',
@@ -222,9 +161,6 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             if(data.status === 'success') {
-
-                updateProjectCard(data.project, projectId);
-
                 // Close modal and optionally refresh data or the whole page to show changes
                 $('#editProjectModal-' + projectId).modal('hide');
                 alert('Project successfully updated.');
@@ -237,28 +173,3 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 });
-
-
-function bindDescriptionInputEvents() {
-    const descriptionInputs = document.querySelectorAll('textarea[id^="taskDescription"]');
-
-    descriptionInputs.forEach(input => {
-        input.addEventListener('input', function() {
-            if (this.value.length > 200) { 
-                alert("Description cannot exceed 200 characters.");
-                this.value = this.value.substring(0, 200); 
-            }
-        });
-    });
-}
-
-function updateProjectCard(project, projectId) {
-    const taskCard = document.querySelector('.solution_card[data-project-id="' + projectId + '"]');
-    if (taskCard) {
-        taskCard.querySelector('.solu_title div').textContent = project.project_name;
-        taskCard.querySelector('.solu_description p').textContent = project.project_description;
-    } else {
-        console.error('Project card not found for projectId:', projectId);
-    }
-}
-
