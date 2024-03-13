@@ -146,11 +146,25 @@ h5:hover {
     transition: all 0.2s ease-in-out !important;
 }
 
+#project-btn {
+    background-color: #0C7C59;
+    border-radius: 20px;
+    transition: all 0.2s ease-in-out !important;
+}
+
 #chat-btn:hover {
     background-color: #A63446 !important;
 }
 
 #chat-btn:focus {
+    background-color: #A63446 !important;
+}
+
+#project-btn:hover {
+    background-color: #A63446 !important;
+}
+
+#project-btn:focus {
     background-color: #A63446 !important;
 }
 
@@ -168,7 +182,7 @@ h5:hover {
 
 .tasks-overview {
     clear: both; /* If the logo is floated */
-    padding-top: 50px; /* Adjust as needed */
+    padding-top: 75px; /* Adjust as needed */
     margin-left: 50px;
 }
 
@@ -208,6 +222,9 @@ h5:hover {
 @media (max-width: 768px) { /* Adjust for tablet */
     .container, .tasks-overview {
       padding-left: 80px; /* Adjust the value so it does not overlap the logo */
+    }
+    .tasks-overview {
+        padding-top: 50px;
     }
   }
   
