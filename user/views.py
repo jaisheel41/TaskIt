@@ -12,6 +12,7 @@ from django.contrib import messages
 from .forms import CustomPasswordChangeForm
 from Task.views import create_notification
 
+
 def index(request):
     """
     Index view to redirect authenticated users to the homepage and others to the sign-in page.

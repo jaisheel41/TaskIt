@@ -241,8 +241,10 @@ $('#editTaskModal').on('show.bs.modal', function (event) {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
+
     bindDescriptionInputEvents();
     // Adjust the selector as needed to target your specific form(s)
+
     const startTimeInputs = document.querySelectorAll('.start-time-input');
     startTimeInputs.forEach(input => {
         const endInputId = input.id.replace('startTime', 'endTime');

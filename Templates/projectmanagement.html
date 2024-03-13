@@ -8,7 +8,9 @@
 <link href="{% static 'css/pages/base-task.css' %}" rel="stylesheet" type="text/css"/>
 {% endblock %}
 
+
 {% block title %}Project Management{% endblock %}
+
 
 {% block js %}
 <script src="{% static 'js/pages/projectmanagement.js' %}"></script>
@@ -51,9 +53,9 @@
                     <p class="card-text">{{ project.project_description }}</p>
                 </div>
                 <div class="task-actions">
-                    <button type="button" class="btn btn-icon btn-edit" data-toggle="modal" data-target="#editProjectModal-{{ project.id }}"><i class="fas fa-edit"></i></button>
-                    <a href="#" class="btn btn-icon btn-danger btn-delete" data-project-id="{{ project.id }}"><i class="fas fa-trash-alt"></i></a>
-                    <a href="{{ project_url }}" class="btn btn-outline-secondary float-right" style="background-color: white;">Project Tasks</a>
+                  <button type="button" class="btn btn-icon btn-edit" data-toggle="modal" data-target="#editProjectModal-{{ project.id }}" id="edit-project-modal-{{ project.id }}"><i class="fas fa-edit"></i></button>
+                  <a href="#" class="btn btn-icon btn-danger btn-delete" data-project-id="{{ project.id }}"><i class="fas fa-trash-alt"></i></a>
+                  <a href="{{ project_url }}" class="btn btn-outline-secondary float-right" style="background-color: white;">Project Tasks</a>
                 </div>
                 
                 </div>
@@ -82,7 +84,7 @@
                         </div>
                         <div class="form-group">
                             <label for="projectUsers-{{ project.id }}">Select Users *</label>
-                            <select class="form-control" id="projectUsers-{{ project.id }}" name="project_users" multiple="multiple" required>
+                            <select style="width: 100%" class="form-control" id="projectUsers-{{ project.id }}" name="project_users" multiple="multiple" required>
                                 {% for user in users %}
                                     <option value="{{ user.id }}" {% if user in project.users.all %} selected {% endif %}>{{ user.get_full_name|default:user.username }}</option>
                                 {% endfor %}
@@ -132,8 +134,7 @@
                             <label>Select Users
                                 <span class="text-danger">*</span></label><br>
                             <select style="width: 100%" 
-                                    class="form-control form-control-lg select2" 
-                                    id="projectUsers" name="project_users" multiple="multiple" required>
+                                    class="form-control form-control-lg" id="projectUsers" name="project_users" multiple="multiple" required>
                                 {% for user in users %}
                                     <option value="{{ user.id }}">{{ user.get_full_name|default:user.username }}</option>
                                 {% endfor %}
