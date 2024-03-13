@@ -11,6 +11,7 @@ from django.views.decorators.http import require_POST
 
 from chat.models import ChatRoom, ChatMessage, ChatSeenStatus, ChatTypingStatus
 from Task.models import Project
+from user.models import Profile
 
 @login_required
 def chat(request, room_name):
@@ -129,6 +130,7 @@ def get_chat_message_log(room_name, last_timestamp=""):
             message = {
                 "type": "chat_message",
                 "username": log.user.username,
+                "userid": log.user.id,
                 "time": log.time.strftime(r"%Y%m%d%H%M%S%f"),
                 "message": log.message
             }
