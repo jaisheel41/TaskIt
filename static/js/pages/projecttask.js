@@ -294,6 +294,7 @@ $('#editTaskModal').on('show.bs.modal', function (event) {
 
 
 document.addEventListener('DOMContentLoaded', function() {
+    bindDescriptionInputEvents();
     // Adjust the selector as needed to target your specific form(s)
     const startTimeInputs = document.querySelectorAll('.start-time-input');
     startTimeInputs.forEach(input => {
@@ -308,4 +309,15 @@ function updateProgress(inputElement, taskId) {
     progressBar.style.width = progressValue + '%';
     progressBar.setAttribute('aria-valuenow', progressValue);
     progressBar.textContent = progressValue + '%';
+}
+
+function bindDescriptionInputEvents() {
+    const descriptionInputs = document.querySelectorAll('textarea[id^="taskDescription"]');
+    descriptionInputs.forEach(input => {
+        input.addEventListener('input', function() {
+            if (this.value.length > 200) {
+                alert("Description cannot exceed 200 characters.");
+            }
+        });
+    });
 }
