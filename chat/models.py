@@ -13,3 +13,16 @@ class ChatMessage(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     message = models.TextField(max_length=2500)
     time = models.DateTimeField()
+
+class ChatTypingStatus(models.Model):
+    """For keeping latest status."""
+    room = models.ForeignKey(ChatRoom, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    time = models.DateTimeField()
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['room', 'user'], name='unique_chat_typing_status_room_user'
+            )
+        ]

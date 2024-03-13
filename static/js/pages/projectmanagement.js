@@ -12,13 +12,58 @@ function getCookie(name) {
     }
     return cookieValue;
 }
+document.addEventListener('DOMContentLoaded', function() {
+    function getCSRFToken() {
+        return getCookie('csrftoken');
+    }
+
+    // Event listener for all delete buttons
+    document.querySelectorAll('.btn-delete').forEach(button => {
+        button.addEventListener('click', function() {
+            // Get the projectId from the button's dataset
+            let projectId = this.dataset.projectId; // Ensure your button has `data-project-id`
+            // Store projectId in the confirm button's dataset for later use
+            document.getElementById('deleteProjectConfirm').dataset.projectId = projectId;
+            // Show the modal
+            $('#deleteConfirmationModal').modal('show');
+        });
+    });
+
+    // Event listener for the confirmation button in the delete modal
+    document.getElementById('deleteProjectConfirm').addEventListener('click', function() {
+        let projectId = this.dataset.projectId; // Retrieve projectId from the dataset
+        if (projectId) {
+            fetch(`/task/project/delete/${projectId}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCSRFToken(),
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 'project_id': projectId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    window.location.reload(true); // Reload the page to reflect changes
+                } else {
+                    alert('Error: Project could not be deleted.');
+                }
+            })
+            .catch(error => {
+                alert('Error: ' + error.message);
+            });
+        }
+    });
+});
+
+function getCSRFToken() {
+    return document.querySelector('[name=csrfmiddlewaretoken]').value;
+}
 
 document.addEventListener('DOMContentLoaded', function() {
     var createProjectBtn = document.getElementById('create-project-btn');
     var createProjectModal = document.getElementById('create-project-modal');
     var createProjectForm = document.getElementById('create-project-form');
-
-
 
     // Show the project creation modal
     function showModal() {
@@ -70,11 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .catch((error) => {
             console.error('Error:', error);
         });
-
-
     });
-
-
 
     // Close modal if clicked outside of it
     window.onclick = function(event) {
@@ -102,34 +143,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     })
     .catch(error => console.error('Error:', error));
-
-
-    document.addEventListener('click', function(event) {
-    if (event.target.classList.contains('btn-delete')) {
-        const projectId = event.target.getAttribute('data-project-id');
-        if (confirm('Are you sure you want to delete this project?')) {
-            fetch(`/task/project/delete/${projectId}/`, {
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': getCookie('csrftoken'),
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ 'project_id': projectId })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if(data.status === 'success') {
-                    // Optionally, remove the project card from the DOM
-                    document.querySelector(`.project-card[data-project-id="${projectId}"]`).remove();
-                    alert('Project successfully deleted.');
-                } else {
-                    alert('An error occurred. Please try again.');
-                }
-            })
-            .catch(error => console.error('Error:', error));
-        }
-    }
-    });
 
     document.querySelectorAll('.save-edit-btn').forEach(button => {
     button.addEventListener('click', function(event) {
@@ -159,5 +172,4 @@ document.addEventListener('DOMContentLoaded', function() {
         .catch(error => console.error('Error:', error));
     });
 });
-
 });

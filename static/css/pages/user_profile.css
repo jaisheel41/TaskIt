@@ -193,18 +193,16 @@
 
 }
 @media (max-width: 768px) {
-    /* Adjusts the styles when the screen width is less than or equal to 768px */
     .box-wrap-3 {
         flex-direction: column;
         align-items: center;
     }
 
     .item21, .item22 {
-        width: 90%; /* Adjust the width as necessary */
+        width: 90%; 
         height: auto; /* Height can be auto to accommodate content */
     }
 
-    /* Ensures the user image scales down appropriately and stays at the top */
     .box-wrap-5, .box-wrap-4 {
         width: 90%;
         align-items: center;

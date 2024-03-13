@@ -1,0 +1,321 @@
+@media screen and (max-width: 768px) {
+    .box-wrap-4 {
+        justify-content: flex-start;
+        width: auto !important; 
+    }
+
+    .box-wrap-4 .item41 {
+        display: none;
+    }
+
+    .box-wrap-4 .item42 {
+        width: 100% !important;
+        height: 100%;
+        /* background-color: violet; */
+        box-sizing: border-box; 
+    }
+
+    .fisimg2 {
+        display: none;
+    }
+
+    .item321 {
+        justify-content: flex-start;
+        width: 100% !important; 
+        top: 500px !important;
+    }
+
+    .item72 ul li img {
+        display: block;
+    }
+}
+
+
+.box-wrap-1 {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    position: absolute;
+    align-items: center;
+    /* background-color: lightcyan; */
+
+    .item1 {
+        width: 80%;
+        height: 15%;
+        /* 		background-color: red; */
+    }
+
+    .item2 {
+        width: 70%;
+
+        height: 75%;
+        /* background-color: green; */
+    }
+}
+
+.box-wrap-2 {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    /* justify-content: space-between; */
+    align-items: center;
+
+    .item21 {
+        width: 100%;
+
+        height: 100%;
+        /* background-color: green; */
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+    }
+
+}
+
+
+.box-wrap-3 {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+
+    .item31 {
+        width: 100%;
+
+        height: 50%;
+        /* background-color: green; */
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+    }
+
+    .item32 {
+        width: 100%;
+
+        height: 50%;
+        /* background-color: beige; */
+
+        display: flex;
+        align-items: center;
+        position: relative; /* 相对定位，为了让内部元素绝对定位时以该容器为参考 */
+        justify-content: flex-end; /* 图片靠右 */
+
+        .item321 {
+            position: absolute; /* 绝对定位 */
+            top: 50%; /* 顶部距离为容器高度的50% */
+            left: 0; /* 左侧对齐 */
+            transform: translateY(-50%); /* 上下居中 */
+            width: 70%; /* 设置宽度为容器宽度的70% */
+            height: 70%; /* 设置高度为容器高度的50% */
+        }
+
+    }
+
+}
+
+.box-wrap-4 {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    /* flex-wrap : wrap; */
+    justify-content: space-between;
+
+
+    .item41 {
+        width: 35%;
+
+        height: 100%;
+        /* background-color: blue; */
+
+
+    }
+
+    .item42 {
+        width: 55%;
+
+        height: 100%;
+        /* background-color: violet; */
+
+
+    }
+
+}
+
+
+.box-wrap-5 {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    /* flex-wrap : wrap; */
+
+
+    .item51 {
+        width: 100%;
+        height: 15%;
+        /* background-color: blue; */
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+
+        .item511 {
+            width: 2%;
+            height: 100%;
+            display: flex;
+            flex-direction: column-reverse;
+
+
+        }
+
+        .item512 {
+            width: 95%;
+            height: 100%;
+            display: flex;
+            flex-direction: column-reverse;
+        }
+
+    }
+
+    .item52 {
+        width: 100%;
+
+        height: 80%;
+        /* background-color: violet; */
+
+
+    }
+
+}
+
+
+.box-wrap-6 {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    /* flex-wrap : wrap; */
+    justify-content: space-between;
+    position: relative;
+
+    .item61 {
+        width: 0%;
+        height: 100%;
+
+    }
+
+    .item62 {
+        width: 100%;
+
+        height: 100%;
+        text-align: right;
+    }
+}
+
+.box-wrap-7 {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    /* flex-wrap : wrap; */
+    justify-content: flex-start;
+
+
+    .item71 {
+        width: 100%;
+        height: 15%;
+        /* background-color: blue; */
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+
+        .item711 {
+            width: 2%;
+            height: 100%;
+            display: flex;
+            flex-direction: column-reverse;
+
+
+        }
+
+        .item712 {
+            width: 95%;
+            height: 100%;
+            display: flex;
+            flex-direction: column-reverse;
+        }
+
+    }
+
+    .item73 {
+        width: 100%;
+        height: 1%;
+        background-color: #5b9bd5;
+    }
+
+    .item72 {
+        width: 100%;
+        padding: 2%;
+        height: 80%;
+
+
+    }
+
+}
+
+
+.fisimg {
+    height: 70%;
+    width: auto;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+.fisimg2 {
+    height: 100%;
+    width: auto;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+
+
+}
+
+.bantou {
+
+    width: 100%;
+    height: 100%;
+
+
+}
+
+.lankuai {
+
+    width: 50%;
+    height: 70%;
+    background-color: #5b9bd5;
+}
+
+.lankuai2 {
+
+    width: 50%;
+    height: 100%;
+    background-color: #5b9bd5;
+}
+
+.hyphenate {
+
+    word-wrap: break-word;
+    -webkit-hyphens: auto; /* For webkit browsers */
+    -moz-hyphens: auto; /* For Firefox */
+    hyphens: auto; /* Standard */
+    color: #1f4e79;
+}

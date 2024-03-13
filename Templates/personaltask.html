@@ -36,8 +36,8 @@
                         <div>{{ task.taskname }}</div>
                     </div>
                     <div class="solu_description">
-                        <p>{{ task.description }}</p>
-                        <small class="card-text card-deadline">Deadline: {{ task.end_time|date:"M d, Y" }}</small>
+                        <p class="card-text">{{ task.description }}</p>
+                        <small class="card-deadline">Deadline: {{ task.end_time|date:"M d, Y" }}</small>
                         <div class="progress">
                             <div class="progress-bar" role="progressbar" style="width: {{ task.status }}%;" aria-valuenow="{{ task.status }}" aria-valuemin="0" aria-valuemax="100">{{ task.status }}%</div>
                         </div>
