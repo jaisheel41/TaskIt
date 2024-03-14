@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .catch(error => console.error('Error:', error));
     });
 
-    const descriptionInputs = document.querySelectorAll('textarea[id^="taskDescription"]');
+    const descriptionInputs = document.querySelectorAll('textarea[id^="projectDescription"]');
 
     descriptionInputs.forEach(input => {
         input.addEventListener('input', function() {
