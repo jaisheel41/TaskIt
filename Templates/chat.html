@@ -1,0 +1,49 @@
+{% extends 'base-task.html' %}
+{% load static %}
+
+{% block css %}
+<link href="{% static 'css/pages/chat.css' %}" rel="stylesheet" type="text/css"/>
+<link href="{% static 'css/pages/homepage.css' %}" rel="stylesheet" type="text/css"/>
+<link href="{% static 'css/pages/base-task.css' %}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
+{% block title %}Group Chat{% endblock %}
+
+{% block content-task %}
+<!--begin::Content-->
+<div class="container-fluid p-0">
+    <div class="col p-0">
+        <div id="chat-header-area" class="fixed-top p-10 row justify-content-center">
+                <div class="col-1"></div>
+                <div id="chat-header-name-area" class="col-8" style="width: max-content; text-align: center;">
+                    {% url 'task:project-task-list' room_name as project_url %}
+                    <h1 id="chat-title"><a href="{{ project_url }}">{{ project_name }}</a></h1>
+                </div>
+                <div class="col-1"></div>
+        </div>
+        <div id="chat-body-area" class="h-80">
+            <div id="chat-message-area" class="mt-30 mb-30 px-20 pt-10 pb-3">
+            </div>
+        </div>
+        <div class="input-message-area fixed-bottom px-15">
+            <div id="typing-status-area"></div>
+            <div class="input-group">
+                <input id="chat-message-input" class="form-control" type="text" size="50">
+                <div class="input-group-append">
+                    <input id="chat-message-submit" class="btn btn-outline-secondary" type="button" value="Send">
+                </div>
+            </div>
+            <div id="warning-message-area"> </div>
+        </div>
+    </div>
+</div>
+{{ room_name|json_script:"room-name"}}
+{{ username|json_script:"username"}}
+{{ chat_log|json_script:"chat-log"}}
+<!--end::Content-->
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/pages/chat.js' %}"></script>
+<script src="{% static 'js/pages/homepage.js' %}"></script>
+{% endblock %}

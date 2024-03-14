@@ -1,0 +1,84 @@
+{% extends 'base-task.html' %}
+{% load static %}
+{% block css %}
+<link href="{% static 'css/pages/homepage.css' %}" rel="stylesheet" type="text/css"/>
+<link href="{% static 'css/pages/base-task.css' %}" rel="stylesheet" type="text/css"/>
+<link href="{% static 'css/pages/calendar.css' %}" rel="stylesheet" type="text/css"/>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.css' rel='stylesheet' />
+<style>
+    
+
+</style>
+{% endblock %}
+
+{% block title %}Calendar{% endblock %} 
+
+{% block js %}
+<script src="{% static 'js/pages/homepage.js' %}"></script>
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+  var calendarEl = document.getElementById('calendar');
+  var calendar = new FullCalendar.Calendar(calendarEl, {
+    headerToolbar: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+    },
+    initialView: 'dayGridMonth',
+    events: JSON.parse('{{ tasks_json | escapejs }}'),
+    eventContent: function(arg) {
+      // Create an element to display within the event with custom HTML
+      var innerHtml = `<div class='fc-event-title'><span>${arg.event.title}</span></div>`;
+      var arrayOfDomNodes = [ document.createRange().createContextualFragment(innerHtml) ];
+      return { domNodes: arrayOfDomNodes };
+    },
+    eventDidMount: function(info) {
+      // Dynamically set color based on progress
+      var status = info.event.extendedProps.status; // Progress percentage
+      var color = getStatusColor(status); // Function call to determine color
+      info.el.style.backgroundColor = color;
+
+      // Update tooltip content
+      var taskType = info.event.extendedProps.type;
+      var tooltipContent = `<strong>${taskType} Task</strong><br>${info.event.extendedProps.description}<br>Progress: ${status}%`;
+      // var tooltipContent = `${info.event.extendedProps.description}<br>Progress: ${status}%`;
+      $(info.el).tooltip({
+        title: tooltipContent,
+        placement: 'top',
+        trigger: 'hover',
+        container: 'body',
+        html: true
+      });
+    },
+    windowResize: function(view) {
+      if (window.innerWidth < 767) {
+        calendar.changeView('listMonth');
+      } else {
+        calendar.changeView('dayGridMonth');
+      }
+    }
+  });
+
+  calendar.render();
+});
+
+function getStatusColor(status) {
+  // Returns color based on progress percentage
+  if (status < 25) {
+    return '#dc3545'; // Red for low progress
+  } else if (status < 50) {
+    return '#ffc107'; // Yellow for medium-low progress
+  } else if (status < 75) {
+    return '#17a2b8'; // Blue for medium-high progress
+  }
+  return '#28a745'; // Green for completed tasks or high progress
+}
+
+
+</script>
+{% endblock %}
+
+{% block content-task %}
+<div id='calendar'></div>
+{% endblock %}

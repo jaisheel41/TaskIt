@@ -1,0 +1,193 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr" direction="ltr" style="direction: ltr">
+
+<!--begin::Head-->
+<head>
+    <meta charset="utf-8"/>
+
+    <title>{% block title %}{% endblock %}</title>
+
+    <meta name="description" content="Login page example"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+    <!--begin::Fonts-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"/>
+    <!--end::Fonts-->
+
+    {% block css %}{% endblock %}
+
+    <!--begin::Global Theme Styles(used by all pages)-->
+    <link href="{% static '/plugins/global/plugins.bundle.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static '/css/style.bundle.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link href="{% static 'css/pages/notification.css' %}" rel="stylesheet" type="text/css"/>
+</head>
+<!--end::Head-->
+
+<!--begin::Body-->
+<!-- style="background-image: url({% static '/media/bg/bg-10.jpg' %}) -->
+<body id="kt_body"
+      class="quick-panel-right demo-panel-right offcanvas-right header-fixed subheader-enabled page-loading">
+
+{% block content %}
+{% endblock %}
+
+<!--begin::Global Config(global config for global JS scripts)-->
+<script>
+	var KTAppSettings = {
+    "breakpoints": {"sm": 576, "md": 768, "lg": 992, "xl": 1200, "xxl": 1200},
+    "colors": {
+        "theme": {
+            "base": {
+                "white": "#ffffff",
+                "primary": "#6993FF",
+                "secondary": "#E5EAEE",
+                "success": "#1BC5BD",
+                "info": "#8950FC",
+                "warning": "#FFA800",
+                "danger": "#F64E60",
+                "light": "#F3F6F9",
+                "dark": "#212121"
+            },
+            "light": {
+                "white": "#ffffff",
+                "primary": "#E1E9FF",
+                "secondary": "#ECF0F3",
+                "success": "#C9F7F5",
+                "info": "#EEE5FF",
+                "warning": "#FFF4DE",
+                "danger": "#FFE2E5",
+                "light": "#F3F6F9",
+                "dark": "#D6D6E0"
+            },
+            "inverse": {
+                "white": "#ffffff",
+                "primary": "#ffffff",
+                "secondary": "#212121",
+                "success": "#ffffff",
+                "info": "#ffffff",
+                "warning": "#ffffff",
+                "danger": "#ffffff",
+                "light": "#464E5F",
+                "dark": "#ffffff"
+            }
+        },
+        "gray": {
+            "gray-100": "#F3F6F9",
+            "gray-200": "#ECF0F3",
+            "gray-300": "#E5EAEE",
+            "gray-400": "#D6D6E0",
+            "gray-500": "#B5B5C3",
+            "gray-600": "#80808F",
+            "gray-700": "#464E5F",
+            "gray-800": "#1B283F",
+            "gray-900": "#212121"
+        }
+    },
+    "font-family": "Poppins"
+};
+
+checkAvatarExists();
+function checkAvatarExists() {
+
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET", "{% url 'check_avatar' %}", true);
+	xhr.onreadystatechange = function () {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			var jsonResponse = JSON.parse(xhr.responseText);
+
+			var userImage_elements_w = document.querySelectorAll('.userImage_class');
+			
+			if (jsonResponse.success){
+				for (var er = 0; er < userImage_elements_w.length; er++) {
+					userImage_elements_w[er].src = "/static/media/userpic/{{user.id}}.jpg";
+					
+				};
+				
+			}else{
+				for (var i = 0; i < userImage_elements_w.length; i++) {
+					userImage_elements_w[i].src = "{% static 'media/images/placeholder.png' %}";
+				};
+			}
+		}
+	};
+	xhr.send();
+
+};
+
+function aboutthispage (){
+	
+	const aboutDict = {
+		'/aboutus/': 'The introduction page contains an introduction to the product and the development team.', 
+        '/homepage/': 'The main page contains interfaces for team project management and personal project management.',
+        '/task/user/profile/': 'This profile page can display and edit user information, including avatar, email address and nickname.',
+        '/change-password/': 'This page provides the function of changing the password.',
+        '/task/calendar/': 'This page references a third-party calendar and can display added projects.',
+        '/task/personaltask/': 'This page provides the functionality to view and edit personal task progress.',
+        '/task/projectmanagement/': 'This page provides the functionality to view and edit team project progress, and select members for projects.',
+        
+		b: 2, 
+		c: 3,
+	};
+		
+	console.log(aboutDict[currentPath]);
+		
+	var currentPath = window.location.pathname;
+	var paragraph = document.getElementById("aboutmsg");
+	if (aboutDict[currentPath]!=undefined){
+		try {
+		  paragraph.textContent = aboutDict[currentPath];
+		  
+		  openModal();
+		} catch (error) {
+		  
+		  paragraph.textContent = "No About.";
+		  openModal();
+		}
+	}else{
+		paragraph.textContent = "No About.";
+		openModal();
+	}
+};
+
+var modal = document.getElementById("myModal");
+
+function openModal() {
+	modal.style.display = "block";
+}
+
+function closeModal() {
+	modal.style.display = "none";
+}
+
+window.onclick = function(event) {
+	if (event.target == modal) {
+		modal.style.display = "none";
+	}
+}
+
+
+</script>
+<!--end::Global Config-->
+
+<!--begin::Global Theme Bundle(used by all pages)-->
+<script src="{% static '/plugins/global/plugins.bundle.js' %}"></script>
+<script src="{% static '/js/scripts.bundle.js' %}"></script>
+<script src="{% static '/js/pages/notification.js' %}"></script>
+<!--end::Global Theme Bundle-->
+
+{% block js %}{% endblock %}
+
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+</body>
+<!--end::Body-->
+</html>

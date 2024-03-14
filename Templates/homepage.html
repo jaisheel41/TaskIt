@@ -1,0 +1,33 @@
+{% extends 'base-task.html' %}
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}TaskIT Homepage{% endblock %}</title>
+    {% block css %}
+    <link href="{% static 'css/pages/homepage.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'css/pages/base-task.css' %}" rel="stylesheet" type="text/css"/>
+    {% endblock %}
+    {% block js %}
+    <script src="{% static 'js/pages/homepage.js' %}"></script>
+    {% endblock %}
+</head>
+
+{% block content-task %}
+<!--begin::Content-->
+<div class="centered-container">
+    <div class="greeting-container">
+        <h1 class="hello-animation">Hello</h1>
+        <h1 class="username-animation">{{ username }}</h1>
+    </div>
+    <div class="button-container">
+        <a class="btn btn-primary btn-large" href="{% url 'task:task-list' %}" role="button">Personal Task Management</a>
+        <a class="btn btn-primary btn-large" href="{%url 'task:projectmanagement'%}" role="button">Project Task Management</a>
+    </div>
+</div>
+
+
+
+<!--end::Content-->
+{% endblock %}

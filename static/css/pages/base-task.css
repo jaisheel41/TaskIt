@@ -1,0 +1,134 @@
+/* Navigation toggle and menu styles */
+.nav-toggle {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  z-index: 1001; 
+  background: none;
+  border: none;
+  font-size: 40px; /* Larger icon size */
+}
+
+/* Icon styles */
+.nav-toggle-icon, .nav-close-icon {
+  font-size: 30px;
+  display: block;
+  color: #333; /* Color for icons */
+  transition: color 0.3s ease;
+}
+
+/* Icon hover effect */
+.nav-toggle-icon:hover, .nav-close-icon:hover {
+  color: #000; /* Darker color on hover */
+}
+
+/* Navigation menu styling */
+.nav-menu {
+  display: block; 
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 250px;
+  height: 100%;
+  background: lightblue; /* Dark background for the menu */
+  box-shadow: -2px 0 5px rgba(0,0,0,0.5);
+  z-index: 1000;
+  transition: transform 0.3s ease;
+  transform: translateX(100%); /* Start offscreen */
+}
+
+/* When active, slide in */
+.nav-menu.active {
+  transform: translateX(0); /* Slide into view */
+}
+
+/* Menu items styling */
+.nav-menu ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 20px 0; /* Added margin for spacing */
+}
+
+.nav-menu li a {
+  text-decoration: none;
+  color: #FFF; /* White color for menu items */
+  display: block;
+  padding: 15px;
+  border-bottom: 1px solid #575757; /* Slightly lighter border color for separation */
+  transition: background-color 0.3s ease;
+}
+
+/* Hover effect for menu items */
+.nav-menu li a:hover {
+  background-color: #5C5C5C; /* Slightly lighter hover background color */
+}
+
+/* Close icon inside the nav menu */
+.nav-close-icon {
+  position: absolute;
+  top: 10px; /* Aligned with the nav-toggle */
+  right: 10px; /* Aligned with the nav-toggle */
+  padding: 10px;
+  cursor: pointer;
+  color: #FFF; /* White color for close icon */
+}
+
+/* User profile and logout section styling */
+.user-profile {
+  display: flex;
+  align-items: center;
+  justify-content: start; /* Align to the start */
+  padding: 20px;
+}
+
+.user-profile img {
+  border-radius: 50%;
+  height: 60px;
+  width: 60px;
+  border: 3px solid #ffffff; /* White border for the profile image */
+}
+
+.logout-area {
+  position: fixed; 
+  top: 20px; 
+  right: 20px; 
+  z-index: 1500; /* High z-index to ensure it is above other elements */
+}
+
+.logout-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 15px 42px;
+  text-align: center;
+  display: block; /* Use block to fill the area of .logout-area */
+  text-decoration: none; /* Remove underline from anchor tag */
+  color: #0e0e0e; /* White color for text */
+  transition: color 0.3s ease; /* Smooth transition for hover effects */
+}
+
+.logout-button:hover {
+  text-decoration: none; /* Ensure no underline on hover */
+  color: #0e0e0e; /* Light grey on hover for visual feedback */
+}
+
+.logout-icon {
+  font-weight: bold;
+  font-size: 1.5rem; /* Larger text for logout icon */
+  text-transform: uppercase; /* Uppercase text for a button-like appearance */
+}
+
+/* Toggle icon change when active */
+.nav-toggle.active .nav-toggle-icon {
+  content: '×'; /* 'X' icon for close button */
+}
+
+.logo {
+  position: fixed; /* or absolute, depending on your layout */
+  z-index: 2000; /* Higher than other elements */
+  /* other styling */
+  top: 0;
+  left: 0;
+  padding: 20px;
+}
