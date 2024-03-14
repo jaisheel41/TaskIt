@@ -48,7 +48,17 @@
                         {% csrf_token %}
                         <!-- <form method="post"> -->
                         <div class="item36"></div>
+                        <div class="item31">
+                            <label class="labelsy mobl_cla">User Pic:</label>
+                            <img id='userImage' class="circle mobl_cla userImage_class" src=""
+                                 alt="user picture">
+                            <label id="label_avatar" for="id_avatar" class="lavatar mobl_cla">
+                                Select image
+                                <input type="file" id="id_avatar" name="avatar" accept="image/*"
+                                       textContent="Select image" hidden>
+                            </label>
 
+                        </div>
 
                         <div class="item32">
 
@@ -183,18 +193,35 @@
         }
 
         function checkAvatarExists() {
-            var userID = "{{ user.id }}";
-            var userImage_elements_w = document.querySelectorAll('.userImage_class');
 
-            if (jsonResponse.success) {
-                for (var er = 0; er < userImage_elements_w.length; er++) {
-                    userImage_elements_w[er].src = "/static/media/userpic/" + userID + ".jpg";
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "{% url 'check_avatar' %}", true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var jsonResponse = JSON.parse(xhr.responseText);
+
+                    var userImage_elements_w = document.querySelectorAll('.userImage_class');
+
+                    // .src = "/static/media/UserPic/{{user.id}}.jpg"
+                    //document.getElementById('userImage').src="/static/media/userpic/{{user.id}}.jpg";
+
+
+                    if (jsonResponse.success) {
+                        for (var er = 0; er < userImage_elements_w.length; er++) {
+                            userImage_elements_w[er].src = "/static/media/userpic/{{user.id}}.jpg";
+
+                        }
+
+
+                    } else {
+                        for (var i = 0; i < userImage_elements_w.length; i++) {
+                            userImage_elements_w[i].src = "{% static 'media/images/placeholder.png' %}";
+                        }
+
+                    }
                 }
-            } else {
-                for (var i = 0; i < userImage_elements_w.length; i++) {
-                    userImage_elements_w[i].src = "{% static 'media/images/placeholder.png' %}";
-                }
-            }
+            };
+            xhr.send();
 
         };
 
@@ -247,12 +274,19 @@
 
 
             } else {
+                // lavatar
+                var lavatar_elements = document.querySelectorAll('.lavatar');
+                for (var i = 0; i < lavatar_elements.length; i++) {
+                    lavatar_elements[i].style.width = '130px';
+                    lavatar_elements[i].style.height = '16%';
+                }
+                ;
 
                 //userImage
                 var userImage_elements = document.querySelectorAll('.userImage_class');
 
                 for (var i = 0; i < userImage_elements.length; i++) {
-                    userImage_elements[i].style.width = '180px';
+                    userImage_elements[i].style.width = '80px';
                     var computedStyle = window.getComputedStyle(userImage_elements[i]);
                     var width = computedStyle.getPropertyValue('width');
                     userImage_elements[i].style.height = width;
@@ -281,8 +315,6 @@
 
             }
         }
-
-
     </script>
     <!--end::Content-->
 {% endblock %}

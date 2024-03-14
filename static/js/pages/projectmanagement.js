@@ -161,9 +161,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize select2 for all Edit Project modals on page load
     initializeSelect2ForEditModals();
 
-    // Rest of your existing code
-    // ...
-
     // This function initializes select2 for Edit Project modals
     function initializeSelect2ForEditModals() {
         // This selector matches any select element with an ID starting with 'projectUsers-'
