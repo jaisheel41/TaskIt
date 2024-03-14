@@ -217,7 +217,7 @@ def upload_avatar(request):
 def check_avatar(request):
     if request.method == 'GET':
         user_id = request.user.id
-        if str(user_id) + '.jpg' in os.listdir('./static/media/UserPic/'):
+        if str(user_id) + '.jpg' in os.listdir('./static/media/userpic/'):
             return JsonResponse({'success': True})
         else:
             return JsonResponse({'success': False})
