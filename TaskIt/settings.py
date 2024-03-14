@@ -137,7 +137,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),  # Make sure this is the correct path to your static directory
+    os.path.join(BASE_DIR, 'static'), 
 ]
 
 # Default primary key field type
