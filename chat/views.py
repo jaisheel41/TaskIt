@@ -9,7 +9,7 @@ from django.http import HttpResponseBadRequest, JsonResponse
 from django.shortcuts import redirect, render
 from django.views.decorators.http import require_POST
 
-from chat.models import ChatRoom, ChatMessage, ChatTypingStatus
+from Task.models import ChatRoom, ChatMessage, ChatTypingStatus
 from Task.models import Project
 from user.models import Profile
 
