@@ -171,5 +171,16 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => console.error('Error:', error));
     });
+
+    const descriptionInputs = document.querySelectorAll('textarea[id^="taskDescription"]');
+
+    descriptionInputs.forEach(input => {
+        input.addEventListener('input', function() {
+            if (this.value.length > 200) { 
+                alert("Description cannot exceed 200 characters.");
+                this.value = this.value.substring(0, 200); 
+            }
+        });
+    });
 });
 });
