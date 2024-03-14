@@ -71,7 +71,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="taskDescription-{{ task.id }}">Description</label>
-                                <textarea class="form-control" id="taskDescription-{{ task.id }}" name="description" required>{{ task.description }}</textarea>
+                                <textarea class="form-control" id="taskDescription-{{ task.id }}" name="description" required maxlength="200">{{ task.description }}</textarea>
                             </div>
                             <div class="form-group">
                                 <label for="startTime-{{ task.id }}">Start Time</label>
