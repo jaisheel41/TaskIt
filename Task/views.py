@@ -23,7 +23,6 @@ from .forms import ProjectForm
 from .models import ProjectTask
 import os
 
-
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.contrib.auth.views import LogoutView
@@ -43,6 +42,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from django.contrib.auth.models import User
 from Task.forms import UserProfileForm, AvatarUploadForm
 import os
+
 
 # Create your views here.
 
@@ -87,7 +87,7 @@ def update_task(request, task_id):
             updated_task = form.save(commit=False)  # Don't commit yet
             updated_task.status = request.POST.get('status', 0)  # Default to 0 if not provided
             updated_task = form.save()
-            create_notification(request.user,"Task Update", f"Task '{task.taskname}' has been updated.")
+            create_notification(request.user, "Task Update", f"Task '{task.taskname}' has been updated.")
             task_data = model_to_dict(updated_task)
             task_data['end_time'] = updated_task.end_time.strftime('%b %d, %Y')
             return JsonResponse({'task': task_data}, status=200)
@@ -101,7 +101,7 @@ def update_task(request, task_id):
 def delete_task(request, task_id):
     task = get_object_or_404(PersonalTask, id=task_id, user=request.user)
     task.delete()
-    create_notification(request.user,"Task Deletion", f"Task '{task.taskname}' has been deleted.")
+    create_notification(request.user, "Task Deletion", f"Task '{task.taskname}' has been deleted.")
     return JsonResponse({'status': 'success'})
 
 
@@ -116,7 +116,6 @@ def get_task_status(request, task_id):
 
 @login_required
 def calendar_view(request):
-
     personal_tasks = PersonalTask.objects.filter(user=request.user).values(
         'id', 'taskname', 'end_time', 'status', 'description'
     )
@@ -164,6 +163,7 @@ def aboutus(request):
     user = request.user
     context = {'user': user}
     return render(request, 'aboutus.html', context)
+
 
 def profilesv(request):
     user = request.user
@@ -273,12 +273,13 @@ def create_notification(user, title, message):
 def my_custom_404_view(request, exception):
     return render(request, '404.html', {}, status=404)
 
+
 def projectmanagement(request):
     if not request.user.is_authenticated:
         return redirect('signIn')
 
     users = User.objects.all()  # Get all user objects
-    projects = Project.objects.filter(users=request.user) 
+    projects = Project.objects.filter(users=request.user)
 
     # Pass both users and projects to the template context
     context = {
@@ -290,7 +291,7 @@ def projectmanagement(request):
 
 
 def user_list(request):
-    users = User.objects.all().values_list('id', flat=True)  
+    users = User.objects.all().values_list('id', flat=True)
     return JsonResponse(list(users), safe=False)
 
 
@@ -330,14 +331,34 @@ def create_project(request):
 @login_required
 @require_POST
 def update_project(request, project_id):
-    project = get_object_or_404(Project, pk=project_id, users=request.user)  # Ensure the user has access
-    form = ProjectForm(request.POST or None, instance=project)
+    project = get_object_or_404(Project, pk=project_id, users=request.user)
+    if request.user not in project.users.all():
+        return JsonResponse({'status': 'error', 'message': 'Unauthorized'}, status=403)
+
+    form = ProjectForm(request.POST, instance=project)
     if form.is_valid():
+        # Save project info like name and description
         updated_project = form.save(commit=False)
         updated_project.save()
-        form.save_m2m()  # Save many-to-many data for the form
+        form.save_m2m()  # This might be necessary depending on your form and model setup
         project_data = model_to_dict(updated_project, fields=[field.name for field in updated_project._meta.fields])
-        create_notification(request.user,"Project Update", f"Project '{project.project_name}' has been updated.")
+
+        # Now handle the user associations
+        user_ids = request.POST.getlist('project_users')  # Make sure the name 'project_users' matches your form
+        project.users.clear()  # Clear existing users
+        for user_id in user_ids:
+            try:
+                user = User.objects.get(pk=user_id)
+                project.users.add(user)
+            except User.DoesNotExist:
+                pass  # You could handle this error differently if you like
+
+        # Finalize the project update
+        project.save()
+
+        # Create a notification about the update
+        create_notification(request.user, "Project Update", f"Project '{project.project_name}' has been updated.")
+
         return JsonResponse({'status': 'success', 'project': project_data})
     else:
         return JsonResponse({'status': 'error', 'errors': form.errors})
@@ -348,24 +369,23 @@ def update_project(request, project_id):
 @require_POST
 def delete_project(request, project_id):
     project = get_object_or_404(Project, id=project_id, users=request.user)
-    create_notification(request.user,"Project Deletion", f"Project '{project.project_name}' has been deleted.")
+    create_notification(request.user, "Project Deletion", f"Project '{project.project_name}' has been deleted.")
     project.delete()
     return JsonResponse({'status': 'success'})
 
 
 @login_required
 def project_task_list(request, project_uuid):
-    
     # If there is no project with this uuid
     if not Project.objects.get(uuid=project_uuid):
         return redirect('task:homepage')
-    
+
     project = Project.objects.get(uuid=project_uuid)
-    
+
     # If the user is not in this project
     if not project.users.contains(request.user):
         return redirect('task:homepage')
-    
+
     context_dict = {}
     tasks = ProjectTask.objects.filter(project=Project.objects.get(uuid=project_uuid))
     context_dict.update({'tasks': tasks})
@@ -375,6 +395,7 @@ def project_task_list(request, project_uuid):
     context_dict.update({'project_id': Project.objects.get(uuid=project_uuid).id})
     return render(request, 'projecttask.html', context_dict)
 
+
 @require_POST
 def create_project_task(request, project_uuid):
     form = ProjectTaskForm(request.POST)
@@ -383,12 +404,12 @@ def create_project_task(request, project_uuid):
         # task.user = request.user
         task.project = Project.objects.get(uuid=project_uuid)
         task.save()
-        create_notification(request.user,"Project Task Creation", f"Project Task '{task.taskname}' has been created.")
+        create_notification(request.user, "Project Task Creation", f"Project Task '{task.taskname}' has been created.")
         return JsonResponse({'task_id': task.id})
     else:
         return JsonResponse({'error': form.errors}, status=400)
 
-    
+
 @require_POST
 def update_project_task(request, project_uuid, project_task_id):
     task = get_object_or_404(ProjectTask, pk=project_task_id, project=Project.objects.get(uuid=project_uuid))
@@ -399,7 +420,7 @@ def update_project_task(request, project_uuid, project_task_id):
         updated_task = form.save()
         task_data = model_to_dict(updated_task)
         task_data['end_time'] = updated_task.end_time.strftime('%b %d, %Y')
-        create_notification(request.user,"Project Task Update", f"Project Task '{task.taskname}' has been updated.")
+        create_notification(request.user, "Project Task Update", f"Project Task '{task.taskname}' has been updated.")
         return JsonResponse({'task': task_data}, status=200)
     else:
         return JsonResponse({'error': form.errors}, status=400)
@@ -410,5 +431,5 @@ def update_project_task(request, project_uuid, project_task_id):
 def delete_project_task(request, project_uuid, project_task_id):
     task = get_object_or_404(ProjectTask, id=project_task_id, project=Project.objects.get(uuid=project_uuid))
     task.delete()
-    create_notification(request.user,"Project Task Deletion", f"Project Task '{task.taskname}' has been deleted.")
+    create_notification(request.user, "Project Task Deletion", f"Project Task '{task.taskname}' has been deleted.")
     return JsonResponse({'status': 'success'})
